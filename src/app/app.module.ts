@@ -14,28 +14,33 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app.routing';
+import { DrawOfficeMapComponent } from './admin-role/draw-office-map/draw-office-map.component';
+import { HttpClientModule } from '@angular/common/http';
+import { DraggableDirective } from './admin-role/draw-office-map/draggable-directive/draggable.directive';
 
 @NgModule({
-  declarations: [			
+  declarations: [
     AppComponent,
-      HeaderComponent,
-      SignInComponent,
-      SignUpComponent
-   ],
+    HeaderComponent,
+    SignInComponent,
+    SignUpComponent,
+    DrawOfficeMapComponent,
+    DraggableDirective
+  ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
     MatSliderModule,
     MatButtonModule,
     FormsModule,
     MatToolbarModule,
     MatIconModule,
+    AppRoutingModule,
     MatFormFieldModule,
     MatInputModule,
-    AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
