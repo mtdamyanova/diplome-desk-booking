@@ -1,34 +1,16 @@
-<div class="svg-container" appDroppable #mapTemplate>
-  <svg id="dropzone" height="100%" width="100%" (click)="onClick($event)">
-  </svg>
+<div>
+  <div class="svg-container" appDraggable #mapTemplate>
+    <svg id="dropzone" height="100%" width="100%" (click)="onClick($event)">
+    </svg>
+  </div>
+
+
+  <button (click)="addCircle()">add seat</button>
+  <button (click)="addArea()">add area</button>
+
+  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="100" aria-label="units"
+    [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider"></mat-slider>
+
+  <mat-slider [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0"
+    max="100" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)"></mat-slider>
 </div>
-
-
-<button (click)="addCircle()">add seat</button>
-<button (click)="addArea()">add area</button>
-
-<mat-slider
-thumbLabel
-[displayWith]="formatLabel"
-tickInterval="100"
-step="1"
-min="0"
-max="100"
-aria-label="units"
-[(ngModel)]="widthSliderValue"
-(input)="onWidthChange($event)"
-[disabled]="disabledSlider"
-></mat-slider>
-
-<mat-slider
-[disabled]="disabledSlider"
-thumbLabel
-[displayWith]="formatLabel"
-tickInterval="100"
-step="1"
-min="0"
-max="100"
-aria-label="units"
-[(ngModel)]="heightSliderValue"
-(input)="onHeightChange($event)"
-></mat-slider>

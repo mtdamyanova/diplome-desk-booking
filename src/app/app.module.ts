@@ -9,7 +9,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,6 +31,7 @@ import { DraggableDirective } from './admin-role/draw-office-map/draggable-direc
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     MatSliderModule,
     MatButtonModule,
     FormsModule,

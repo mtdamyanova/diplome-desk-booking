@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./draw-office-map.component.scss']
 })
 export class DrawOfficeMapComponent {
-  widthSliderValue: any;
+  widthSliderValue: any ;
   heightSliderValue: any;
   selectedArea: any;
   disabledSlider: boolean = true;

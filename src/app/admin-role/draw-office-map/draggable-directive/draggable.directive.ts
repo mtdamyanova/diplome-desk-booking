@@ -2,7 +2,7 @@ import { Directive, HostListener } from '@angular/core';
 import { MapService } from '../map-service/map.service';
 
 @Directive({
-  selector: '[appDroppable]',
+  selector: '[appDraggable]',
 })
 export class DraggableDirective {
   private draggingElement: any;
