@@ -1,24 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SignInService } from './sign-in-service/sign-in.service';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-
   hide: boolean = true;
-  email = new FormControl('', [Validators.required, Validators.email]);
+  public dataForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', Validators.required),
+  });
 
-  
+  constructor(private signInService: SignInService) {}
+
   ngOnInit() {}
-  
-  getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  onSignIn() {
+    const userData = {
+      email: this.dataForm.controls['email'].value,
+      password: this.dataForm.controls['password'].value,
+    };
+    this.signInService.signInUser(userData);
   }
 }

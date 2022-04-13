@@ -1,19 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   sendSignInLinkToEmail,
 } from 'firebase/auth';
+import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
+import { onOpenSnackBar } from 'src/app/utils';
 import { actionCodeSettings } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignUpService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   signUpUser(userData: any) {
+    let errorMessage = '';
     const userInfo = {
       firstName: userData.firstName,
       lastName: userData.lastName,
@@ -22,7 +26,7 @@ export class SignUpService {
     };
     const auth = getAuth();
     console.log(userData);
-    
+
     if (userData.password === userData.confirmPassword) {
       return createUserWithEmailAndPassword(
         auth,
@@ -35,20 +39,15 @@ export class SignUpService {
             id: userCredential.user.uid,
             ...userInfo,
           };
-          // this.sendVerificationEmail(user)
           this.setUser(user).subscribe();
-
-          // ...
+          onOpenSnackBar(this.snackBar, 'Registration successful.');
         })
         .catch((error) => {
-          console.log(error);
-
-          const errorCode = error.code;
           const errorMessage = error.message;
-          // ..
+          onOpenSnackBar(this.snackBar, errorMessage);
         });
     } else {
-      console.log('diff password');
+      onOpenSnackBar(this.snackBar, "The passwords don't match.");
       return;
     }
   }
@@ -59,5 +58,4 @@ export class SignUpService {
       user
     );
   }
-
 }

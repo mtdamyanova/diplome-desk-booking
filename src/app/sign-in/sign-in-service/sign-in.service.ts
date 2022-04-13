@@ -1,23 +1,54 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { map } from 'rxjs';
+import { onOpenSnackBar } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignInService {
-  constructor() {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
-  signInUser(email: string, password: string) {
+  getUsers() {
+    return this.http
+      .get<{ [key: string]: any }>(
+        'https://diplome-7189f-default-rtdb.firebaseio.com/users.json'
+      )
+      .pipe(
+        map((res) => {
+          const users: any[] = [];
+          for (let key in res) {
+            if (res.hasOwnProperty(key)) {
+              users.push(res[key]);
+            }
+          }
+          return users;
+        })
+      );
+  }
+
+  getCurrentUser(userEmail: string) {
+    return this.getUsers().subscribe((res) => {
+      const currentUser = res.find((email) => email === userEmail);
+      if (currentUser) {
+        onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);
+      }
+    });
+  }
+
+  signInUser(userData: any) {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, userData.email, userData.password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
+        console.log(userCredential);
+        
+        this.getCurrentUser(userData.email);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log(error.message);
+        onOpenSnackBar(this.snackBar, error.message);
       });
   }
 }

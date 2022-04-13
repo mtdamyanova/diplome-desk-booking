@@ -17,16 +17,19 @@ import { AppRoutingModule } from './app.routing';
 import { DrawOfficeMapComponent } from './admin-role/draw-office-map/draw-office-map.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DraggableDirective } from './admin-role/draw-office-map/draggable-directive/draggable.directive';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     HeaderComponent,
     SignInComponent,
     SignUpComponent,
     DrawOfficeMapComponent,
-    DraggableDirective
-  ],
+    DraggableDirective,
+      SnackbarComponent
+   ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -40,6 +43,7 @@ import { DraggableDirective } from './admin-role/draw-office-map/draggable-direc
     AppRoutingModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
