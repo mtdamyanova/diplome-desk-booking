@@ -1,23 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  sendSignInLinkToEmail,
-} from 'firebase/auth';
-import { SnackbarComponent } from 'src/app/snackbar/snackbar.component';
+import { Router } from '@angular/router';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { onOpenSnackBar } from 'src/app/utils';
-import { actionCodeSettings } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignUpService {
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   signUpUser(userData: any) {
-    let errorMessage = '';
     const userInfo = {
       firstName: userData.firstName,
       lastName: userData.lastName,
@@ -41,6 +39,7 @@ export class SignUpService {
           };
           this.setUser(user).subscribe();
           onOpenSnackBar(this.snackBar, 'Registration successful.');
+          this.router.navigate(['/sign-in']);
         })
         .catch((error) => {
           const errorMessage = error.message;

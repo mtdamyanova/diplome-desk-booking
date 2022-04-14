@@ -5,8 +5,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +16,8 @@ import { DrawOfficeMapComponent } from './admin-role/draw-office-map/draw-office
 import { HttpClientModule } from '@angular/common/http';
 import { DraggableDirective } from './admin-role/draw-office-map/draggable-directive/draggable.directive';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { SnackbarComponent } from './snackbar/snackbar.component';
+import { SignInComponent } from './header/sign-in/sign-in.component';
+import { SignUpComponent } from './header/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [	
@@ -28,7 +27,6 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     SignUpComponent,
     DrawOfficeMapComponent,
     DraggableDirective,
-      SnackbarComponent
    ],
   imports: [
     BrowserModule,

@@ -1,7 +1,11 @@
 <mat-toolbar color="primary">
   <span>My App</span>
-  <button routerLink="/login" routerLinkActive="active" mat-icon-button class="example-icon"
+  <button *ngIf="!userFirstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button class="example-icon"
     aria-label="Example icon-button with share icon">
     Sign in
   </button>
+  <div *ngIf="userFirstName">
+    <span>{{userFirstName[0]}}</span>
+    <span (click)="onSignOut()"> Sign out</span>
+  </div>
 </mat-toolbar>
