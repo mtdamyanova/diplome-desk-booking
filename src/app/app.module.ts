@@ -18,6 +18,10 @@ import { DraggableDirective } from './admin-role/draw-office-map/draggable-direc
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { SignInComponent } from './header/sign-in/sign-in.component';
 import { SignUpComponent } from './header/sign-up/sign-up.component';
+import { LoginHelpComponent } from './header/login-help/login-help.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
+
 
 @NgModule({
   declarations: [	
@@ -27,6 +31,7 @@ import { SignUpComponent } from './header/sign-up/sign-up.component';
     SignUpComponent,
     DrawOfficeMapComponent,
     DraggableDirective,
+    LoginHelpComponent
    ],
   imports: [
     BrowserModule,
@@ -41,7 +46,8 @@ import { SignUpComponent } from './header/sign-up/sign-up.component';
     AppRoutingModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AngularFireModule.initializeApp(environment)
   ],
   providers: [],
   bootstrap: [AppComponent],

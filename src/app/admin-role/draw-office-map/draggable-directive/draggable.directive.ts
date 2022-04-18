@@ -24,10 +24,10 @@ export class DraggableDirective {
   }
 
   @HostListener('mousemove', ['$event'])
-  onMouseMove(event: any): void {
+  onMouseMove(event: MouseEvent): void {
     if (this.draggingElement) {
       const svgPoint = this.mapService.getSVGPoint(event, this.draggingElement);
-      if (svgPoint.y < 120 && svgPoint.x < 1090) {
+      if (svgPoint.y < 340 && svgPoint.x < 800) {
         this.setPosition(this.draggingElement, {
           x: svgPoint.x,
           y: svgPoint.y,
@@ -44,12 +44,12 @@ export class DraggableDirective {
   }
 
   @HostListener('mouseup', ['$event'])
-  onMouseUp(event: any): void {
+  onMouseUp(event: MouseEvent): void {
     this.draggingElement = null;
   }
 
   @HostListener('mouseleave', ['$event'])
-  onMouseLeave(event: any): void {
+  onMouseLeave(event: MouseEvent): void {
     this.draggingElement = null;
   }
 

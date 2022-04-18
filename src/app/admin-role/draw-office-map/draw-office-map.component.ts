@@ -1,15 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { MapService } from './map-service/map.service';
 
 @Component({
   selector: 'app-draw-office-map',
   templateUrl: './draw-office-map.component.html',
-  styleUrls: ['./draw-office-map.component.scss']
+  styleUrls: ['./draw-office-map.component.scss'],
 })
-export class DrawOfficeMapComponent {
-  widthSliderValue: any ;
+export class DrawOfficeMapComponent implements OnInit {
+  userRole: string = '';
+  widthSliderValue: any;
   heightSliderValue: any;
   selectedArea: any;
   disabledSlider: boolean = true;
+
+  constructor(private mapService: MapService) {}
+
+  ngOnInit(): void {
+    this.onGetUserTemplate();
+  }
 
   addCircle() {
     const svgCont = document.getElementById('dropzone');
@@ -34,12 +42,11 @@ export class DrawOfficeMapComponent {
     rect.setAttribute('cy', '40');
     rect.setAttribute('width', '70');
     rect.setAttribute('height', '70');
-    rect.setAttribute('fill', 'transparent');
+    rect.setAttribute('fill', 'white');
     rect.setAttribute('draggable', 'true');
     rect.setAttribute('stroke', 'black');
     rect.setAttribute('class', 'area');
     rect.innerHTML = 'asf';
-
     if (svgCont && rect) {
       svgCont.append(rect);
     }
@@ -73,8 +80,28 @@ export class DrawOfficeMapComponent {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
     }
-
     return value;
   }
 
+  onSetUserTemplate() {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    this.userRole = user.role;
+    const template = document.getElementById('dropzone')?.innerHTML;
+    this.mapService.setUserTemplate(user, template).subscribe();
+  }
+
+  onGetUserTemplate() {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    this.mapService.getUserTemplate(user).subscribe((res: any) => {
+      this.userRole = res.role;
+      const svgContainer = document.getElementById('dropzone');
+      const userArea = document.getElementById('userArea');
+      if (svgContainer) {
+        svgContainer.innerHTML = res.template;
+      }
+      if (userArea) {
+        userArea.innerHTML = res.template;
+      }
+    });
+  }
 }

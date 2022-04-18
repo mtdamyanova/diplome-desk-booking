@@ -1,6 +1,9 @@
-.items-container {
-    width: 30%;
-
+.map-container {
+    margin: 0 auto;
+    width: 1200px;
+    height: 600px;
+    text-align: -webkit-center;
+    // display: flex;
 }
 
 circle {
@@ -11,8 +14,9 @@ circle {
     background-color: green;
 }
 
-.svg-container {
+.svg-container  {
     border: 3px dashed #000;
     background-color: #CCC;
     width: 70%;
+    height: 70%;
 }

@@ -1,16 +1,21 @@
-<div>
-  <div class="svg-container" appDraggable #mapTemplate>
+<div class="map-container">
+  <div *ngIf="userRole=='admin'" class="svg-container" appDraggable #mapTemplate>
     <svg id="dropzone" height="100%" width="100%" (click)="onClick($event)">
     </svg>
   </div>
-
-
-  <button (click)="addCircle()">add seat</button>
-  <button (click)="addArea()">add area</button>
-
-  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="100" aria-label="units"
+  <div *ngIf="userRole==='admin'">
+    <button (click)="addCircle()">add seat</button>
+    <button (click)="addArea()">add area</button>
+    <button (click)="onSetUserTemplate()">save template</button>
+    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800" aria-label="units"
     [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider"></mat-slider>
+    
+    <mat-slider [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0"
+    max="400" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)"></mat-slider>
+  </div>
+</div>
+<div class="map-container ">
+  <svg id="userArea" height="100%" width="100%">
 
-  <mat-slider [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0"
-    max="100" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)"></mat-slider>
+  </svg>
 </div>

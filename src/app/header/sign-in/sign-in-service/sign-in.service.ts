@@ -53,7 +53,7 @@ export class SignInService {
         .then(() => {
           localStorage.setItem(
             'user',
-            JSON.stringify({ name: currentUser.firstName })
+            JSON.stringify({ firstName: currentUser.firstName, id: currentUser.id, role : currentUser.role })
           );
           JSON.parse(localStorage.getItem('user')!);
           onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);

@@ -1,0 +1,22 @@
+<div class="sign-in-container">
+  <div class="form-container">
+    <form [formGroup]="formData">
+      <h4>Forgot password</h4>
+      <div>
+        <p>We will send you an email with instructions on how to reset your password.</p>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your email</mat-label>
+          <input matInput placeholder="pat@example.com" formControlName="email" #email>
+          <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+        </mat-form-field>
+      </div>
+      <div class="help-login" routerLink="/sign-in">
+        <p>Back to login page</p>
+      </div>
+
+      <button color="primary" (click)="onResetPassword()">RESET PASSWORD</button>
+    </form>
+  </div>
+</div>
