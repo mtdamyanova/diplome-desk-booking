@@ -11,6 +11,12 @@
         width: 500px;
         min-height: 660px;
         margin: 0 auto;
+        padding-top: 20px;
+
+        .info-container{
+            width: 300px;
+            margin: 0 auto;
+        }
 
         >form {
             padding: 60px 68px 40px;
@@ -26,10 +32,12 @@
                 display: flex;
                 justify-content: end;
                 width: 330px;
+                position: relative;
+                margin-top: -10px;
             }
 
             .help-login :hover {
-                color: cornflowerblue;
+                color: #c2185b;
             }
         }
     }

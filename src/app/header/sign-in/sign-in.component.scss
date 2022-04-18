@@ -11,6 +11,7 @@
         width: 500px;
         min-height: 660px;
         margin: 0 auto;
+        padding-top: 20px;
 
         >form {
             padding: 60px 68px 40px;
@@ -21,15 +22,28 @@
             text-align: center;
             color: white;
 
-            .help-login {
-                cursor: pointer;
+            .options-container {
                 display: flex;
-                justify-content: end;
-                width: 330px;
-            }
+                justify-content: space-between;
+                width: 300px;
+                margin: 0 auto;
+                align-items: baseline;
+                position: relative;
+                margin-top: -20px;
 
-            .help-login :hover {
-                color: cornflowerblue;
+                .sign-up-container {
+                    display: flex;
+                    align-items: baseline;
+                }
+
+                .help-login {
+                    cursor: pointer;
+                    display: flex;
+                }
+
+                .help-login :hover {
+                    color: #c2185b;
+                }
             }
         }
     }

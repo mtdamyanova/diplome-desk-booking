@@ -1,8 +1,8 @@
 <div class="sign-in-container">
   <div class="form-container">
     <form [formGroup]="formData">
-      <h4>Forgot password</h4>
-      <div>
+      <h2>Forgot password</h2>
+      <div class="info-container">
         <p>We will send you an email with instructions on how to reset your password.</p>
       </div>
       <div>
@@ -16,7 +16,7 @@
         <p>Back to login page</p>
       </div>
 
-      <button color="primary" (click)="onResetPassword()">RESET PASSWORD</button>
+      <button mat-raised-button color="primary" (click)="onResetPassword()">RESET PASSWORD</button>
     </form>
   </div>
 </div>
