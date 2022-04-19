@@ -41,6 +41,6 @@ export class SignUpComponent implements OnInit {
       password: this.dataForm.controls['password'].value,
       confirmPassword: this.dataForm.controls['confirmPassword'].value,
     };
-    this.signUpService.signUpUser(userData);
+    this.signUpService.signUpUser(userData, 'admin');
   }
 }

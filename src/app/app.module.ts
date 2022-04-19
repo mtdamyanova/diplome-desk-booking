@@ -23,10 +23,11 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { AddEmployeesComponent } from './admin-role/add-employees/add-employees.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EmployeeRoleComponent } from './employee-role/employee-role.component';
 
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     HeaderComponent,
     SignInComponent,
@@ -34,7 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     DrawOfficeMapComponent,
     DraggableDirective,
     LoginHelpComponent,
-    AddEmployeesComponent
+    AddEmployeesComponent,
+      EmployeeRoleComponent
    ],
   imports: [
     BrowserModule,

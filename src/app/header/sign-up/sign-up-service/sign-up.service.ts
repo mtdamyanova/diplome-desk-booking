@@ -17,13 +17,14 @@ export class SignUpService {
     private afAuth: AngularFireAuth
   ) {}
 
-  signUpUser(userData: any) {
+  signUpUser(userData: any, role : string) {
     const userInfo = {
       firstName: userData.firstName,
       lastName: userData.lastName,
       companyName: userData.companyName,
       email: userData.email,
-      role: 'admin',
+      role: role,
+      desks : []
     };
     const auth = getAuth();
 

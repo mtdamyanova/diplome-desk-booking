@@ -51,8 +51,6 @@ export class SignInService {
     console.log(userData);
 
     return this.getUsers().subscribe((res) => {
-      console.log(res);
-
       const currentUser = res.find((user) => user.email === userData.email);
       signInWithEmailAndPassword(auth, userData.email, userData.password)
         .then((res) => {
@@ -63,15 +61,13 @@ export class SignInService {
               firstName: currentUser.firstName,
               id: currentUser.id,
               role: currentUser.role,
-              companyName : currentUser.companyName
+              companyName: currentUser.companyName,
             })
           );
           JSON.parse(localStorage.getItem('user')!);
           onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);
           this.user.next(currentUser.firstName);
-          if (currentUser.role === 'admin') {
-            this.router.navigate(['/office-plan']);
-          }
+          this.router.navigate(['/office-plan']);
         })
         .catch((error) => {
           localStorage.setItem('user', 'null');

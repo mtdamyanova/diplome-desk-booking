@@ -1,4 +1,6 @@
-<div class="map-container">
+
+<button (click)="test()">aaaa</button>
+<div *ngIf="userRole==='admin'" class="map-container">
   <div *ngIf="userRole=='admin'" class="svg-container" appDraggable #mapTemplate>
     <svg id="dropzone" height="100%" width="100%" (click)="onResizeArea($event)">
     </svg>
@@ -15,8 +17,10 @@
       max="400" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)"></mat-slider>
   </div>
 </div>
-<div class="map-container ">
-  <svg id="userArea" height="100%" width="100%">
+<app-employee-role></app-employee-role>
+
+<div  class="map-container ">
+  <svg id="dropzone" height="100%" width="100%">
 
   </svg>
 </div>

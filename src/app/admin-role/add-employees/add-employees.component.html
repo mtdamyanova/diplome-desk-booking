@@ -1,6 +1,6 @@
 <div class="sign-in-container">
   <div class="form-container">
-    <form [formGroup]="formData">
+    <form [formGroup]="formData" method="post">
       <h2>Register employees</h2>
       <div class="info-container">
         <p>We will send you an email with instructions on how to reset your password.</p>
@@ -8,7 +8,7 @@
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Employee's name</mat-label>
-          <input matInput formControlName="name" #name>
+          <input matInput formControlName="firstName" #firstName>
           <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
         </mat-form-field>
       </div>
@@ -19,7 +19,9 @@
           <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
         </mat-form-field>
       </div>
-      <button mat-raised-button color="primary" (click)="onRegisterEmployees($event)">REGISTER EMPLOYEES</button>
+      <button mat-raised-button color="primary" (click)="onRegisterEmployees()">REGISTER EMPLOYEES</button>
     </form>
   </div>
 </div>
+<script src="https://smtpjs.com/v3/smtp.js">
+</script>

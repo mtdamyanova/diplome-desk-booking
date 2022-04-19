@@ -64,6 +64,7 @@ export class DrawOfficeMapComponent implements OnInit {
     this.userRole = user.role;
     const template = document.getElementById('dropzone')?.innerHTML;
     this.mapService.setUserTemplate(user, template).subscribe();
+    // this.mapService.setUsersTemplate(user);
   }
 
   onGetUserTemplate() {
@@ -79,6 +80,21 @@ export class DrawOfficeMapComponent implements OnInit {
         userArea.innerHTML = res.template;
       }
     });
+  }
+
+  test() {
+    // this.mapService.addDeskInBase()
+    // const a = document.getElementById('dropzone');
+    // console.log(a);
+    // let desks = document.getElementsByTagName('rect');
+    // console.log(desks);
+    // const filterDesks = Array.prototype.slice.call(desks);
+    // const filtered = filterDesks.filter(
+    //   (desk) => desk.classList.value !== 'area'
+    // );
+    // console.log(filtered);
+    // filtered.forEach((desk) => console.log(desk.target));
+    // const svgContainer = document.getElementById('dropzone');
   }
 
   onRegisterEmployees() {
