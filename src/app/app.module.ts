@@ -21,6 +21,8 @@ import { SignUpComponent } from './header/sign-up/sign-up.component';
 import { LoginHelpComponent } from './header/login-help/login-help.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
+import { AddEmployeesComponent } from './admin-role/add-employees/add-employees.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { environment } from 'src/environments/environment';
     SignUpComponent,
     DrawOfficeMapComponent,
     DraggableDirective,
-    LoginHelpComponent
+    LoginHelpComponent,
+    AddEmployeesComponent
    ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { environment } from 'src/environments/environment';
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
-    AngularFireModule.initializeApp(environment)
+    AngularFireModule.initializeApp(environment),
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

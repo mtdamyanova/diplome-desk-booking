@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './map-service/map.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 @Component({
   selector: 'app-draw-office-map',
   templateUrl: './draw-office-map.component.html',
@@ -8,51 +9,26 @@ import { MapService } from './map-service/map.service';
 })
 export class DrawOfficeMapComponent implements OnInit {
   userRole: string = '';
-  widthSliderValue: any;
-  heightSliderValue: any;
+  widthSliderValue?: number;
+  heightSliderValue?: number;
   selectedArea: any;
   disabledSlider: boolean = true;
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.onGetUserTemplate();
   }
 
-  addCircle() {
-    const svgCont = document.getElementById('dropzone');
-    const svgns = 'http://www.w3.org/2000/svg';
-    const circle = document.createElementNS(svgns, 'rect');
-    circle.setAttribute('cx', '40');
-    circle.setAttribute('cy', '40');
-    circle.setAttribute('width', '40');
-    circle.setAttribute('height', '40');
-    circle.setAttribute('fill', 'green');
-    circle.setAttribute('draggable', 'true');
-    if (svgCont && circle) {
-      svgCont.append(circle);
-    }
+  onAddDesk() {
+    this.mapService.addDesk();
   }
 
-  addArea() {
-    const svgCont = document.getElementById('dropzone');
-    const svgns = 'http://www.w3.org/2000/svg';
-    const rect = document.createElementNS(svgns, 'rect');
-    rect.setAttribute('cx', '40');
-    rect.setAttribute('cy', '40');
-    rect.setAttribute('width', '70');
-    rect.setAttribute('height', '70');
-    rect.setAttribute('fill', 'white');
-    rect.setAttribute('draggable', 'true');
-    rect.setAttribute('stroke', 'black');
-    rect.setAttribute('class', 'area');
-    rect.innerHTML = 'asf';
-    if (svgCont && rect) {
-      svgCont.append(rect);
-    }
+  onAddArea() {
+    this.mapService.addArea();
   }
 
-  onClick(event: any) {
+  onResizeArea(event: any) {
     if (event.target.classList.value === 'area') {
       this.disabledSlider = false;
       const eventWidth = event.target.attributes.width.value;
@@ -103,5 +79,9 @@ export class DrawOfficeMapComponent implements OnInit {
         userArea.innerHTML = res.template;
       }
     });
+  }
+
+  onRegisterEmployees() {
+    this.dialog.open(AddEmployeesComponent);
   }
 }

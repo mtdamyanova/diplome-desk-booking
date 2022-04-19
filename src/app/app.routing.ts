@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddEmployeesComponent } from './admin-role/add-employees/add-employees.component';
 import { DrawOfficeMapComponent } from './admin-role/draw-office-map/draw-office-map.component';
 import { LoginHelpComponent } from './header/login-help/login-help.component';
 import { SignInComponent } from './header/sign-in/sign-in.component';
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent },
   { path: 'office-plan', component: DrawOfficeMapComponent },
   { path: 'login-help', component: LoginHelpComponent },
+  { path: 'register-employee', component: AddEmployeesComponent },
 ];
 
 @NgModule({

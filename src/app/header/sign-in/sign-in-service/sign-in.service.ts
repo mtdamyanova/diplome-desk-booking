@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { onOpenSnackBar } from 'src/app/utils';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -47,13 +48,23 @@ export class SignInService {
 
   signInUser(userData: any) {
     const auth = getAuth();
+    console.log(userData);
+
     return this.getUsers().subscribe((res) => {
+      console.log(res);
+
       const currentUser = res.find((user) => user.email === userData.email);
       signInWithEmailAndPassword(auth, userData.email, userData.password)
-        .then(() => {
+        .then((res) => {
           localStorage.setItem(
             'user',
-            JSON.stringify({ firstName: currentUser.firstName, id: currentUser.id, role : currentUser.role })
+            JSON.stringify({
+              email: currentUser.email,
+              firstName: currentUser.firstName,
+              id: currentUser.id,
+              role: currentUser.role,
+              companyName : currentUser.companyName
+            })
           );
           JSON.parse(localStorage.getItem('user')!);
           onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);

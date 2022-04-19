@@ -15,6 +15,12 @@
       </div>
       <div>
         <mat-form-field appearance="fill">
+          <mat-label>Company name</mat-label>
+          <input matInput placeholder="Company name" required formControlName="companyName" #companyName>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
           <mat-label>Enter your email</mat-label>
           <input matInput placeholder="pat@example.com" required formControlName="email" #email>
           <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
@@ -33,9 +39,10 @@
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Confirm your password</mat-label>
-          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" #confirmPassword>
-          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hideConfirmPassword">
+          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword"
+            #confirmPassword>
+          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword"
+            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
             <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>

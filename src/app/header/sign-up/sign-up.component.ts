@@ -14,6 +14,7 @@ export class SignUpComponent implements OnInit {
   public dataForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
+    companyName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required),
@@ -35,10 +36,11 @@ export class SignUpComponent implements OnInit {
     const userData = {
       firstName: this.dataForm.controls['firstName'].value,
       lastName: this.dataForm.controls['lastName'].value,
+      companyName: this.dataForm.controls['companyName'].value,
       email: this.dataForm.controls['email'].value,
       password: this.dataForm.controls['password'].value,
-      confirmPassword: this.dataForm.controls['confirmPassword'].value
-    }
+      confirmPassword: this.dataForm.controls['confirmPassword'].value,
+    };
     this.signUpService.signUpUser(userData);
   }
 }

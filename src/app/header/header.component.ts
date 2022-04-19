@@ -18,16 +18,13 @@ export class HeaderComponent implements AfterViewInit {
   constructor(private signInService: SignInService) {}
 
   ngAfterViewInit(): void {
-    this.signInService.castUser.subscribe(
-      (user) => (this.userFirstName = user)
-    );
     this.isLoggedIn();
   }
 
   isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     if (user) {
-      this.userFirstName = user.name;
+      this.userFirstName = user.firstName;
     }
     return user !== null && user.emailVerified !== false ? true : false;
   }
