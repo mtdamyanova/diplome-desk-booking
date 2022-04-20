@@ -4,6 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
 
 @Component({
@@ -14,7 +15,8 @@ import { OfficePlanService } from './office-plan-service/office-plan.service';
 export class OfficePlanComponent implements OnInit {
   constructor(
     private officePlanService: OfficePlanService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private signInService: SignInService
   ) {}
 
   ngOnInit(): void {
@@ -23,7 +25,24 @@ export class OfficePlanComponent implements OnInit {
 
   onGetUserTemplate() {
     const svgCont = document.getElementById('dropzone');
-    const user = JSON.parse(localStorage.getItem('user')!);
+    const currentUser = JSON.parse(localStorage.getItem('user')!);
+    if (currentUser.role !== 'admin') {
+      this.signInService.getUsers().subscribe((res) => {
+        const admin = res.find(
+          (user) =>
+            user.role === 'admin' &&
+            user.companyName === currentUser.companyName
+        );
+        if (admin) {
+          this.onDrawOfficePlan(admin, svgCont);
+        }
+      });
+    } else {
+      this.onDrawOfficePlan(currentUser, svgCont);
+    }
+  }
+
+  onDrawOfficePlan(user: any, svgCont: any) {
     this.officePlanService.getUserTemplate(user).subscribe((res: any) => {
       if (res.areas) {
         res.areas.forEach((area: any) => {

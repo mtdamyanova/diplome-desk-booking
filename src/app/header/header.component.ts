@@ -13,18 +13,25 @@ import { SignInService } from './sign-in/sign-in-service/sign-in.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements OnInit {
   userFirstName: string = '';
+  userRole: string = '';
   constructor(private signInService: SignInService) {}
 
-  ngAfterViewInit(): void {
-    this.isLoggedIn();
+  ngOnInit(): void {
+    // this.isLoggedIn();
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (user) {
+      this.userFirstName = user.firstName;
+      this.userRole = user.role;
+    }
   }
 
   isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     if (user) {
       this.userFirstName = user.firstName;
+      this.userRole = user.role;
     }
     return user !== null && user.emailVerified !== false ? true : false;
   }
@@ -32,5 +39,6 @@ export class HeaderComponent implements AfterViewInit {
   onSignOut() {
     this.signInService.signOut();
     this.userFirstName = '';
+    this.userRole = '';
   }
 }
