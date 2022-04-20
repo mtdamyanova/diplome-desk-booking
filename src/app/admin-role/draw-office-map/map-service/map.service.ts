@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, Renderer2 } from '@angular/core';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
-  deskId: string = '';
+  deskId: string = '0';
   constructor(private http: HttpClient, private signInService: SignInService) {}
 
   getSVGPoint(event: any, element: any): SVGPoint {
@@ -49,16 +49,14 @@ export class MapService {
     if (svgCont && circle) {
       svgCont.append(circle);
     }
-    this.addDeskInBase({});
-    circle.setAttribute('id', this.deskId);
   }
 
   addArea() {
     const svgCont = document.getElementById('dropzone');
     const svgns = 'http://www.w3.org/2000/svg';
     const rect = document.createElementNS(svgns, 'rect');
-    rect.setAttribute('cx', '40');
-    rect.setAttribute('cy', '40');
+    // rect.setAttribute('cx', '40');
+    // rect.setAttribute('cy', '40');
     rect.setAttribute('width', '70');
     rect.setAttribute('height', '70');
     rect.setAttribute('fill', 'white');
@@ -71,7 +69,7 @@ export class MapService {
     }
   }
 
-  setUsersTemplate(user : any ) {
+  setUsersTemplate(user: any) {
     this.signInService.getUsers().subscribe((res) => {
       const allEmployees = res.filter(
         (empl) => empl.companyName === user.companyName
@@ -90,18 +88,18 @@ export class MapService {
       let adminUpdated = {
         ...admin,
       };
-      this.deskId = admin.desks.length;
       if (admin.desks) {
+        this.deskId = admin.desks.length;
         admin.desks.push({
           id: admin.desks.length,
           ...desk,
         });
       } else {
+        this.deskId = '0';
         adminUpdated = {
           ...admin,
           desks: [
             {
-              id: admin.desks.length,
               ...desk,
             },
           ],
@@ -111,10 +109,39 @@ export class MapService {
     });
   }
 
+  getDesks() {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    this.signInService.getUsers().subscribe((res) => {
+      const admin = res.find(
+        (admin) =>
+          admin.role === 'admin' && admin.companyName === user.companyName
+      );
+      return admin;
+    });
+  }
+
   updateAdmin(admin: any, adminUpdated: any) {
     return this.http.put(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${admin.id}.json`,
       adminUpdated
     );
+  }
+
+  mouseEnterTooltip(renderer: any, e: any, tooltip: any, message: string) {
+    e.target.addEventListener('mouseenter', () => {
+      let circle = e.target as HTMLElement;
+      let coordinates = circle.getBoundingClientRect();
+      let x = `${coordinates.left + 40}px`;
+      let y = `${coordinates.top + 40}px`;
+      renderer.setStyle(tooltip.nativeElement, 'left', x);
+      renderer.setStyle(tooltip.nativeElement, 'top', y);
+      renderer.setStyle(tooltip.nativeElement, 'display', 'block');
+      renderer.setProperty(tooltip.nativeElement, 'innerHTML', message);
+    });
+  }
+
+  mouseLeave(renderer: any, tooltip: any) {
+    renderer.setProperty(tooltip.nativeElement, 'innerHTML', '');
+    renderer.setStyle(tooltip.nativeElement, 'display', 'none');
   }
 }

@@ -1,26 +1,17 @@
-
-<button (click)="test()">aaaa</button>
-<div *ngIf="userRole==='admin'" class="map-container">
-  <div *ngIf="userRole=='admin'" class="svg-container" appDraggable #mapTemplate>
+<div class="map-container">
+  <div class="svg-container" appDraggable #mapTemplate>
     <svg id="dropzone" height="100%" width="100%" (click)="onResizeArea($event)">
     </svg>
   </div>
-  <div *ngIf="userRole==='admin'">
+  <div>
     <button (click)="onRegisterEmployees()">Register employes</button>
     <button (click)="onAddDesk()">add seat</button>
     <button (click)="onAddArea()">add area</button>
-    <button (click)="onSetUserTemplate()">save template</button>
+    <button (click)="onNewWaySetTemplate()">save template</button>
     <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800" aria-label="units"
       [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider"></mat-slider>
 
     <mat-slider [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0"
       max="400" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)"></mat-slider>
   </div>
-</div>
-<app-employee-role></app-employee-role>
-
-<div  class="map-container ">
-  <svg id="dropzone" height="100%" width="100%">
-
-  </svg>
 </div>
