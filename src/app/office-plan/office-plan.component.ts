@@ -1,8 +1,9 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
+  ElementRef,
   OnInit,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
@@ -13,10 +14,12 @@ import { OfficePlanService } from './office-plan-service/office-plan.service';
   styleUrls: ['./office-plan.component.scss'],
 })
 export class OfficePlanComponent implements OnInit {
+  @ViewChild('tooltip') tooltip!: ElementRef;
+
   constructor(
     private officePlanService: OfficePlanService,
-    private cdr: ChangeDetectorRef,
-    private signInService: SignInService
+    private signInService: SignInService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -32,42 +35,29 @@ export class OfficePlanComponent implements OnInit {
           user.role === 'admin' && user.companyName === currentUser.companyName
       );
       if (admin) {
-        this.onDrawOfficePlan(admin, svgCont);
+        this.officePlanService.onDrawOfficePlan(admin, svgCont);
       }
     });
   }
 
-  onDrawOfficePlan(user: any, svgCont: any) {
-    this.officePlanService.getUserTemplate(user).subscribe((res: any) => {
-      if (res.areas) {
-        res.areas.forEach((area: any) => {
-          const svgns = 'http://www.w3.org/2000/svg';
-          const rect = document.createElementNS(svgns, 'rect');
-          rect.setAttribute('x', area.x);
-          rect.setAttribute('y', area.y);
-          rect.setAttribute('width', area.width);
-          rect.setAttribute('height', area.height);
-          rect.setAttribute('fill', area.fill);
-          rect.setAttribute('stroke', area.stroke);
-          if (svgCont && rect) {
-            svgCont.append(rect);
-          }
-        });
-      }
-      if (res.desks) {
-        res.desks.forEach((desk: any) => {
-          const svgns = 'http://www.w3.org/2000/svg';
-          const rect = document.createElementNS(svgns, 'rect');
-          rect.setAttribute('x', desk.x);
-          rect.setAttribute('y', desk.y);
-          rect.setAttribute('width', desk.width);
-          rect.setAttribute('height', desk.height);
-          rect.setAttribute('fill', desk.fill);
-          if (svgCont && rect) {
-            svgCont.append(rect);
-          }
-        });
-      }
+  onMouseEnter() {
+    const desks = document.getElementsByTagName('rect');
+    const filtered = Array.prototype.slice
+      .call(desks)
+      .filter((desk) => desk.getAttribute('fill') !== 'white');
+    filtered.forEach((desk) => {
+      desk.addEventListener('mouseover', () => {
+        this.officePlanService.mouseEnterTooltip(
+          this.renderer,
+          desk,
+          this.tooltip,
+          '5'
+        );
+      });
     });
+  }
+
+  onMouseLeave() {
+    this.officePlanService.mouseLeave(this.renderer, this.tooltip);
   }
 }

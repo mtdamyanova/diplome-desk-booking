@@ -21,3 +21,15 @@ circle {
     width: 70%;
     height: 70%;
 }
+
+.tooltip {
+    display: none;
+    position: absolute;
+    font-size: 0.75em;
+    background-color: white;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    border-radius: 2px;
+  }
+  
