@@ -16,29 +16,25 @@ import { SignInService } from './sign-in/sign-in-service/sign-in.service';
 export class HeaderComponent implements OnInit {
   userFirstName: string = '';
   userRole: string = '';
+  user: any;
   constructor(private signInService: SignInService) {}
 
   ngOnInit(): void {
-    // this.isLoggedIn();
-    const user = JSON.parse(localStorage.getItem('user')!);
-    if (user) {
-      this.userFirstName = user.firstName;
-      this.userRole = user.role;
-    }
+    this.isLoggedIn();
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn() {
+    this.signInService.castUser.subscribe((res) => {
+      this.user = res;
+    });
     const user = JSON.parse(localStorage.getItem('user')!);
     if (user) {
-      this.userFirstName = user.firstName;
-      this.userRole = user.role;
+      this.user = user;
     }
-    return user !== null && user.emailVerified !== false ? true : false;
   }
 
   onSignOut() {
     this.signInService.signOut();
-    this.userFirstName = '';
-    this.userRole = '';
+    this.user = {};
   }
 }

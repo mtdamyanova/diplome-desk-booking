@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'draw-plan', component: DrawOfficeMapComponent },
   { path: 'login-help', component: LoginHelpComponent },
   { path: 'register-employee', component: AddEmployeesComponent },
-  { path: 'office-plan', component: OfficePlanComponent },
+  { path: 'office-plan', component: OfficePlanComponent, pathMatch : 'full' },
 ];
 
 @NgModule({

@@ -1,13 +1,14 @@
 <mat-toolbar color="primary">
   <span>My App</span>
-  <p *ngIf="userFirstName" routerLink="/office-plan">Office plan</p>
-  <p *ngIf="userRole==='admin'" routerLink="/draw-plan">Draw plan</p>
-  <button *ngIf="!userFirstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button class="example-icon"
+  <p *ngIf="user.firstName" routerLink="/office-plan">Office plan</p>
+  <p *ngIf="user.role==='admin'" routerLink="/draw-plan">Draw plan</p>
+  <button *ngIf="!user.firstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button class="example-icon"
     aria-label="Example icon-button with share icon">
     Sign in
   </button>
-  <div *ngIf="userFirstName">
-    <span>{{userFirstName[0]}}</span>
+  <div *ngIf="user.firstName">
+    <span>{{user.firstName[0]}}</span>
     <span (click)="onSignOut()"> Sign out</span>
   </div>
 </mat-toolbar>
+<router-outlet></router-outlet>

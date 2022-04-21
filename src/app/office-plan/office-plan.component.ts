@@ -24,22 +24,17 @@ export class OfficePlanComponent implements OnInit {
   }
 
   onGetUserTemplate() {
-    const svgCont = document.getElementById('dropzone');
+    const svgCont = document.getElementById('officePlan');
     const currentUser = JSON.parse(localStorage.getItem('user')!);
-    if (currentUser.role !== 'admin') {
-      this.signInService.getUsers().subscribe((res) => {
-        const admin = res.find(
-          (user) =>
-            user.role === 'admin' &&
-            user.companyName === currentUser.companyName
-        );
-        if (admin) {
-          this.onDrawOfficePlan(admin, svgCont);
-        }
-      });
-    } else {
-      this.onDrawOfficePlan(currentUser, svgCont);
-    }
+    this.signInService.getUsers().subscribe((res) => {
+      const admin = res.find(
+        (user) =>
+          user.role === 'admin' && user.companyName === currentUser.companyName
+      );
+      if (admin) {
+        this.onDrawOfficePlan(admin, svgCont);
+      }
+    });
   }
 
   onDrawOfficePlan(user: any, svgCont: any) {

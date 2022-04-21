@@ -11,7 +11,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   providedIn: 'root',
 })
 export class SignInService {
-  private user = new BehaviorSubject<string>('');
+  private user = new BehaviorSubject<any>({});
   castUser = this.user.asObservable();
   constructor(
     private http: HttpClient,
@@ -48,25 +48,21 @@ export class SignInService {
 
   signInUser(userData: any) {
     const auth = getAuth();
-    console.log(userData);
-
     return this.getUsers().subscribe((res) => {
       const currentUser = res.find((user) => user.email === userData.email);
       signInWithEmailAndPassword(auth, userData.email, userData.password)
         .then((res) => {
-          localStorage.setItem(
-            'user',
-            JSON.stringify({
-              email: currentUser.email,
-              firstName: currentUser.firstName,
-              id: currentUser.id,
-              role: currentUser.role,
-              companyName: currentUser.companyName,
-            })
-          );
+          const setUser = {
+            email: currentUser.email,
+            firstName: currentUser.firstName,
+            id: currentUser.id,
+            role: currentUser.role,
+            companyName: currentUser.companyName,
+          };
+          localStorage.setItem('user', JSON.stringify(setUser));
           JSON.parse(localStorage.getItem('user')!);
           onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);
-          this.user.next(currentUser.firstName);
+          this.user.next(setUser);
           this.router.navigate(['/office-plan']);
         })
         .catch((error) => {
