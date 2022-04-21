@@ -18,7 +18,6 @@ export class LoginHelpComponent implements OnInit {
   ngOnInit() {}
 
   onResetPassword() {
-    console.log(this.formData.controls['email'].value);
     const email = this.formData.controls['email'].value;
     return this.afAuth
       .sendPasswordResetEmail(email)

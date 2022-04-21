@@ -8,7 +8,7 @@ import { SignInService } from './sign-in-service/sign-in.service';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-  hide: boolean = true;
+  public hide: boolean = true;
   public dataForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),

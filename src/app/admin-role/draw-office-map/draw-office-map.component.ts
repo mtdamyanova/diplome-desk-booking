@@ -13,23 +13,23 @@ import { MapService } from './map-service/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
+import { Area } from 'src/app/interfaces/map';
 @Component({
   selector: 'app-draw-office-map',
   templateUrl: './draw-office-map.component.html',
   styleUrls: ['./draw-office-map.component.scss'],
 })
 export class DrawOfficeMapComponent implements OnInit {
-  userRole: string = '';
-  widthSliderValue?: number;
-  heightSliderValue?: number;
-  selectedArea: any;
-  disabledSlider: boolean = true;
+  public userRole: string = '';
+  public widthSliderValue?: number;
+  public heightSliderValue?: number;
+  public selectedArea: any;
+  public disabledSlider: boolean = true;
 
   constructor(
     private mapService: MapService,
     public dialog: MatDialog,
-    public signInService: SignInService,
-    private cdr: ChangeDetectorRef
+    public signInService: SignInService
   ) {}
   ngOnInit(): void {
     this.onGetUserTemplate();
@@ -54,7 +54,7 @@ export class DrawOfficeMapComponent implements OnInit {
     } else {
       this.widthSliderValue = 0;
       this.heightSliderValue = 0;
-      this.selectedArea = null;
+      this.selectedArea = undefined;
       this.disabledSlider = true;
     }
   }
@@ -84,7 +84,6 @@ export class DrawOfficeMapComponent implements OnInit {
   onGetUserTemplate() {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.mapService.getUserTemplate(user).subscribe((res: any) => {
-      console.log(res);
       this.userRole = res.role;
       const svgContainer = document.getElementById('dropzone');
       if (svgContainer) {
@@ -105,8 +104,6 @@ export class DrawOfficeMapComponent implements OnInit {
     const currentAdmin = JSON.parse(localStorage.getItem('user')!);
     this.signInService.getUsers().subscribe((res) => {
       const admin = res.find((user) => user.id === currentAdmin.id);
-      console.log(admin);
-
       let desksParamsArray: any = [];
       let areasParamsArray: any = [];
       areas?.forEach((area, index) => {
@@ -150,10 +147,7 @@ export class DrawOfficeMapComponent implements OnInit {
       };
       this.mapService.updateAdmin(admin, adminUpdated).subscribe();
       const template = document.getElementById('dropzone')?.innerHTML;
-      console.log(template);
-
       this.mapService.setUserTemplate(adminUpdated, template).subscribe();
     });
   }
-
 }

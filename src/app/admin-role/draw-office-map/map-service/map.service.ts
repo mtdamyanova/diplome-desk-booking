@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, Renderer2 } from '@angular/core';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
+import { Desk } from 'src/app/interfaces/map';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
-  deskId: string = '0';
+  public deskId: string = '0';
   constructor(private http: HttpClient, private signInService: SignInService) {}
 
   getSVGPoint(event: any, element: any): SVGPoint {
-    // get the mouse coordinates and set them to the SVG point
     const point = element.viewportElement.createSVGPoint();
     point.x = event.clientX;
     point.y = event.clientY;
@@ -44,8 +44,6 @@ export class MapService {
     circle.setAttribute('height', '40');
     circle.setAttribute('fill', 'green');
     circle.setAttribute('draggable', 'true');
-    console.log(svgCont);
-
     if (svgCont && circle) {
       svgCont.append(circle);
     }
@@ -55,8 +53,6 @@ export class MapService {
     const svgCont = document.getElementById('dropzone');
     const svgns = 'http://www.w3.org/2000/svg';
     const rect = document.createElementNS(svgns, 'rect');
-    // rect.setAttribute('cx', '40');
-    // rect.setAttribute('cy', '40');
     rect.setAttribute('width', '70');
     rect.setAttribute('height', '70');
     rect.setAttribute('fill', 'white');
@@ -74,11 +70,10 @@ export class MapService {
       const allEmployees = res.filter(
         (empl) => empl.companyName === user.companyName
       );
-      console.log(allEmployees);
     });
   }
 
-  addDeskInBase(desk: any) {
+  addDeskInBase(desks: Desk[]) {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.signInService.getUsers().subscribe((res) => {
       const admin = res.find(
@@ -92,7 +87,7 @@ export class MapService {
         this.deskId = admin.desks.length;
         admin.desks.push({
           id: admin.desks.length,
-          ...desk,
+          ...desks,
         });
       } else {
         this.deskId = '0';
@@ -100,7 +95,7 @@ export class MapService {
           ...admin,
           desks: [
             {
-              ...desk,
+              ...desks,
             },
           ],
         };

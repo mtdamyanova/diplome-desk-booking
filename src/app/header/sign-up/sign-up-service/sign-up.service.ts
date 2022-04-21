@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { onOpenSnackBar } from 'src/app/utils';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { User } from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -17,14 +18,13 @@ export class SignUpService {
     private afAuth: AngularFireAuth
   ) {}
 
-  signUpUser(userData: any, role : string) {
+  signUpUser(userData: any, role: string) {
     const userInfo = {
       firstName: userData.firstName,
       lastName: userData.lastName,
       companyName: userData.companyName,
       email: userData.email,
       role: role,
-      desks : []
     };
     const auth = getAuth();
 
@@ -64,8 +64,6 @@ export class SignUpService {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
       .then((res) => {
-        console.log(res);
-
         // this.router.navigate(['verify-email-address']);
       });
   }
