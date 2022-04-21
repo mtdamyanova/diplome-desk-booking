@@ -18,12 +18,18 @@ export class OfficePlanService {
         res.areas.forEach((area: any) => {
           const svgns = 'http://www.w3.org/2000/svg';
           const rect = document.createElementNS(svgns, 'rect');
-          rect.setAttribute('x', area.x);
-          rect.setAttribute('y', area.y);
+          if (area.x && area.y) {
+            rect.setAttribute('x', area.x);
+            rect.setAttribute('y', area.y);
+          } else {
+            rect.setAttribute('x', '0');
+            rect.setAttribute('y', '0');
+          }
           rect.setAttribute('width', area.width);
           rect.setAttribute('height', area.height);
           rect.setAttribute('fill', area.fill);
           rect.setAttribute('stroke', area.stroke);
+          rect.setAttribute('id', area.id);
           if (svgCont && rect) {
             svgCont.append(rect);
           }
@@ -33,11 +39,17 @@ export class OfficePlanService {
         res.desks.forEach((desk: any) => {
           const svgns = 'http://www.w3.org/2000/svg';
           const rect = document.createElementNS(svgns, 'rect');
-          rect.setAttribute('x', desk.x);
-          rect.setAttribute('y', desk.y);
+          if (desk.x && desk.y) {
+            rect.setAttribute('x', desk.x);
+            rect.setAttribute('y', desk.y);
+          } else {
+            rect.setAttribute('x', '0');
+            rect.setAttribute('y', '0');
+          }
           rect.setAttribute('width', desk.width);
           rect.setAttribute('height', desk.height);
           rect.setAttribute('fill', desk.fill);
+          rect.setAttribute('id', desk.id);
           if (svgCont && rect) {
             svgCont.append(rect);
           }
@@ -59,5 +71,20 @@ export class OfficePlanService {
   mouseLeave(renderer: any, tooltip: any) {
     renderer.setProperty(tooltip.nativeElement, 'innerHTML', '');
     renderer.setStyle(tooltip.nativeElement, 'display', 'none');
+  }
+
+  showStatusOfTheDesk(status: string) {
+    let message = '';
+    switch (status) {
+      case 'available':
+        message = 'The desk is available.';
+        break;
+      case 'booked':
+        message = 'The desk is booked.';
+        break;
+      default:
+        message = 'Test message.';
+    }
+    return message;
   }
 }

@@ -1,19 +1,9 @@
-import {
-  AfterContentChecked,
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  DoCheck,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MapService } from './map-service/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { Area } from 'src/app/interfaces/map';
+
 @Component({
   selector: 'app-draw-office-map',
   templateUrl: './draw-office-map.component.html',
@@ -96,58 +86,8 @@ export class DrawOfficeMapComponent implements OnInit {
     this.dialog.open(AddEmployeesComponent);
   }
 
-  onNewWaySetTemplate() {
-    const a = document.getElementsByTagName('rect');
-    const desksArray = Array.prototype.slice.call(a);
-    const areas = desksArray.filter((desk) => desk.classList.value === 'area');
-    const desks = desksArray.filter((desk) => desk.classList.value !== 'area');
-    const currentAdmin = JSON.parse(localStorage.getItem('user')!);
-    this.signInService.getUsers().subscribe((res) => {
-      const admin = res.find((user) => user.id === currentAdmin.id);
-      let desksParamsArray: any = [];
-      let areasParamsArray: any = [];
-      areas?.forEach((area, index) => {
-        const x = area.getAttribute('x');
-        const y = area.getAttribute('y');
-        const width = area.getAttribute('width');
-        const height = area.getAttribute('height');
-        const fill = area.getAttribute('fill');
-        const stroke = area.getAttribute('stroke');
-        const areaParams = {
-          id: index,
-          x: x,
-          y: y,
-          width: width,
-          height: height,
-          fill: fill,
-          stroke: stroke,
-        };
-        areasParamsArray.push(areaParams);
-      });
-      desks?.forEach((area, index) => {
-        const x = area.getAttribute('x');
-        const y = area.getAttribute('y');
-        const width = area.getAttribute('width');
-        const height = area.getAttribute('height');
-        const fill = area.getAttribute('fill');
-        const areaParams = {
-          id: index,
-          x: x,
-          y: y,
-          width: width,
-          height: height,
-          fill: fill,
-        };
-        desksParamsArray.push(areaParams);
-      });
-      const adminUpdated = {
-        ...admin,
-        desks: desksParamsArray,
-        areas: areasParamsArray,
-      };
-      this.mapService.updateAdmin(admin, adminUpdated).subscribe();
-      const template = document.getElementById('dropzone')?.innerHTML;
-      this.mapService.setUserTemplate(adminUpdated, template).subscribe();
-    });
+  onSetTemplate() {
+    const elements = document.getElementsByTagName('rect');
+    this.mapService.setOfficeParameters(elements);
   }
 }

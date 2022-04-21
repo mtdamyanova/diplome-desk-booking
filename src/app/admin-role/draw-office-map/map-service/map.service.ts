@@ -14,10 +14,8 @@ export class MapService {
     const point = element.viewportElement.createSVGPoint();
     point.x = event.clientX;
     point.y = event.clientY;
-
     const CTM = element.viewportElement.getScreenCTM();
     const svgPoint = point.matrixTransform(CTM.inverse());
-
     return svgPoint;
   }
 
@@ -28,6 +26,7 @@ export class MapService {
       { ...userUpdated }
     );
   }
+
   getUserTemplate(user: any) {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
@@ -35,17 +34,25 @@ export class MapService {
   }
 
   addDesk() {
+    const rects = document.getElementsByTagName('rect');
+    const desks: any[] = Array.prototype.slice
+      .call(rects)
+      .filter((rect) => rect.getAttribute('fill') !== 'white');
+    const deskId = desks.length.toString();
+    console.log(deskId);
+
     const svgCont = document.getElementById('dropzone');
     const svgns = 'http://www.w3.org/2000/svg';
-    const circle = document.createElementNS(svgns, 'rect');
-    circle.setAttribute('cx', '40');
-    circle.setAttribute('cy', '40');
-    circle.setAttribute('width', '40');
-    circle.setAttribute('height', '40');
-    circle.setAttribute('fill', 'green');
-    circle.setAttribute('draggable', 'true');
-    if (svgCont && circle) {
-      svgCont.append(circle);
+    const desk = document.createElementNS(svgns, 'rect');
+    desk.setAttribute('id', deskId);
+    desk.setAttribute('cx', '40');
+    desk.setAttribute('cy', '40');
+    desk.setAttribute('width', '40');
+    desk.setAttribute('height', '40');
+    desk.setAttribute('fill', 'green');
+    desk.setAttribute('draggable', 'true');
+    if (svgCont && desk) {
+      svgCont.append(desk);
     }
   }
 
@@ -63,45 +70,6 @@ export class MapService {
     if (svgCont && rect) {
       svgCont.append(rect);
     }
-  }
-
-  setUsersTemplate(user: any) {
-    this.signInService.getUsers().subscribe((res) => {
-      const allEmployees = res.filter(
-        (empl) => empl.companyName === user.companyName
-      );
-    });
-  }
-
-  addDeskInBase(desks: Desk[]) {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    this.signInService.getUsers().subscribe((res) => {
-      const admin = res.find(
-        (admin) =>
-          admin.role === 'admin' && admin.companyName === user.companyName
-      );
-      let adminUpdated = {
-        ...admin,
-      };
-      if (admin.desks) {
-        this.deskId = admin.desks.length;
-        admin.desks.push({
-          id: admin.desks.length,
-          ...desks,
-        });
-      } else {
-        this.deskId = '0';
-        adminUpdated = {
-          ...admin,
-          desks: [
-            {
-              ...desks,
-            },
-          ],
-        };
-      }
-      this.updateAdmin(admin, adminUpdated).subscribe();
-    });
   }
 
   getDesks() {
@@ -122,21 +90,58 @@ export class MapService {
     );
   }
 
-  mouseEnterTooltip(renderer: any, e: any, tooltip: any, message: string) {
-    e.target.addEventListener('mouseenter', () => {
-      let circle = e.target as HTMLElement;
-      let coordinates = circle.getBoundingClientRect();
-      let x = `${coordinates.left + 40}px`;
-      let y = `${coordinates.top + 40}px`;
-      renderer.setStyle(tooltip.nativeElement, 'left', x);
-      renderer.setStyle(tooltip.nativeElement, 'top', y);
-      renderer.setStyle(tooltip.nativeElement, 'display', 'block');
-      renderer.setProperty(tooltip.nativeElement, 'innerHTML', message);
+  setOfficeParameters(elements: any) {
+    const desksArray = Array.prototype.slice.call(elements);
+    const areas = desksArray.filter((desk) => desk.classList.value === 'area');
+    const desks = desksArray.filter((desk) => desk.classList.value !== 'area');
+    const currentAdmin = JSON.parse(localStorage.getItem('user')!);
+    this.signInService.getUsers().subscribe((res) => {
+      const admin = res.find((user) => user.id === currentAdmin.id);
+      let desksParamsArray: any = [];
+      let areasParamsArray: any = [];
+      areas?.forEach((area, index) => {
+        const x = area.getAttribute('x');
+        const y = area.getAttribute('y');
+        const width = area.getAttribute('width');
+        const height = area.getAttribute('height');
+        const fill = area.getAttribute('fill');
+        const stroke = area.getAttribute('stroke');
+        const areaParams = {
+          id: index,
+          x: x,
+          y: y,
+          width: width,
+          height: height,
+          fill: fill,
+          stroke: stroke,
+        };
+        areasParamsArray.push(areaParams);
+      });
+      desks?.forEach((area, index) => {
+        const x = area.getAttribute('x');
+        const y = area.getAttribute('y');
+        const width = area.getAttribute('width');
+        const height = area.getAttribute('height');
+        const fill = area.getAttribute('fill');
+        const deskParams = {
+          id: index.toString(),
+          x: x,
+          y: y,
+          width: width,
+          height: height,
+          fill: fill,
+          status: 'available'
+        };
+        desksParamsArray.push(deskParams);
+      });
+      const adminUpdated = {
+        ...admin,
+        desks: desksParamsArray,
+        areas: areasParamsArray,
+      };
+      this.updateAdmin(admin, adminUpdated).subscribe();
+      const template = document.getElementById('dropzone')?.innerHTML;
+      this.setUserTemplate(adminUpdated, template).subscribe();
     });
-  }
-
-  mouseLeave(renderer: any, tooltip: any) {
-    renderer.setProperty(tooltip.nativeElement, 'innerHTML', '');
-    renderer.setStyle(tooltip.nativeElement, 'display', 'none');
   }
 }

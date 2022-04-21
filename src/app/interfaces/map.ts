@@ -15,4 +15,5 @@ export interface Desk {
     width: string;
     x: string;
     y: string;
+    status : string;
   }

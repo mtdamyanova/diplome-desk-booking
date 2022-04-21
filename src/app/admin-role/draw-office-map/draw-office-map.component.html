@@ -7,7 +7,7 @@
     <button (click)="onRegisterEmployees()">Register employes</button>
     <button (click)="onAddDesk()">add seat</button>
     <button (click)="onAddArea()">add area</button>
-    <button (click)="onNewWaySetTemplate()">save template</button>
+    <button (click)="onSetTemplate()">save template</button>
     <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800" aria-label="units"
       [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider"></mat-slider>
 

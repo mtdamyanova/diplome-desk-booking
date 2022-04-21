@@ -15,6 +15,7 @@ import { OfficePlanService } from './office-plan-service/office-plan.service';
 })
 export class OfficePlanComponent implements OnInit {
   @ViewChild('tooltip') tooltip!: ElementRef;
+  private officeDesks: any[] = [];
 
   constructor(
     private officePlanService: OfficePlanService,
@@ -24,6 +25,16 @@ export class OfficePlanComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGetUserTemplate();
+    this.signInService.getUsers().subscribe((res) => {
+      const user = JSON.parse(localStorage.getItem('user')!);
+      const adminProfile = res.find(
+        (admin) =>
+          admin.role === 'admin' && admin.companyName === user.companyName
+      );
+      if (adminProfile.desks) {
+        this.officeDesks = adminProfile.desks;
+      }
+    });
   }
 
   onGetUserTemplate() {
@@ -46,12 +57,15 @@ export class OfficePlanComponent implements OnInit {
       .call(desks)
       .filter((desk) => desk.getAttribute('fill') !== 'white');
     filtered.forEach((desk) => {
+      const currentDesk = this.officeDesks.find(d=>d.id===desk.id);
+      const deskStatus = this.officePlanService.showStatusOfTheDesk(currentDesk.status);
+      this.officePlanService;
       desk.addEventListener('mouseover', () => {
         this.officePlanService.mouseEnterTooltip(
           this.renderer,
           desk,
           this.tooltip,
-          '5'
+          deskStatus
         );
       });
     });
