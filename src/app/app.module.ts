@@ -32,6 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
 import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
 import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.component';
+import { BlockDeskComponent } from './office-plan/block-desk/block-desk.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.compo
     AddEmployeesComponent,
     OfficePlanComponent,
     BookDeskComponent,
-    UnbookDeskComponent
+    UnbookDeskComponent,
+    BlockDeskComponent
   ],
   imports: [
     BrowserModule,

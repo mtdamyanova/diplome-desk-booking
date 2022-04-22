@@ -22,6 +22,13 @@ export class UnbookDeskComponent implements OnInit {
 
   onUnbookDesk() {
     this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
+    localStorage.setItem('deskStatus', 'available');
+    this.dialogRef.close();
+  }
+
+  onUnblockDesk() {
+    this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
+    localStorage.setItem('deskStatus', 'available');
     this.dialogRef.close();
   }
 }

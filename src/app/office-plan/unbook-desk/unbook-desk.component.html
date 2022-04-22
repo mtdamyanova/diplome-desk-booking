@@ -1,4 +1,6 @@
 <h1 mat-dialog-title>Favorite Animal</h1>
 <div mat-dialog-content>
-  <button (click)="onUnbookDesk()">Unbook desk</button>
+  <button *ngIf="data.currentDesk.status==='booked'" (click)="onUnbookDesk()">Unbook desk</button>
+  <button *ngIf="data.user.role==='admin' && data.currentDesk.status==='blocked'" (click)="onUnblockDesk()">
+    unblock desk</button>
 </div>

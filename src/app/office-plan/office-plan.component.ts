@@ -1,8 +1,11 @@
 import {
   Component,
+  DoCheck,
   ElementRef,
+  OnChanges,
   OnInit,
   Renderer2,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +25,7 @@ export class OfficePlanComponent implements OnInit {
   private admin: any;
   private officeDesks: Desk[] = [];
   private message = '';
+  private deskStatus = localStorage.getItem('deskStatus');
 
   constructor(
     private officePlanService: OfficePlanService,

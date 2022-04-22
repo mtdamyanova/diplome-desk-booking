@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { Desk } from 'src/app/interfaces/map';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { OfficePlanService } from '../office-plan-service/office-plan.service';
 
 @Component({
@@ -15,14 +16,20 @@ export class BookDeskComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private officePlanService: OfficePlanService,
-    private matDialogRef : MatDialogRef<BookDeskComponent>
-  ) {
-  }
+    private matDialogRef: MatDialogRef<BookDeskComponent>
+  ) {}
 
   ngOnInit() {}
 
   onBookDesk() {
     this.officePlanService.changeDeskStatus(this.data.currentDesk, 'booked');
+    localStorage.setItem('deskStatus', 'booked');
+    this.matDialogRef.close();
+  }
+
+  onBlockDesk() {
+    this.officePlanService.changeDeskStatus(this.data.currentDesk, 'blocked');
+    localStorage.setItem('deskStatus', 'blocked');
     this.matDialogRef.close();
   }
 }
