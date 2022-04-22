@@ -30,6 +30,7 @@ import { AddEmployeesComponent } from './admin-role/add-employees/add-employees.
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
+import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { OfficePlanComponent } from './office-plan/office-plan.component';
     LoginHelpComponent,
     AddEmployeesComponent,
     OfficePlanComponent,
+    BookDeskComponent
   ],
   imports: [
     BrowserModule,

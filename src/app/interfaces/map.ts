@@ -9,11 +9,12 @@ export interface Area {
 }
 
 export interface Desk {
-    fill: string;
-    height: string;
-    id: number;
-    width: string;
-    x: string;
-    y: string;
-    status : string;
-  }
+  fill: string;
+  height: string;
+  id: number;
+  width: string;
+  x: string;
+  y: string;
+  status: string;
+  bookedBy?: string;
+}

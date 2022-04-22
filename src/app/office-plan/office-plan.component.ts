@@ -5,7 +5,9 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
+import { BookDeskComponent } from './book-desk/book-desk.component';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
 
 @Component({
@@ -20,7 +22,8 @@ export class OfficePlanComponent implements OnInit {
   constructor(
     private officePlanService: OfficePlanService,
     private signInService: SignInService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dialog : MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -57,9 +60,18 @@ export class OfficePlanComponent implements OnInit {
       .call(desks)
       .filter((desk) => desk.getAttribute('fill') !== 'white');
     filtered.forEach((desk) => {
-      const currentDesk = this.officeDesks.find(d=>d.id===desk.id);
-      const deskStatus = this.officePlanService.showStatusOfTheDesk(currentDesk.status);
-      this.officePlanService;
+      const currentDesk = this.officeDesks.find((d) => d.id === desk.id);
+      const deskStatus = this.officePlanService.showStatusOfTheDesk(
+        currentDesk.status
+      );
+      if (currentDesk.status === 'available') {
+        desk.addEventListener('click', () => {
+          this.dialog.open(BookDeskComponent,{
+            data : currentDesk
+          });
+
+        });
+      }
       desk.addEventListener('mouseover', () => {
         this.officePlanService.mouseEnterTooltip(
           this.renderer,
@@ -74,4 +86,5 @@ export class OfficePlanComponent implements OnInit {
   onMouseLeave() {
     this.officePlanService.mouseLeave(this.renderer, this.tooltip);
   }
+
 }

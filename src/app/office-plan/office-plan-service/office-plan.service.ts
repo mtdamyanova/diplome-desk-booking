@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
+import { Desk } from 'src/app/interfaces/map';
+import { User } from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OfficePlanService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private signInService: SignInService) {}
   getUserTemplate(user: any) {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
@@ -50,6 +53,7 @@ export class OfficePlanService {
           rect.setAttribute('height', desk.height);
           rect.setAttribute('fill', desk.fill);
           rect.setAttribute('id', desk.id);
+          rect.setAttribute('cursor', 'pointer');
           if (svgCont && rect) {
             svgCont.append(rect);
           }
@@ -87,4 +91,12 @@ export class OfficePlanService {
     }
     return message;
   }
+
+  updateDesk(admin : User, desk : Desk, updatedDesk : Desk){
+    return this.http.put(
+      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${admin.id}/desks/${desk.id}.json`,
+      updatedDesk
+    )
+  }
+
 }
