@@ -27,94 +27,108 @@ export class OfficePlanService {
     private http: HttpClient,
     private signInService: SignInService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-  ) {
-  }
+    private dialog: MatDialog
+  ) {}
   getUserTemplate(user: any) {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
     );
   }
 
+  getCurrentDesk(deskId: any, adminId: User) {
+    return this.http.get(
+      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${adminId}/desks/${deskId}.json`
+    );
+  }
+
+  onDrawDesks(resAdmin: any, user: any, svgCont: any, desk: Desk) {
+    const svgns = 'http://www.w3.org/2000/svg';
+    const rect = document.createElementNS(svgns, 'rect');
+    if (desk.x && desk.y) {
+      rect.setAttribute('x', desk.x);
+      rect.setAttribute('y', desk.y);
+    } else {
+      rect.setAttribute('x', '0');
+      rect.setAttribute('y', '0');
+    }
+    rect.setAttribute('width', desk.width);
+    rect.setAttribute('height', desk.height);
+    rect.setAttribute('fill', desk.fill);
+    rect.setAttribute('id', desk.id);
+    rect.setAttribute('cursor', 'pointer');
+    if (svgCont && rect) {
+      svgCont.append(rect);
+    }
+    this.addEvenetsOnDesks(resAdmin, rect, user, desk);
+  }
+
+  onDrawAreas(svgCont: any, area: any) {
+    const svgns = 'http://www.w3.org/2000/svg';
+    const rect = document.createElementNS(svgns, 'rect');
+    if (area.x && area.y) {
+      rect.setAttribute('x', area.x);
+      rect.setAttribute('y', area.y);
+    } else {
+      rect.setAttribute('x', '0');
+      rect.setAttribute('y', '0');
+    }
+    rect.setAttribute('width', area.width);
+    rect.setAttribute('height', area.height);
+    rect.setAttribute('fill', area.fill);
+    rect.setAttribute('stroke', area.stroke);
+    rect.setAttribute('id', area.id);
+    if (svgCont && rect) {
+      svgCont.append(rect);
+    }
+  }
+
+  addEvenetsOnDesks(resAdmin: any, rect: any, user: any, desk: Desk) {
+    const alreadyBooked = resAdmin.desks.find(
+      (desk: Desk) => desk.userId === user.id
+    );
+    rect.addEventListener('click', () => {
+      if (desk.userId !== user.id && desk.status === 'available') {
+        this.dialog
+          .open(BookDeskComponent, {
+            disableClose: true,
+            data: {
+              currentDesk: desk,
+            },
+          })
+          .afterClosed()
+          .subscribe(() => {
+            if (!alreadyBooked) {
+              rect.setAttribute('fill', 'orange');
+            }
+          });
+      }
+      if (desk.userId === user.id && desk.status === 'booked') {
+        this.dialog
+          .open(UnbookDeskComponent, {
+            autoFocus: false,
+            disableClose: true,
+            data: {
+              currentDesk: desk,
+            },
+          })
+          .afterClosed()
+          .subscribe(() => {
+            rect.setAttribute('fill', 'green');
+          });
+      }
+    });
+  }
+
   onDrawOfficePlan(user: any, svgCont: any) {
     this.getUserTemplate(user).subscribe((res: any) => {
       if (res.areas) {
         res.areas.forEach((area: any) => {
-          const svgns = 'http://www.w3.org/2000/svg';
-          const rect = document.createElementNS(svgns, 'rect');
-          if (area.x && area.y) {
-            rect.setAttribute('x', area.x);
-            rect.setAttribute('y', area.y);
-          } else {
-            rect.setAttribute('x', '0');
-            rect.setAttribute('y', '0');
-          }
-          rect.setAttribute('width', area.width);
-          rect.setAttribute('height', area.height);
-          rect.setAttribute('fill', area.fill);
-          rect.setAttribute('stroke', area.stroke);
-          rect.setAttribute('id', area.id);
-          if (svgCont && rect) {
-            svgCont.append(rect);
-          }
+          this.onDrawAreas(svgCont, area);
         });
       }
       if (res.desks) {
         res.desks.forEach((desk: any) => {
-          const svgns = 'http://www.w3.org/2000/svg';
-          const rect = document.createElementNS(svgns, 'rect');
-          if (desk.x && desk.y) {
-            rect.setAttribute('x', desk.x);
-            rect.setAttribute('y', desk.y);
-          } else {
-            rect.setAttribute('x', '0');
-            rect.setAttribute('y', '0');
-          }
-          rect.setAttribute('width', desk.width);
-          rect.setAttribute('height', desk.height);
-          rect.setAttribute('fill', desk.fill);
-          rect.setAttribute('id', desk.id);
-          rect.setAttribute('cursor', 'pointer');
-          if (svgCont && rect) {
-            svgCont.append(rect);
-          }
-          rect.addEventListener('mouseover', () => {
-            const message = this.showStatusOfTheDesk(desk);
-            this.messageTooltip.next(message);
-          });
-          rect.addEventListener('click', () => {
-            if (desk.userId !== user.id && desk.status === 'available') {
-              this.dialog
-                .open(BookDeskComponent, {
-                  disableClose: true,
-                  data: {
-                    currentDesk: desk,
-                  },
-                })
-                .afterClosed()
-                .subscribe(() => {
-                  rect.setAttribute('fill', 'orange');
-                  const message = this.showStatusOfTheDesk(desk);
-                  this.messageTooltip.next(message);
-                });
-            }
-            if (desk.userId === user.id && desk.status === 'booked') {
-              this.dialog
-                .open(UnbookDeskComponent, {
-                  autoFocus: false,
-                  disableClose: true,
-                  data: {
-                    currentDesk: desk,
-                  },
-                })
-                .afterClosed()
-                .subscribe(() => {
-                  rect.setAttribute('fill', 'green');
-                  const message = this.showStatusOfTheDesk(desk);
-                  this.messageTooltip.next(message);
-                });
-            }
-          });
+          this.onDrawDesks(res, user, svgCont, desk);
         });
       }
     });
@@ -135,7 +149,7 @@ export class OfficePlanService {
     renderer.setStyle(tooltip.nativeElement, 'display', 'none');
   }
 
-  showStatusOfTheDesk(desk: Desk) {
+  showStatusOfTheDesk(desk: any) {
     let message = '';
     switch (desk.status) {
       case 'available':

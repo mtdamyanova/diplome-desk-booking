@@ -11,7 +11,7 @@ export interface Area {
 export interface Desk {
   fill: string;
   height: string;
-  id: number;
+  id: string;
   width: string;
   x: string;
   y: string;

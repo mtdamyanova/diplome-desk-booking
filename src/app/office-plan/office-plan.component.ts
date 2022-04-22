@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
+import { Desk } from '../interfaces/map';
 import { BookDeskComponent } from './book-desk/book-desk.component';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
 import { UnbookDeskComponent } from './unbook-desk/unbook-desk.component';
@@ -18,13 +19,14 @@ import { UnbookDeskComponent } from './unbook-desk/unbook-desk.component';
 })
 export class OfficePlanComponent implements OnInit {
   @ViewChild('tooltip') tooltip!: ElementRef;
-  private officeDesks: any[] = [];
+  private admin: any;
+  private officeDesks: Desk[] = [];
+  private message = '';
 
   constructor(
     private officePlanService: OfficePlanService,
     private signInService: SignInService,
-    private renderer: Renderer2,
-    private dialog: MatDialog
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -54,28 +56,53 @@ export class OfficePlanComponent implements OnInit {
           user.role === 'admin' && user.companyName === currentUser.companyName
       );
       if (admin) {
+        this.admin = admin;
         this.officePlanService.onDrawOfficePlan(admin, svgCont);
       }
     });
   }
 
-  onMouseEnter() {
-    const desks = document.getElementsByTagName('rect');
-    const filtered = Array.prototype.slice
-      .call(desks)
-      .filter((desk) => desk.getAttribute('fill') !== 'white');
-    this.getDesks();
-    filtered.forEach((desk) => {
-      this.officePlanService.castMessageTooltip.subscribe((res) => {
-        desk.addEventListener('mouseover', () => {
-          this.officePlanService.mouseEnterTooltip(
-            this.renderer,
-            desk,
-            this.tooltip,
-            res
-          );
+  onMouseEnter(event: any) {
+    const fillAttribute = event.target.getAttribute('fill');
+    if (fillAttribute && fillAttribute !== 'white') {
+      const desk = this.officeDesks.find(
+        (d) => d.id === event.target.getAttribute('id')
+      );
+      this.officePlanService
+        .getCurrentDesk(desk?.id, this.admin.id)
+        .subscribe((res: any) => {
+          if (res && desk) {
+            let message = '';
+            switch (res.status) {
+              case 'available':
+                message =
+                  'The desk is available. You can book it by clicking on it.';
+                break;
+              case 'booked':
+                message = `The desk is booked by ${res.bookedBy}.`;
+                break;
+              default:
+                message = 'Test message.';
+            }
+            if(message){
+
+              this.tooltipFunc(event.target, message);
+            }
+          }
         });
-      });
+    }
+  }
+
+  tooltipFunc(target: any, message: string) {
+    target.addEventListener('mouseover', () => {
+      console.log(8);
+      
+      this.officePlanService.mouseEnterTooltip(
+        this.renderer,
+        target,
+        this.tooltip,
+        message
+      );
     });
   }
 
