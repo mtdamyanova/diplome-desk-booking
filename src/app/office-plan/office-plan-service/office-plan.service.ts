@@ -1,20 +1,35 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  Renderer2,
+  RendererFactory2,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
+import { BookDeskComponent } from '../book-desk/book-desk.component';
+import { UnbookDeskComponent } from '../unbook-desk/unbook-desk.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OfficePlanService {
+  private messageTooltip = new BehaviorSubject<string>('');
+  castMessageTooltip = this.messageTooltip.asObservable();
+
   constructor(
     private http: HttpClient,
     private signInService: SignInService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+  ) {
+  }
   getUserTemplate(user: any) {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
@@ -63,6 +78,43 @@ export class OfficePlanService {
           if (svgCont && rect) {
             svgCont.append(rect);
           }
+          rect.addEventListener('mouseover', () => {
+            const message = this.showStatusOfTheDesk(desk);
+            this.messageTooltip.next(message);
+          });
+          rect.addEventListener('click', () => {
+            if (desk.userId !== user.id && desk.status === 'available') {
+              this.dialog
+                .open(BookDeskComponent, {
+                  disableClose: true,
+                  data: {
+                    currentDesk: desk,
+                  },
+                })
+                .afterClosed()
+                .subscribe(() => {
+                  rect.setAttribute('fill', 'orange');
+                  const message = this.showStatusOfTheDesk(desk);
+                  this.messageTooltip.next(message);
+                });
+            }
+            if (desk.userId === user.id && desk.status === 'booked') {
+              this.dialog
+                .open(UnbookDeskComponent, {
+                  autoFocus: false,
+                  disableClose: true,
+                  data: {
+                    currentDesk: desk,
+                  },
+                })
+                .afterClosed()
+                .subscribe(() => {
+                  rect.setAttribute('fill', 'green');
+                  const message = this.showStatusOfTheDesk(desk);
+                  this.messageTooltip.next(message);
+                });
+            }
+          });
         });
       }
     });
@@ -130,7 +182,7 @@ export class OfficePlanService {
               status: deskStatus,
               bookedBy: '',
               userId: '',
-              fill : 'green'
+              fill: 'green',
             };
           } else if (deskStatus === 'booked') {
             updatedDesk = {
@@ -138,7 +190,7 @@ export class OfficePlanService {
               status: deskStatus,
               bookedBy: currentUser.firstName,
               userId: currentUser.id,
-              fill : 'orange'
+              fill: 'orange',
             };
           }
           this.updateDesk(admin, desk, updatedDesk).subscribe();
@@ -146,5 +198,4 @@ export class OfficePlanService {
       }
     });
   }
-
 }

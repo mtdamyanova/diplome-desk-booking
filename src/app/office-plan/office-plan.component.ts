@@ -61,64 +61,20 @@ export class OfficePlanComponent implements OnInit {
 
   onMouseEnter() {
     const desks = document.getElementsByTagName('rect');
-    const userId = JSON.parse(localStorage.getItem('user')!).id;
     const filtered = Array.prototype.slice
       .call(desks)
       .filter((desk) => desk.getAttribute('fill') !== 'white');
     this.getDesks();
     filtered.forEach((desk) => {
-      const currentDesk = this.officeDesks.find((d) => d.id === desk.id);
-      const deskStatus =
-        this.officePlanService.showStatusOfTheDesk(currentDesk);
-      desk.addEventListener('click', () => {
-        if (
-          currentDesk.userId !== userId &&
-          currentDesk.status === 'available'
-        ) {
-          this.dialog
-            .open(BookDeskComponent, {
-              disableClose: true,
-              data: {
-                currentDesk: currentDesk,
-              },
-            })
-            .afterClosed()
-            .subscribe(() => {
-              const svgCont = document.getElementById('officePlan');
-              if (svgCont?.innerHTML) {
-                svgCont.innerHTML = '';
-              }
-              this.onGetUserTemplate();
-            });
-        }
-        if (currentDesk.userId === userId && currentDesk.status === 'booked') {
-          this.dialog
-            .open(UnbookDeskComponent, {
-              autoFocus: false,
-              disableClose: true,
-              data: {
-                currentDesk: currentDesk,
-              },
-            })
-            .afterClosed()
-            .subscribe(() => {
-              const svgCont = document.getElementById('officePlan');
-              if (svgCont?.innerHTML) {
-                svgCont.innerHTML = '';
-              }
-
-              this.onGetUserTemplate();
-            });
-        }
-        desk.removeEventListener('click', this.onMouseEnter());
-      });
-      desk.addEventListener('mouseover', () => {
-        this.officePlanService.mouseEnterTooltip(
-          this.renderer,
-          desk,
-          this.tooltip,
-          deskStatus
-        );
+      this.officePlanService.castMessageTooltip.subscribe((res) => {
+        desk.addEventListener('mouseover', () => {
+          this.officePlanService.mouseEnterTooltip(
+            this.renderer,
+            desk,
+            this.tooltip,
+            res
+          );
+        });
       });
     });
   }
