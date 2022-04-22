@@ -17,4 +17,5 @@ export interface Desk {
   y: string;
   status: string;
   bookedBy?: string;
+  userId?: string;
 }

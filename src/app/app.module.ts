@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
 import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
+import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
     LoginHelpComponent,
     AddEmployeesComponent,
     OfficePlanComponent,
-    BookDeskComponent
+    BookDeskComponent,
+    UnbookDeskComponent
   ],
   imports: [
     BrowserModule,

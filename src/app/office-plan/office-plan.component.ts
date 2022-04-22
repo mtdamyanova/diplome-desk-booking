@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
 import { BookDeskComponent } from './book-desk/book-desk.component';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
+import { UnbookDeskComponent } from './unbook-desk/unbook-desk.component';
 
 @Component({
   selector: 'app-office-plan',
@@ -23,7 +24,7 @@ export class OfficePlanComponent implements OnInit {
     private officePlanService: OfficePlanService,
     private signInService: SignInService,
     private renderer: Renderer2,
-    private dialog : MatDialog
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -56,20 +57,27 @@ export class OfficePlanComponent implements OnInit {
 
   onMouseEnter() {
     const desks = document.getElementsByTagName('rect');
+    const userId = JSON.parse(localStorage.getItem('user')!).id;
     const filtered = Array.prototype.slice
       .call(desks)
       .filter((desk) => desk.getAttribute('fill') !== 'white');
     filtered.forEach((desk) => {
       const currentDesk = this.officeDesks.find((d) => d.id === desk.id);
       const deskStatus = this.officePlanService.showStatusOfTheDesk(
-        currentDesk.status
+        currentDesk
       );
       if (currentDesk.status === 'available') {
         desk.addEventListener('click', () => {
-          this.dialog.open(BookDeskComponent,{
-            data : currentDesk
+          this.dialog.open(BookDeskComponent, {
+            data: currentDesk,
           });
-
+        });
+      }
+      if (currentDesk.userId === userId && currentDesk.status === 'booked') {
+        desk.addEventListener('click', () => {
+          this.dialog.open(UnbookDeskComponent, {
+            data: currentDesk,
+          });
         });
       }
       desk.addEventListener('mouseover', () => {
@@ -86,5 +94,4 @@ export class OfficePlanComponent implements OnInit {
   onMouseLeave() {
     this.officePlanService.mouseLeave(this.renderer, this.tooltip);
   }
-
 }
