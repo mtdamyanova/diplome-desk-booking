@@ -29,6 +29,10 @@ export class OfficePlanComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGetUserTemplate();
+    this.getDesks();
+  }
+
+  getDesks() {
     this.signInService.getUsers().subscribe((res) => {
       const user = JSON.parse(localStorage.getItem('user')!);
       const adminProfile = res.find(
@@ -61,25 +65,53 @@ export class OfficePlanComponent implements OnInit {
     const filtered = Array.prototype.slice
       .call(desks)
       .filter((desk) => desk.getAttribute('fill') !== 'white');
+    this.getDesks();
     filtered.forEach((desk) => {
       const currentDesk = this.officeDesks.find((d) => d.id === desk.id);
-      const deskStatus = this.officePlanService.showStatusOfTheDesk(
-        currentDesk
-      );
-      if (currentDesk.status === 'available') {
-        desk.addEventListener('click', () => {
-          this.dialog.open(BookDeskComponent, {
-            data: currentDesk,
-          });
-        });
-      }
-      if (currentDesk.userId === userId && currentDesk.status === 'booked') {
-        desk.addEventListener('click', () => {
-          this.dialog.open(UnbookDeskComponent, {
-            data: currentDesk,
-          });
-        });
-      }
+      const deskStatus =
+        this.officePlanService.showStatusOfTheDesk(currentDesk);
+      desk.addEventListener('click', () => {
+        if (
+          currentDesk.userId !== userId &&
+          currentDesk.status === 'available'
+        ) {
+          this.dialog
+            .open(BookDeskComponent, {
+              disableClose: true,
+              data: {
+                currentDesk: currentDesk,
+              },
+            })
+            .afterClosed()
+            .subscribe(() => {
+              const svgCont = document.getElementById('officePlan');
+              if (svgCont?.innerHTML) {
+                svgCont.innerHTML = '';
+              }
+              this.onGetUserTemplate();
+            });
+        }
+        if (currentDesk.userId === userId && currentDesk.status === 'booked') {
+          this.dialog
+            .open(UnbookDeskComponent, {
+              autoFocus: false,
+              disableClose: true,
+              data: {
+                currentDesk: currentDesk,
+              },
+            })
+            .afterClosed()
+            .subscribe(() => {
+              const svgCont = document.getElementById('officePlan');
+              if (svgCont?.innerHTML) {
+                svgCont.innerHTML = '';
+              }
+
+              this.onGetUserTemplate();
+            });
+        }
+        desk.removeEventListener('click', this.onMouseEnter());
+      });
       desk.addEventListener('mouseover', () => {
         this.officePlanService.mouseEnterTooltip(
           this.renderer,

@@ -1,14 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
+import { onOpenSnackBar } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OfficePlanService {
-  constructor(private http: HttpClient, private signInService: SignInService) {}
+  constructor(
+    private http: HttpClient,
+    private signInService: SignInService,
+    private snackBar: MatSnackBar
+  ) {}
   getUserTemplate(user: any) {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
@@ -107,25 +113,38 @@ export class OfficePlanService {
           user.role === 'admin' && user.companyName === currentUser.companyName
       );
       if (admin.desks.length > 0) {
-        const desk = admin.desks.find((d: any) => d.id === data.id);
-        let updatedDesk;
-        if (deskStatus === 'available') {
-          updatedDesk = {
-            ...desk,
-            status: deskStatus,
-            bookedBy: '',
-            userId: '',
-          };
-        } else if (deskStatus === 'booked') {
-          updatedDesk = {
-            ...desk,
-            status: deskStatus,
-            bookedBy: currentUser.firstName,
-            userId: currentUser.id,
-          };
+        const desk = admin.desks.find((d: Desk) => d.id === data.id);
+        const alreadyBooked = admin.desks.find(
+          (d: Desk) => d.userId === currentUser.id
+        );
+        if (alreadyBooked && alreadyBooked.id !== desk.id) {
+          onOpenSnackBar(
+            this.snackBar,
+            `You've already booked the desk E${desk.id}`
+          );
+        } else {
+          let updatedDesk;
+          if (deskStatus === 'available') {
+            updatedDesk = {
+              ...desk,
+              status: deskStatus,
+              bookedBy: '',
+              userId: '',
+              fill : 'green'
+            };
+          } else if (deskStatus === 'booked') {
+            updatedDesk = {
+              ...desk,
+              status: deskStatus,
+              bookedBy: currentUser.firstName,
+              userId: currentUser.id,
+              fill : 'orange'
+            };
+          }
+          this.updateDesk(admin, desk, updatedDesk).subscribe();
         }
-        this.updateDesk(admin, desk, updatedDesk).subscribe();
       }
     });
   }
+
 }
