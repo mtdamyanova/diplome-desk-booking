@@ -26,7 +26,6 @@ export class BookDeskComponent implements OnInit {
   onBookDesk() {
     this.officePlanService.changeDeskStatus(this.data.currentDesk, 'booked');
     localStorage.setItem('deskStatus', 'booked');
-    this.router.navigate(['home']);
     this.matDialogRef.close();
   }
 

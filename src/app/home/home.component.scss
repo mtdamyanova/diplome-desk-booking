@@ -10,4 +10,11 @@
     max-width: 1100px;
     margin: 0 auto;
     border: 2px solid black;
+
+    .booked-history {
+        .desk-history {
+            display: flex;
+            align-items: baseline;
+        }
+    }
 }

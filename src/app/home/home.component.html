@@ -1,9 +1,29 @@
 <div class="img-container">
 </div>
 <div class="history-container">
-  <div *ngIf="userRole==='employee'" class="booked-history">
-    <mat-card *ngFor="let desk of userBookedDeskHistory">
-      You booked desk E{{desk.id}} 
+  <div *ngIf="userBookedDeskHistory" class="booked-history">
+    <mat-card *ngFor="let desk of userBookedDeskHistory" class="desk-history">
+      <div>
+        Desk E{{desk.id}} on {{desk.date}}
+      </div>
+      <div>
+        {{ desk.status}}
+      </div>
+      <div>
+        <button *ngIf="desk.status==='booked'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>notifications_off</mat-icon>
+            <span>Checked in</span>
+          </button>
+          <button mat-menu-item (click)="onUnbookDesk(desk.id)">
+            <mat-icon>dialpad</mat-icon>
+            <span>Unbook</span>
+          </button>
+        </mat-menu>
+      </div>
     </mat-card>
   </div>
   <div *ngIf="userRole==='admin'" class="blocked-history">

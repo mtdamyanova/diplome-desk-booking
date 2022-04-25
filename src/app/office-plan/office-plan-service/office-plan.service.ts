@@ -1,9 +1,10 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
@@ -23,7 +24,8 @@ export class OfficePlanService {
     private signInService: SignInService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
 
   getUserTemplate(user: any) {
@@ -114,24 +116,6 @@ export class OfficePlanService {
       if (currentUser.role !== 'admin' && desk.status === 'blocked') {
         onOpenSnackBar(this.snackBar, 'This desk is blocked by your admin.');
       }
-      if (
-        (desk.userId === currentUser.id && desk.status === 'booked') ||
-        (currentUser.role === 'admin' && desk.status === 'blocked')
-      ) {
-        this.dialog
-          .open(UnbookDeskComponent, {
-            autoFocus: false,
-            disableClose: true,
-            data: {
-              currentDesk: desk,
-              user: currentUser,
-            },
-          })
-          .afterClosed()
-          .subscribe(() => {
-            rect.setAttribute('fill', 'green');
-          });
-      }
     });
   }
 
@@ -198,6 +182,18 @@ export class OfficePlanService {
     );
   }
 
+  getUsersDeskHistory(user: any): Observable<any> {
+    return this.http.get(
+      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk.json`
+    );
+  }
+
+  updateUserDeskHistory(user: any, deskId: any, deskHistoryUpdated: any) {
+    return this.http.put(
+      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk/${deskId}.json`,
+      deskHistoryUpdated
+    );
+  }
   changeDeskStatus(data: any, deskStatus: string) {
     this.signInService.getUsers().subscribe((res) => {
       const currentUser = JSON.parse(localStorage.getItem('user')!);
@@ -233,6 +229,7 @@ export class OfficePlanService {
               fill: 'green',
             };
           } else if (deskStatus === 'booked') {
+            const date = new Date();
             updatedDesk = {
               ...desk,
               status: deskStatus,
@@ -241,7 +238,13 @@ export class OfficePlanService {
               fill: 'orange',
             };
             if (currUser.bookedDesk && currUser.bookedDesk.length > 0) {
-              currUser.bookedDesk.unshift({ id: 'id', desk: desk.id });
+              currUser.bookedDesk.unshift({
+                id: currUser.bookedDesk.length,
+                desk: desk.id,
+                date: this.datePipe.transform(date, 'EEEE, MMMM d, y'),
+                currentDesk: updatedDesk,
+                status: 'booked',
+              });
               updatedUser = {
                 ...currUser,
                 bookedDesk: currUser.bookedDesk,
@@ -250,10 +253,14 @@ export class OfficePlanService {
             if (!currUser.bookedDesk) {
               updatedUser = {
                 ...currUser,
-                bookedDesk: [{
-                  id: '0',
-                  desk: desk.id,
-                }],
+                bookedDesk: [
+                  {
+                    id: '0',
+                    date: this.datePipe.transform(date, 'EEEE, MMMM d, y'),
+                    currentDesk: updatedDesk,
+                    status: 'booked',
+                  },
+                ],
               };
             }
           } else if (deskStatus === 'blocked') {
@@ -266,8 +273,10 @@ export class OfficePlanService {
             };
           }
           this.updateDesk(admin, desk, updatedDesk).subscribe();
-          if(updatedUser){
-            this.updateUser(currUser, updatedUser).subscribe();
+          if (updatedUser) {
+            this.updateUser(currUser, updatedUser).subscribe(() => {
+              this.router.navigate(['home']);
+            });
           }
         }
       }

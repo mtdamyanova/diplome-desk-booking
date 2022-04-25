@@ -33,10 +33,12 @@ import { OfficePlanComponent } from './office-plan/office-plan.component';
 import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
 import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.component';
 import { HomeComponent } from './home/home.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     HeaderComponent,
     SignInComponent,
@@ -48,8 +50,8 @@ import {MatCardModule} from '@angular/material/card';
     OfficePlanComponent,
     BookDeskComponent,
     UnbookDeskComponent,
-      HomeComponent
-   ],
+    HomeComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -67,9 +69,10 @@ import {MatCardModule} from '@angular/material/card';
     AngularFireModule.initializeApp(environment),
     MatDialogModule,
     MatTooltipModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

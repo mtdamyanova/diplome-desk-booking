@@ -25,9 +25,16 @@ export class UnbookDeskComponent implements OnInit {
   onUnbookDesk() {
     this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
     localStorage.setItem('deskStatus', 'available');
-    this.router.navigateByUrl('office-plan', { skipLocationChange: false }).then(() => {
-      this.router.navigate(['office-plan']);
-  }); 
+
+    this.officePlanService.updateUserDeskHistory(
+      this.data.user,
+      this.data.deskId.id,
+      {
+        ...this.data.deskId,
+        status: 'unbooked',
+      }
+    ).subscribe(()=>{
+    });
     this.dialogRef.close();
   }
 
