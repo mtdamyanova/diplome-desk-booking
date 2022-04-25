@@ -194,6 +194,7 @@ export class OfficePlanService {
       deskHistoryUpdated
     );
   }
+  
   changeDeskStatus(data: any, deskStatus: string) {
     this.signInService.getUsers().subscribe((res) => {
       const currentUser = JSON.parse(localStorage.getItem('user')!);

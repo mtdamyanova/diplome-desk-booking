@@ -36,7 +36,8 @@ import { HomeComponent } from './home/home.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { DatePipe } from '@angular/common';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTooltipModule,
     MatCardModule,
     MatMenuModule,
-    MatPaginatorModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

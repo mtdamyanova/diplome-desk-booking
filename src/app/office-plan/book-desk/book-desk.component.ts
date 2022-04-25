@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -14,11 +15,14 @@ import { OfficePlanService } from '../office-plan-service/office-plan.service';
 })
 export class BookDeskComponent implements OnInit {
   public desk: string = '';
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private officePlanService: OfficePlanService,
     private matDialogRef: MatDialogRef<BookDeskComponent>,
-    private router : Router
   ) {}
 
   ngOnInit() {}
