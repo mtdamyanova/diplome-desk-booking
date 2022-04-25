@@ -32,10 +32,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
 import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
 import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.component';
-import { BlockDeskComponent } from './office-plan/block-desk/block-desk.component';
+import { HomeComponent } from './home/home.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     HeaderComponent,
     SignInComponent,
@@ -47,8 +48,8 @@ import { BlockDeskComponent } from './office-plan/block-desk/block-desk.componen
     OfficePlanComponent,
     BookDeskComponent,
     UnbookDeskComponent,
-    BlockDeskComponent
-  ],
+      HomeComponent
+   ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -66,6 +67,7 @@ import { BlockDeskComponent } from './office-plan/block-desk/block-desk.componen
     AngularFireModule.initializeApp(environment),
     MatDialogModule,
     MatTooltipModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent],

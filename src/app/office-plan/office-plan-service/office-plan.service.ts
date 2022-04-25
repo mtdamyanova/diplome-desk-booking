@@ -1,19 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  ElementRef,
-  Injectable,
-  Renderer2,
-  RendererFactory2,
-  ViewChild,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
-import { BlockDeskComponent } from '../block-desk/block-desk.component';
 import { BookDeskComponent } from '../book-desk/book-desk.component';
 import { UnbookDeskComponent } from '../unbook-desk/unbook-desk.component';
 
@@ -28,8 +22,10 @@ export class OfficePlanService {
     private http: HttpClient,
     private signInService: SignInService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
+
   getUserTemplate(user: any) {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
@@ -195,9 +191,17 @@ export class OfficePlanService {
     );
   }
 
+  updateUser(user: User, updatedUser: any) {
+    return this.http.put(
+      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`,
+      updatedUser
+    );
+  }
+
   changeDeskStatus(data: any, deskStatus: string) {
     this.signInService.getUsers().subscribe((res) => {
       const currentUser = JSON.parse(localStorage.getItem('user')!);
+      const currUser = res.find((us: User) => us.id === currentUser.id);
       const admin = res.find(
         (user) =>
           user.role === 'admin' && user.companyName === currentUser.companyName
@@ -218,6 +222,7 @@ export class OfficePlanService {
           );
         } else {
           let updatedDesk;
+          let updatedUser;
 
           if (deskStatus === 'available') {
             updatedDesk = {
@@ -235,6 +240,22 @@ export class OfficePlanService {
               userId: currentUser.id,
               fill: 'orange',
             };
+            if (currUser.bookedDesk && currUser.bookedDesk.length > 0) {
+              currUser.bookedDesk.unshift({ id: 'id', desk: desk.id });
+              updatedUser = {
+                ...currUser,
+                bookedDesk: currUser.bookedDesk,
+              };
+            }
+            if (!currUser.bookedDesk) {
+              updatedUser = {
+                ...currUser,
+                bookedDesk: [{
+                  id: '0',
+                  desk: desk.id,
+                }],
+              };
+            }
           } else if (deskStatus === 'blocked') {
             updatedDesk = {
               ...desk,
@@ -245,10 +266,11 @@ export class OfficePlanService {
             };
           }
           this.updateDesk(admin, desk, updatedDesk).subscribe();
+          if(updatedUser){
+            this.updateUser(currUser, updatedUser).subscribe();
+          }
         }
       }
     });
   }
-
-  adminCanBlockDesk(admin: any) {}
 }

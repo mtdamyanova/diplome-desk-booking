@@ -1,0 +1,12 @@
+<div class="img-container">
+</div>
+<div class="history-container">
+  <div *ngIf="userRole==='employee'" class="booked-history">
+    <mat-card *ngFor="let desk of userBookedDeskHistory">
+      You booked desk E{{desk.id}} 
+    </mat-card>
+  </div>
+  <div *ngIf="userRole==='admin'" class="blocked-history">
+    blocked history
+  </div>
+</div>

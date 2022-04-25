@@ -24,8 +24,6 @@ export class OfficePlanComponent implements OnInit {
   @ViewChild('tooltip') tooltip!: ElementRef;
   private admin: any;
   private officeDesks: Desk[] = [];
-  private message = '';
-  private deskStatus = localStorage.getItem('deskStatus');
 
   constructor(
     private officePlanService: OfficePlanService,
@@ -99,8 +97,6 @@ export class OfficePlanComponent implements OnInit {
 
   tooltipFunc(target: any, message: string) {
     target.addEventListener('mouseover', () => {
-      console.log(8);
-      
       this.officePlanService.mouseEnterTooltip(
         this.renderer,
         target,

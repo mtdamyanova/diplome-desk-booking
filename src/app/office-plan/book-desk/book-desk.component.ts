@@ -4,6 +4,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { OfficePlanService } from '../office-plan-service/office-plan.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class BookDeskComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private officePlanService: OfficePlanService,
-    private matDialogRef: MatDialogRef<BookDeskComponent>
+    private matDialogRef: MatDialogRef<BookDeskComponent>,
+    private router : Router
   ) {}
 
   ngOnInit() {}
@@ -24,6 +26,7 @@ export class BookDeskComponent implements OnInit {
   onBookDesk() {
     this.officePlanService.changeDeskStatus(this.data.currentDesk, 'booked');
     localStorage.setItem('deskStatus', 'booked');
+    this.router.navigate(['home']);
     this.matDialogRef.close();
   }
 

@@ -1,0 +1,13 @@
+.img-container {
+    height: 200px;
+    background-image: url("../../assets/office.jpg");
+    background-position: left;
+}
+
+.history-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    border: 2px solid black;
+}

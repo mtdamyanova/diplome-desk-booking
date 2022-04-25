@@ -8,6 +8,7 @@ export interface User {
   role: string;
   email: string;
   firstName: string;
-  lastName ?: string,
-  companyName : string
+  lastName?: string;
+  companyName: string;
+  bookedDesk?: any[];
 }
