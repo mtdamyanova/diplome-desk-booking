@@ -8,13 +8,22 @@
     display: flex;
     justify-content: space-between;
     max-width: 1100px;
+    padding: 20px;
     margin: 0 auto;
     border: 2px solid black;
 
     .booked-history {
+        padding: 30px;
+        background: #cac5c5;
+        max-height: 400px;
+        overflow: auto;
         .desk-history {
             display: flex;
             align-items: baseline;
+            margin-bottom: 10px;
+            .desk-status {
+                margin-left: 10px;
+            }
         }
     }
 }

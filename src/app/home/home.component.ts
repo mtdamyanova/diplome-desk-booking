@@ -30,7 +30,8 @@ export class HomeComponent implements OnInit {
     this.user = user;
     this.userRole = user.role;
     this.officePlanService.getUsersDeskHistory(user).subscribe((res) => {
-      this.userBookedDeskHistory = res;
+      this.userBookedDeskHistory = res.slice().reverse();
+      this.userBookedDeskHistory.slice().reverse();
     });
   }
 
@@ -38,15 +39,23 @@ export class HomeComponent implements OnInit {
     const currentDesk = this.userBookedDeskHistory.find(
       (desk: Desk) => desk.id === deskId
     );
-    this.dialog.open(UnbookDeskComponent, {
-      autoFocus: false,
-      disableClose: true,
-      data: {
-        currentDesk: currentDesk.currentDesk,
-        user: this.user,
-        deskHistory: this.userBookedDeskHistory,
-        deskId : currentDesk
-      },
-    });
+    this.dialog
+      .open(UnbookDeskComponent, {
+        autoFocus: false,
+        disableClose: true,
+        data: {
+          user: this.user,
+          deskHistory: this.userBookedDeskHistory,
+          currentDesk: currentDesk,
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        console.log(res);
+        const deskIndex = this.userBookedDeskHistory.findIndex(
+          (d: any) => d.id === res.id
+        );
+        this.userBookedDeskHistory.splice(deskIndex, 1, res);
+      });
   }
 }

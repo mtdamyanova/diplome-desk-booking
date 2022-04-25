@@ -238,12 +238,12 @@ export class OfficePlanService {
               fill: 'orange',
             };
             if (currUser.bookedDesk && currUser.bookedDesk.length > 0) {
-              currUser.bookedDesk.unshift({
+              currUser.bookedDesk.push({
                 id: currUser.bookedDesk.length,
                 desk: desk.id,
                 date: this.datePipe.transform(date, 'EEEE, MMMM d, y'),
                 currentDesk: updatedDesk,
-                status: 'booked',
+                status: 'upcoming',
               });
               updatedUser = {
                 ...currUser,
@@ -258,7 +258,7 @@ export class OfficePlanService {
                     id: '0',
                     date: this.datePipe.transform(date, 'EEEE, MMMM d, y'),
                     currentDesk: updatedDesk,
-                    status: 'booked',
+                    status: 'upcoming',
                   },
                 ],
               };

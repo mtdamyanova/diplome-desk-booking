@@ -4,13 +4,14 @@
   <div *ngIf="userBookedDeskHistory" class="booked-history">
     <mat-card *ngFor="let desk of userBookedDeskHistory" class="desk-history">
       <div>
-        Desk E{{desk.id}} on {{desk.date}}
+        Desk E{{desk.currentDesk.id}} on {{desk.date}}
+      </div>
+      <div class="desk-status">
+        {{ desk.status | titlecase}}
       </div>
       <div>
-        {{ desk.status}}
-      </div>
-      <div>
-        <button *ngIf="desk.status==='booked'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <button *ngIf="desk.status==='upcoming'" mat-icon-button [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

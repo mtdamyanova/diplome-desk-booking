@@ -20,22 +20,25 @@ export class UnbookDeskComponent implements OnInit {
     private router : Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.data);
+    
+  }
 
   onUnbookDesk() {
-    this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
+    this.officePlanService.changeDeskStatus(this.data.currentDesk.currentDesk, 'available');
     localStorage.setItem('deskStatus', 'available');
 
     this.officePlanService.updateUserDeskHistory(
       this.data.user,
-      this.data.deskId.id,
+      this.data.currentDesk.id,
       {
-        ...this.data.deskId,
+        ...this.data.currentDesk,
         status: 'unbooked',
       }
-    ).subscribe(()=>{
+    ).subscribe((res)=>{
+      this.dialogRef.close(res);
     });
-    this.dialogRef.close();
   }
 
   onUnblockDesk() {
