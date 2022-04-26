@@ -1,9 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { OfficePlanService } from '../office-plan-service/office-plan.service';
 
 @Component({
@@ -16,29 +14,43 @@ export class UnbookDeskComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private officePlanService: OfficePlanService,
     private dialogRef: MatDialogRef<UnbookDeskComponent>,
-    private router: Router
+    private signInService: SignInService
   ) {}
 
-  ngOnInit() {
-    console.log(this.data);
-  }
+  ngOnInit() {}
 
   onUnbookDesk() {
-    localStorage.setItem('deskStatus', 'available');
-    
-    this.officePlanService
-      .updateUserDeskHistory(this.data.user, this.data.currentDesk.id, {
-        ...this.data.currentDesk,
-        status: 'unbooked',
-      })
-      .subscribe((res) => {
-        this.dialogRef.close(res);
-      });
+    this.signInService.getUsers().subscribe((res) => {
+      const admin = res.find(
+        (us) =>
+          us.role === 'admin' && us.companyName === this.data.user.companyName
+      );
+      if (admin.desks && this.data.user.id) {
+        const desk = admin.desks.find(
+          (d: any) => d.id == this.data.currentDesk.currentDesk.id
+        );
+        const index = desk.bookedHistory.findIndex(
+          (d: any) =>
+            d.userId === this.data.user.id &&
+            d.date === this.data.currentDesk.date
+        );
+        this.officePlanService
+          .deleteDeskBooked(admin, desk.id, index)
+          .subscribe();
+      }
+
+      this.officePlanService
+        .updateUserDeskHistory(this.data.user, this.data.currentDesk.id, {
+          ...this.data.currentDesk,
+          status: 'unbooked',
+        })
+        .subscribe((res) => {
+          this.dialogRef.close(res);
+        });
+    });
   }
 
   onUnblockDesk() {
-    // this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
-    localStorage.setItem('deskStatus', 'available');
     this.dialogRef.close();
   }
 }

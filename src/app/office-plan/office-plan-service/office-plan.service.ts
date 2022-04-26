@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
+import { url } from 'src/environments/environment';
 import { BookDeskComponent } from '../book-desk/book-desk.component';
 
 @Injectable({
@@ -22,15 +23,11 @@ export class OfficePlanService {
   ) {}
 
   getUserTemplate(user: any) {
-    return this.http.get(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
-    );
+    return this.http.get(`${url}/users/${user.id}.json`);
   }
 
   getCurrentDesk(deskId: any, adminId: User) {
-    return this.http.get(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${adminId}/desks/${deskId}.json`
-    );
+    return this.http.get(`${url}/users/${adminId}/desks/${deskId}.json`);
   }
 
   onDrawDesks(svgCont: any, desk: Desk, fillColor: any) {
@@ -87,15 +84,7 @@ export class OfficePlanService {
             },
           })
           .afterClosed()
-          .subscribe(() => {
-            const deskStatus = localStorage.getItem('deskStatus');
-            if (deskStatus === 'booked') {
-              rect.setAttribute('fill', 'orange');
-            }
-            if (deskStatus === 'blocked') {
-              rect.setAttribute('fill', 'gray');
-            }
-          });
+          .subscribe(() => {});
       }
       if (desk.userId !== currentUser.id && desk.status === 'booked') {
         onOpenSnackBar(
@@ -171,27 +160,25 @@ export class OfficePlanService {
 
   updateDesk(admin: User, desk: Desk, updatedDesk: Desk) {
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${admin.id}/desks/${desk.id}.json`,
+      `${url}/users/${admin.id}/desks/${desk.id}.json`,
       updatedDesk
     );
   }
 
   getUsersDeskHistory(user: any): Observable<any> {
-    return this.http.get(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk.json`
-    );
+    return this.http.get(`${url}/users/${user.id}/bookedDesk.json`);
   }
 
   updateUserDeskHistory(user: any, deskId: any, deskHistoryUpdated: any) {
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk/${deskId}.json`,
+      `${url}/users/${user.id}/bookedDesk/${deskId}.json`,
       deskHistoryUpdated
     );
   }
 
-  deleteDeskBooked(user: any, deskId: any) {
+  deleteDeskBooked(admin: any, deskId: any, index: any) {
     return this.http.delete(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk/${deskId}.json`
+      `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
     );
   }
 }

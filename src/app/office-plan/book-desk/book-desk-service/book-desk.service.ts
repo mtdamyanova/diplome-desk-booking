@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -93,14 +94,14 @@ export class BookDeskService {
 
   updateDesk(admin: User, desk: Desk, updatedDesk: Desk) {
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${admin.id}/desks/${desk.id}.json`,
+      `${url}/users/${admin.id}/desks/${desk.id}.json`,
       updatedDesk
     );
   }
 
   updateUser(user: User, updatedUser: any) {
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`,
+      `${url}/users/${user.id}.json`,
       updatedUser
     );
   }

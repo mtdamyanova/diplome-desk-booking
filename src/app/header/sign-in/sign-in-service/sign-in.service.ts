@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { BehaviorSubject, map } from 'rxjs';
 import { onOpenSnackBar } from 'src/app/utils';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class SignInService {
   getUsers() {
     return this.http
       .get<{ [key: string]: any }>(
-        'https://diplome-7189f-default-rtdb.firebaseio.com/users.json'
+        `${url}/users.json`
       )
       .pipe(
         map((res) => {

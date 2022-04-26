@@ -24,7 +24,6 @@ export class BookDeskComponent implements OnInit {
   }
 
   onBlockDesk() {
-    localStorage.setItem('deskStatus', 'blocked');
     this.matDialogRef.close();
   }
 }

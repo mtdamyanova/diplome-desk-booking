@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,7 @@ export class AddEmployeesService {
 
   setUser(user: any) {
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`,
+      `${url}/users/${user.id}.json`,
       user
     );
   }

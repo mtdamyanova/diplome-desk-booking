@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, Renderer2 } from '@angular/core';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +23,14 @@ export class MapService {
   setUserTemplate(user: any, template: any) {
     const userUpdated = { ...user, template: template };
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`,
+      `${url}/users/${user.id}.json`,
       { ...userUpdated }
     );
   }
 
   getUserTemplate(user: any) {
     return this.http.get(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`
+      `${url}/users/${user.id}.json`
     );
   }
 
@@ -85,7 +86,7 @@ export class MapService {
 
   updateAdmin(admin: any, adminUpdated: any) {
     return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${admin.id}.json`,
+      `${url}/users/${admin.id}.json`,
       adminUpdated
     );
   }

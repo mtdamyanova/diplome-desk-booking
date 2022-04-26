@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { onOpenSnackBar } from 'src/app/utils';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -53,10 +54,7 @@ export class SignUpService {
   }
 
   setUser(user: any) {
-    return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`,
-      user
-    );
+    return this.http.put(`${url}/users/${user.id}.json`, user);
   }
 
   sendVerificationMail() {
