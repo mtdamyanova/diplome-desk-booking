@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
@@ -40,7 +41,7 @@ export class OfficePlanService {
     );
   }
 
-  onDrawDesks(resAdmin: any, svgCont: any, desk: Desk) {
+  onDrawDesks(resAdmin: any, svgCont: any, desk: Desk, fillColor: any) {
     const svgns = 'http://www.w3.org/2000/svg';
     const rect = document.createElementNS(svgns, 'rect');
     if (desk.x && desk.y) {
@@ -52,7 +53,7 @@ export class OfficePlanService {
     }
     rect.setAttribute('width', desk.width);
     rect.setAttribute('height', desk.height);
-    rect.setAttribute('fill', desk.fill);
+    rect.setAttribute('fill', fillColor);
     rect.setAttribute('id', desk.id);
     rect.setAttribute('cursor', 'pointer');
     if (svgCont && rect) {
@@ -119,7 +120,7 @@ export class OfficePlanService {
     });
   }
 
-  onDrawOfficePlan(admin: any, svgCont: any) {
+  onLoadMapForPeriod(admin: any, svgCont: any, startDate: any, endDate: any) {
     this.getUserTemplate(admin).subscribe((res: any) => {
       if (res.areas) {
         res.areas.forEach((area: any) => {
@@ -128,7 +129,44 @@ export class OfficePlanService {
       }
       if (res.desks) {
         res.desks.forEach((desk: any) => {
-          this.onDrawDesks(res, svgCont, desk);
+          let fillColor;
+          if (desk.status === 'blocked') {
+            fillColor = 'gray';
+          } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
+            desk.bookedHistory.forEach((hist: any) => {
+              const a = moment(hist.startDate).isBetween(
+                moment(startDate),
+                moment(endDate)
+              );
+              const b = moment(hist.startDate).isSame(moment(startDate));
+              const c = moment(hist.startDate).isSame(moment(endDate));
+              console.log(a, b, c);
+
+              if (a || b || (b && c)) {
+                fillColor = 'orange';
+              } else {
+                fillColor = 'green';
+              }
+            });
+          } else {
+            fillColor = 'green';
+          }
+          this.onDrawDesks(res, svgCont, desk, fillColor);
+        });
+      }
+    });
+  }
+
+  firsMapLoad(admin: any, svgCont: any) {
+    this.getUserTemplate(admin).subscribe((res: any) => {
+      if (res.areas) {
+        res.areas.forEach((area: any) => {
+          this.onDrawAreas(svgCont, area);
+        });
+      }
+      if (res.desks) {
+        res.desks.forEach((desk: any) => {
+          this.onDrawDesks(res, svgCont, desk, 'gray');
         });
       }
     });
@@ -147,25 +185,6 @@ export class OfficePlanService {
   mouseLeave(renderer: any, tooltip: any) {
     renderer.setProperty(tooltip.nativeElement, 'innerHTML', '');
     renderer.setStyle(tooltip.nativeElement, 'display', 'none');
-  }
-
-  showStatusOfTheDesk(desk: any) {
-    let message = '';
-    switch (desk.status) {
-      case 'available':
-        message = 'The desk is available. You can book it by clicking on it.';
-        break;
-      case 'booked':
-        message = `The desk is booked by ${desk.bookedBy}.`;
-        break;
-      case 'blocked':
-        message = `The desk is blocked by your admin.`;
-        break;
-
-      default:
-        message = 'Test message.';
-    }
-    return message;
   }
 
   updateDesk(admin: User, desk: Desk, updatedDesk: Desk) {
@@ -194,93 +213,91 @@ export class OfficePlanService {
       deskHistoryUpdated
     );
   }
-  
-  changeDeskStatus(data: any, deskStatus: string) {
+
+  updateDeskDates(desk: any, updatedDesk: any) {
     this.signInService.getUsers().subscribe((res) => {
       const currentUser = JSON.parse(localStorage.getItem('user')!);
-      const currUser = res.find((us: User) => us.id === currentUser.id);
       const admin = res.find(
         (user) =>
           user.role === 'admin' && user.companyName === currentUser.companyName
       );
-      if (admin.desks.length > 0) {
-        const desk = admin.desks.find((d: Desk) => d.id === data.id);
-        const alreadyBooked = admin.desks.find(
-          (d: Desk) => d.userId === currentUser.id
-        );
-        if (
-          currentUser.role !== 'admin' &&
-          alreadyBooked &&
-          alreadyBooked.id !== desk.id
-        ) {
-          onOpenSnackBar(
-            this.snackBar,
-            `You've already booked the desk E${desk.id}`
-          );
-        } else {
-          let updatedDesk;
-          let updatedUser;
+      this.updateDesk(admin, desk, updatedDesk).subscribe();
+    });
+  }
 
-          if (deskStatus === 'available') {
-            updatedDesk = {
-              ...desk,
-              status: deskStatus,
-              bookedBy: '',
-              userId: '',
-              fill: 'green',
-            };
-          } else if (deskStatus === 'booked') {
-            const date = new Date();
-            updatedDesk = {
-              ...desk,
-              status: deskStatus,
-              bookedBy: currentUser.firstName,
-              userId: currentUser.id,
-              fill: 'orange',
-            };
-            if (currUser.bookedDesk && currUser.bookedDesk.length > 0) {
-              currUser.bookedDesk.push({
-                id: currUser.bookedDesk.length,
-                desk: desk.id,
-                date: this.datePipe.transform(date, 'EEEE, MMMM d, y'),
-                currentDesk: updatedDesk,
-                status: 'upcoming',
-              });
-              updatedUser = {
-                ...currUser,
-                bookedDesk: currUser.bookedDesk,
-              };
-            }
-            if (!currUser.bookedDesk) {
-              updatedUser = {
-                ...currUser,
-                bookedDesk: [
-                  {
-                    id: '0',
-                    date: this.datePipe.transform(date, 'EEEE, MMMM d, y'),
-                    currentDesk: updatedDesk,
-                    status: 'upcoming',
-                  },
-                ],
-              };
-            }
-          } else if (deskStatus === 'blocked') {
-            updatedDesk = {
-              ...desk,
-              status: deskStatus,
-              bookedBy: '',
-              userId: '',
-              fill: 'gray',
-            };
-          }
-          this.updateDesk(admin, desk, updatedDesk).subscribe();
-          if (updatedUser) {
-            this.updateUser(currUser, updatedUser).subscribe(() => {
-              this.router.navigate(['home']);
-            });
-          }
-        }
+  bookDesk(currentDesk: any, user: any) {
+    const period = JSON.parse(localStorage.getItem('period')!);
+    const startDate = period.startDate;
+    const endDate = period.endDate;
+    let updatedDesk;
+    if (!currentDesk.bookedHistory) {
+      updatedDesk = {
+        ...currentDesk,
+        bookedHistory: [
+          {
+            userId: user.id,
+            startDate: startDate,
+            endDate: endDate,
+          },
+        ],
+      };
+    }
+    if (currentDesk.bookedHistory && currentDesk.bookedHistory.length > 0) {
+      currentDesk.bookedHistory.push({
+        userId: user.id,
+        startDate: startDate,
+        endDate: endDate,
+      });
+      updatedDesk = {
+        ...currentDesk,
+        bookedHistory: currentDesk.bookedHistory,
+      };
+    }
+    this.updateDeskDates(currentDesk, updatedDesk);
+    this.updateUserHistory(currentDesk, startDate, endDate, updatedDesk);
+  }
+
+  updateUserHistory(
+    currentDesk: any,
+    startDate: any,
+    endDate: any,
+    updatedDesk: any
+  ) {
+    const us = JSON.parse(localStorage.getItem('user')!);
+    let updatedUser: any;
+    this.signInService.getUsers().subscribe((res) => {
+      const user = res.find((user) => (user.id = us.id));
+      if (user.bookedDesk && user.bookedDesk.length > 0) {
+        user.bookedDesk.push({
+          id: user.bookedDesk.length,
+          desk: currentDesk.id,
+          startDate: startDate,
+          endDate: endDate,
+          currentDesk: updatedDesk,
+          status: 'upcoming',
+        });
+        updatedUser = {
+          ...user,
+          bookedDesk: user.bookedDesk,
+        };
       }
+      if (!user.bookedDesk) {
+        updatedUser = {
+          ...user,
+          bookedDesk: [
+            {
+              id: '0',
+              startDate: startDate,
+              endDate: endDate,
+              currentDesk: updatedDesk,
+              status: 'upcoming',
+            },
+          ],
+        };
+      }
+      this.updateUser(user, updatedUser).subscribe(() => {
+        this.router.navigate(['home']);
+      });
     });
   }
 }

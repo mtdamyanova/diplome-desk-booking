@@ -1,19 +1,14 @@
 import {
   Component,
-  DoCheck,
   ElementRef,
-  OnChanges,
   OnInit,
   Renderer2,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from '../interfaces/map';
-import { BookDeskComponent } from './book-desk/book-desk.component';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
-import { UnbookDeskComponent } from './unbook-desk/unbook-desk.component';
 
 @Component({
   selector: 'app-office-plan',
@@ -21,6 +16,10 @@ import { UnbookDeskComponent } from './unbook-desk/unbook-desk.component';
   styleUrls: ['./office-plan.component.scss'],
 })
 export class OfficePlanComponent implements OnInit {
+  range = new FormGroup({
+    start: new FormControl('', Validators.required),
+    end: new FormControl('', Validators.required),
+  });
   @ViewChild('tooltip') tooltip!: ElementRef;
   private admin: any;
   private officeDesks: Desk[] = [];
@@ -49,7 +48,7 @@ export class OfficePlanComponent implements OnInit {
     });
   }
 
-  onGetUserTemplate() {
+  onGetUserTemplate(startDate?: any, endDate?: any) {
     const svgCont = document.getElementById('officePlan');
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     this.signInService.getUsers().subscribe((res) => {
@@ -59,9 +58,38 @@ export class OfficePlanComponent implements OnInit {
       );
       if (admin) {
         this.admin = admin;
-        this.officePlanService.onDrawOfficePlan(admin, svgCont);
+        this.officePlanService.firsMapLoad(admin, svgCont);
       }
     });
+  }
+
+  onShowMap() {
+    const startDate = this.range.get('start')?.value;
+    const endDate = this.range.get('end')?.value;
+    localStorage.setItem(
+      'period',
+      JSON.stringify({ startDate: startDate, endDate: endDate })
+    );
+    if (startDate && endDate) {
+      const svgCont = document.getElementById('officePlan');
+      const currentUser = JSON.parse(localStorage.getItem('user')!);
+      this.signInService.getUsers().subscribe((res) => {
+        const admin = res.find(
+          (user) =>
+            user.role === 'admin' &&
+            user.companyName === currentUser.companyName
+        );
+        if (admin) {
+          this.admin = admin;
+          this.officePlanService.onLoadMapForPeriod(
+            admin,
+            svgCont,
+            startDate,
+            endDate
+          );
+        }
+      });
+    }
   }
 
   onMouseEnter(event: any) {
@@ -86,8 +114,7 @@ export class OfficePlanComponent implements OnInit {
               default:
                 message = 'Test message.';
             }
-            if(message){
-
+            if (message) {
               this.tooltipFunc(event.target, message);
             }
           }

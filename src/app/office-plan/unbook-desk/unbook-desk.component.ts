@@ -26,7 +26,7 @@ export class UnbookDeskComponent implements OnInit {
   }
 
   onUnbookDesk() {
-    this.officePlanService.changeDeskStatus(this.data.currentDesk.currentDesk, 'available');
+    // this.officePlanService.changeDeskStatus(this.data.currentDesk.currentDesk, 'available');
     localStorage.setItem('deskStatus', 'available');
 
     this.officePlanService.updateUserDeskHistory(
@@ -42,7 +42,7 @@ export class UnbookDeskComponent implements OnInit {
   }
 
   onUnblockDesk() {
-    this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
+    // this.officePlanService.changeDeskStatus(this.data.currentDesk, 'available');
     localStorage.setItem('deskStatus', 'available');
     this.dialogRef.close();
   }

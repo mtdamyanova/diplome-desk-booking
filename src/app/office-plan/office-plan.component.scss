@@ -33,3 +33,13 @@ circle {
     border-radius: 2px;
   }
   
+.container{
+    background-color: rgb(177, 168, 168);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    align-items: baseline;
+    h3{
+        margin-right: 20px;
+    }
+}

@@ -25,6 +25,7 @@
     "@firebase/auth": "^0.19.11",
     "email-templates": "^9.0.0",
     "firebase": "^9.6.10",
+    "moment": "^2.29.3",
     "pug": "^3.0.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
