@@ -5,7 +5,6 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from '../interfaces/map';
 import { OfficePlanService } from './office-plan-service/office-plan.service';
@@ -16,11 +15,9 @@ import { OfficePlanService } from './office-plan-service/office-plan.service';
   styleUrls: ['./office-plan.component.scss'],
 })
 export class OfficePlanComponent implements OnInit {
-  range = new FormGroup({
-    start: new FormControl('', Validators.required),
-    end: new FormControl('', Validators.required),
-  });
+   
   @ViewChild('tooltip') tooltip!: ElementRef;
+  @ViewChild('date') date!: ElementRef;
   private admin: any;
   private officeDesks: Desk[] = [];
 
@@ -48,7 +45,7 @@ export class OfficePlanComponent implements OnInit {
     });
   }
 
-  onGetUserTemplate(startDate?: any, endDate?: any) {
+  onGetUserTemplate(date?: any) {
     const svgCont = document.getElementById('officePlan');
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     this.signInService.getUsers().subscribe((res) => {
@@ -64,13 +61,11 @@ export class OfficePlanComponent implements OnInit {
   }
 
   onShowMap() {
-    const startDate = this.range.get('start')?.value;
-    const endDate = this.range.get('end')?.value;
-    localStorage.setItem(
-      'period',
-      JSON.stringify({ startDate: startDate, endDate: endDate })
-    );
-    if (startDate && endDate) {
+    const date = this.date.nativeElement.value;
+    console.log(date);
+    
+    localStorage.setItem('period', JSON.stringify(date));
+    if (date) {
       const svgCont = document.getElementById('officePlan');
       const currentUser = JSON.parse(localStorage.getItem('user')!);
       this.signInService.getUsers().subscribe((res) => {
@@ -81,12 +76,7 @@ export class OfficePlanComponent implements OnInit {
         );
         if (admin) {
           this.admin = admin;
-          this.officePlanService.onLoadMapForPeriod(
-            admin,
-            svgCont,
-            startDate,
-            endDate
-          );
+          this.officePlanService.onLoadMapForPeriod(admin, svgCont, date);
         }
       });
     }

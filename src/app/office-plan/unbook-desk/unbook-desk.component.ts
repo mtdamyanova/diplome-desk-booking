@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
@@ -17,28 +16,24 @@ export class UnbookDeskComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private officePlanService: OfficePlanService,
     private dialogRef: MatDialogRef<UnbookDeskComponent>,
-    private router : Router
+    private router: Router
   ) {}
 
   ngOnInit() {
     console.log(this.data);
-    
   }
 
   onUnbookDesk() {
-    // this.officePlanService.changeDeskStatus(this.data.currentDesk.currentDesk, 'available');
     localStorage.setItem('deskStatus', 'available');
-
-    this.officePlanService.updateUserDeskHistory(
-      this.data.user,
-      this.data.currentDesk.id,
-      {
+    
+    this.officePlanService
+      .updateUserDeskHistory(this.data.user, this.data.currentDesk.id, {
         ...this.data.currentDesk,
         status: 'unbooked',
-      }
-    ).subscribe((res)=>{
-      this.dialogRef.close(res);
-    });
+      })
+      .subscribe((res) => {
+        this.dialogRef.close(res);
+      });
   }
 
   onUnblockDesk() {

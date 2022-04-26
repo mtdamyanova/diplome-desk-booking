@@ -1,17 +1,12 @@
-import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 import { BookDeskComponent } from '../book-desk/book-desk.component';
-import { UnbookDeskComponent } from '../unbook-desk/unbook-desk.component';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +17,8 @@ export class OfficePlanService {
 
   constructor(
     private http: HttpClient,
-    private signInService: SignInService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private router: Router,
-    private datePipe: DatePipe
+    private dialog: MatDialog
   ) {}
 
   getUserTemplate(user: any) {
@@ -41,7 +33,7 @@ export class OfficePlanService {
     );
   }
 
-  onDrawDesks(resAdmin: any, svgCont: any, desk: Desk, fillColor: any) {
+  onDrawDesks(svgCont: any, desk: Desk, fillColor: any) {
     const svgns = 'http://www.w3.org/2000/svg';
     const rect = document.createElementNS(svgns, 'rect');
     if (desk.x && desk.y) {
@@ -59,7 +51,7 @@ export class OfficePlanService {
     if (svgCont && rect) {
       svgCont.append(rect);
     }
-    this.addEvenetsOnDesks(resAdmin, rect, desk);
+    this.addEvenetsOnDesks(rect, desk);
   }
 
   onDrawAreas(svgCont: any, area: any) {
@@ -82,13 +74,10 @@ export class OfficePlanService {
     }
   }
 
-  addEvenetsOnDesks(resAdmin: any, rect: any, desk: Desk) {
+  addEvenetsOnDesks(rect: any, desk: any) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
-    const alreadyBooked = resAdmin.desks.find(
-      (desk: Desk) => desk.userId === currentUser.id
-    );
     rect.addEventListener('click', () => {
-      if (!alreadyBooked && desk.status === 'available') {
+      if (desk.fill === 'green') {
         this.dialog
           .open(BookDeskComponent, {
             disableClose: true,
@@ -120,7 +109,7 @@ export class OfficePlanService {
     });
   }
 
-  onLoadMapForPeriod(admin: any, svgCont: any, startDate: any, endDate: any) {
+  onLoadMapForPeriod(admin: any, svgCont: any, date: any) {
     this.getUserTemplate(admin).subscribe((res: any) => {
       if (res.areas) {
         res.areas.forEach((area: any) => {
@@ -134,15 +123,8 @@ export class OfficePlanService {
             fillColor = 'gray';
           } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
             desk.bookedHistory.forEach((hist: any) => {
-              const a = moment(hist.startDate).isBetween(
-                moment(startDate),
-                moment(endDate)
-              );
-              const b = moment(hist.startDate).isSame(moment(startDate));
-              const c = moment(hist.startDate).isSame(moment(endDate));
-              console.log(a, b, c);
-
-              if (a || b || (b && c)) {
+              const b = hist.date === date;
+              if (b) {
                 fillColor = 'orange';
               } else {
                 fillColor = 'green';
@@ -151,7 +133,7 @@ export class OfficePlanService {
           } else {
             fillColor = 'green';
           }
-          this.onDrawDesks(res, svgCont, desk, fillColor);
+          this.onDrawDesks(svgCont, desk, fillColor);
         });
       }
     });
@@ -166,7 +148,7 @@ export class OfficePlanService {
       }
       if (res.desks) {
         res.desks.forEach((desk: any) => {
-          this.onDrawDesks(res, svgCont, desk, 'gray');
+          this.onDrawDesks(svgCont, desk, 'gray');
         });
       }
     });
@@ -194,13 +176,6 @@ export class OfficePlanService {
     );
   }
 
-  updateUser(user: User, updatedUser: any) {
-    return this.http.put(
-      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}.json`,
-      updatedUser
-    );
-  }
-
   getUsersDeskHistory(user: any): Observable<any> {
     return this.http.get(
       `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk.json`
@@ -214,90 +189,9 @@ export class OfficePlanService {
     );
   }
 
-  updateDeskDates(desk: any, updatedDesk: any) {
-    this.signInService.getUsers().subscribe((res) => {
-      const currentUser = JSON.parse(localStorage.getItem('user')!);
-      const admin = res.find(
-        (user) =>
-          user.role === 'admin' && user.companyName === currentUser.companyName
-      );
-      this.updateDesk(admin, desk, updatedDesk).subscribe();
-    });
-  }
-
-  bookDesk(currentDesk: any, user: any) {
-    const period = JSON.parse(localStorage.getItem('period')!);
-    const startDate = period.startDate;
-    const endDate = period.endDate;
-    let updatedDesk;
-    if (!currentDesk.bookedHistory) {
-      updatedDesk = {
-        ...currentDesk,
-        bookedHistory: [
-          {
-            userId: user.id,
-            startDate: startDate,
-            endDate: endDate,
-          },
-        ],
-      };
-    }
-    if (currentDesk.bookedHistory && currentDesk.bookedHistory.length > 0) {
-      currentDesk.bookedHistory.push({
-        userId: user.id,
-        startDate: startDate,
-        endDate: endDate,
-      });
-      updatedDesk = {
-        ...currentDesk,
-        bookedHistory: currentDesk.bookedHistory,
-      };
-    }
-    this.updateDeskDates(currentDesk, updatedDesk);
-    this.updateUserHistory(currentDesk, startDate, endDate, updatedDesk);
-  }
-
-  updateUserHistory(
-    currentDesk: any,
-    startDate: any,
-    endDate: any,
-    updatedDesk: any
-  ) {
-    const us = JSON.parse(localStorage.getItem('user')!);
-    let updatedUser: any;
-    this.signInService.getUsers().subscribe((res) => {
-      const user = res.find((user) => (user.id = us.id));
-      if (user.bookedDesk && user.bookedDesk.length > 0) {
-        user.bookedDesk.push({
-          id: user.bookedDesk.length,
-          desk: currentDesk.id,
-          startDate: startDate,
-          endDate: endDate,
-          currentDesk: updatedDesk,
-          status: 'upcoming',
-        });
-        updatedUser = {
-          ...user,
-          bookedDesk: user.bookedDesk,
-        };
-      }
-      if (!user.bookedDesk) {
-        updatedUser = {
-          ...user,
-          bookedDesk: [
-            {
-              id: '0',
-              startDate: startDate,
-              endDate: endDate,
-              currentDesk: updatedDesk,
-              status: 'upcoming',
-            },
-          ],
-        };
-      }
-      this.updateUser(user, updatedUser).subscribe(() => {
-        this.router.navigate(['home']);
-      });
-    });
+  deleteDeskBooked(user: any, deskId: any) {
+    return this.http.delete(
+      `https://diplome-7189f-default-rtdb.firebaseio.com/users/${user.id}/bookedDesk/${deskId}.json`
+    );
   }
 }

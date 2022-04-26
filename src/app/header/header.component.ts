@@ -1,10 +1,6 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  OnChanges,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { SignInService } from './sign-in/sign-in-service/sign-in.service';
 

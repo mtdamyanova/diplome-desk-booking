@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { BehaviorSubject, map, switchMap } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { onOpenSnackBar } from 'src/app/utils';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root',

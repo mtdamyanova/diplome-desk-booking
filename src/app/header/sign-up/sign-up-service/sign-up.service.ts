@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { onOpenSnackBar } from 'src/app/utils';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { User } from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root',

@@ -1,11 +1,7 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { SignInService } from '../header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from '../interfaces/map';
 import { OfficePlanService } from '../office-plan/office-plan-service/office-plan.service';
 import { UnbookDeskComponent } from '../office-plan/unbook-desk/unbook-desk.component';
@@ -51,7 +47,6 @@ export class HomeComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((res) => {
-        console.log(res);
         const deskIndex = this.userBookedDeskHistory.findIndex(
           (d: any) => d.id === res.id
         );
