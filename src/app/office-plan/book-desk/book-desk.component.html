@@ -1,5 +1,8 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
-<div mat-dialog-content>
-  <button *ngIf="data.user.role==='employee'" (click)="onBookDesk()">book</button>
-  <button *ngIf="data.user.role==='admin'" (click)="onBlockDesk()">block</button>
+<h1 mat-dialog-title>Book desk</h1>
+<div class="content-container">
+  <h4>Do you want to book desk E{{this.data.currentDesk.id}}?</h4>
+</div>
+<div class="button-container">
+  <button mat-raised-button color="primary" *ngIf="data.user.role==='employee'" (click)="onBookDesk()">BOOK</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">CANCEL</button>
 </div>

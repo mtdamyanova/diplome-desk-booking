@@ -1,4 +1,8 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
-<div *ngIf="data.currentDesk.id" mat-dialog-content>
-  <button (click)="onUnbookDesk()">Unbook desk</button>
+<h1 mat-dialog-title>Unbook desk</h1>
+<div class="content-container">
+  <h4>Do you want to unbook desk E{{this.data.currentDesk.id}}?</h4>
+</div>
+<div class="button-container">
+  <button mat-raised-button color="primary" *ngIf="data.user.role==='employee'" (click)="onUnbookDesk()">UNBOOK</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">CANCEL</button>
 </div>

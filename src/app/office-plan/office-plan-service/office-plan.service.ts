@@ -77,14 +77,12 @@ export class OfficePlanService {
       if (desk.fill === 'green') {
         this.dialog
           .open(BookDeskComponent, {
-            disableClose: true,
+            autoFocus: false,
             data: {
               currentDesk: desk,
               user: currentUser,
             },
           })
-          .afterClosed()
-          .subscribe(() => {});
       }
       if (desk.userId !== currentUser.id && desk.status === 'booked') {
         onOpenSnackBar(
