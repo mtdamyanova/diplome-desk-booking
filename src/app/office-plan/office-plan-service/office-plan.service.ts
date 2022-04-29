@@ -106,27 +106,22 @@ export class OfficePlanService {
       if (res.desks) {
         res.desks.forEach((desk: any) => {
           let fillColor;
-          if (desk.status === 'available') {
-            fillColor = 'green';
-          } else if (desk.status === 'booked') {
-            fillColor = 'orange';
-          } else {
+          if (desk.status === 'blocked') {
             fillColor = 'gray';
+          } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
+            desk.bookedHistory.forEach((hist: any) => {
+              const b = hist.date === date;
+              if (b && desk.status === 'booked') {
+                fillColor = 'orange';
+              } else if (b && desk.status === 'checked') {
+                fillColor = 'red';
+              } else {
+                fillColor = 'green';
+              }
+            });
+          } else {
+            fillColor = 'green';
           }
-          // if (desk.status === 'blocked') {
-          //   fillColor = 'gray';
-          // } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
-          //   desk.bookedHistory.forEach((hist: any) => {
-          //     const b = hist.date === date;
-          //     if (b) {
-          //       fillColor = 'orange';
-          //     } else {
-          //       fillColor = 'green';
-          //     }
-          //   });
-          // } else {
-          //   fillColor = 'green';
-          // }
           this.onDrawDesks(svgCont, desk, fillColor);
         });
       }

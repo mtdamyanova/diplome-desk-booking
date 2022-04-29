@@ -38,6 +38,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DatePipe } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CheckInComponent } from './office-plan/check-in/check-in.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     BookDeskComponent,
     UnbookDeskComponent,
     HomeComponent,
+    CheckInComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +77,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatMenuModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

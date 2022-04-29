@@ -22,16 +22,11 @@ export class MapService {
 
   setUserTemplate(user: any, template: any) {
     const userUpdated = { ...user, template: template };
-    return this.http.put(
-      `${url}/users/${user.id}.json`,
-      { ...userUpdated }
-    );
+    return this.http.put(`${url}/users/${user.id}.json`, { ...userUpdated });
   }
 
   getUserTemplate(user: any) {
-    return this.http.get(
-      `${url}/users/${user.id}.json`
-    );
+    return this.http.get(`${url}/users/${user.id}.json`);
   }
 
   addDesk() {
@@ -83,10 +78,7 @@ export class MapService {
   }
 
   updateAdmin(admin: any, adminUpdated: any) {
-    return this.http.put(
-      `${url}/users/${admin.id}.json`,
-      adminUpdated
-    );
+    return this.http.put(`${url}/users/${admin.id}.json`, adminUpdated);
   }
 
   setOfficeParameters(elements: any) {
@@ -117,19 +109,20 @@ export class MapService {
         areasParamsArray.push(areaParams);
       });
       desks?.forEach((area, index) => {
-
         const x = area.getAttribute('x');
         const y = area.getAttribute('y');
         const width = area.getAttribute('width');
         const height = area.getAttribute('height');
         const fill = area.getAttribute('fill');
         let deskStatus = '';
-        if(fill==='green'){
+        if (fill === 'green') {
           deskStatus = 'available';
-        } else if (fill==='gray'){
+        } else if (fill === 'red') {
+          deskStatus = 'checked';
+        } else if (fill === 'orange') {
+          deskStatus = 'booked';
+        } else {
           deskStatus = 'blocked';
-        } else if (fill==='orange'){
-          deskStatus = 'booked'
         }
         const deskParams = {
           id: index.toString(),
@@ -138,7 +131,7 @@ export class MapService {
           width: width,
           height: height,
           fill: fill,
-          status: deskStatus
+          status: deskStatus,
         };
         desksParamsArray.push(deskParams);
       });

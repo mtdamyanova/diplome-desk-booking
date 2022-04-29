@@ -16,7 +16,7 @@ export class UnbookDeskComponent implements OnInit {
     private officePlanService: OfficePlanService,
     private dialogRef: MatDialogRef<UnbookDeskComponent>,
     private signInService: SignInService,
-    private bookService : BookDeskService
+    private bookService: BookDeskService
   ) {}
 
   ngOnInit() {}

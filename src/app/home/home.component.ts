@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Desk } from '../interfaces/map';
+import { CheckInComponent } from '../office-plan/check-in/check-in.component';
 import { OfficePlanService } from '../office-plan/office-plan-service/office-plan.service';
 import { UnbookDeskComponent } from '../office-plan/unbook-desk/unbook-desk.component';
 
@@ -39,6 +38,28 @@ export class HomeComponent implements OnInit {
       .open(UnbookDeskComponent, {
         autoFocus: false,
         disableClose: true,
+        data: {
+          user: this.user,
+          deskHistory: this.userBookedDeskHistory,
+          currentDesk: currentDesk,
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        const deskIndex = this.userBookedDeskHistory.findIndex(
+          (d: any) => d.id === res.id
+        );
+        this.userBookedDeskHistory.splice(deskIndex, 1, res);
+      });
+  }
+
+  onCheckIn(deskId: string) {
+    const currentDesk = this.userBookedDeskHistory.find(
+      (desk: Desk) => desk.id === deskId
+    );
+    this.dialog
+      .open(CheckInComponent, {
+        autoFocus: false,
         data: {
           user: this.user,
           deskHistory: this.userBookedDeskHistory,

@@ -9,6 +9,7 @@ import { BookDeskService } from './book-desk-service/book-desk.service';
 })
 export class BookDeskComponent implements OnInit {
   public desk: string = '';
+  
   public rectFill: string = '';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
