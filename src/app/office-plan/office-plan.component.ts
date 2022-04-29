@@ -15,7 +15,6 @@ import { OfficePlanService } from './office-plan-service/office-plan.service';
   styleUrls: ['./office-plan.component.scss'],
 })
 export class OfficePlanComponent implements OnInit {
-   
   @ViewChild('tooltip') tooltip!: ElementRef;
   @ViewChild('date') date!: ElementRef;
   private admin: any;
@@ -82,6 +81,7 @@ export class OfficePlanComponent implements OnInit {
   }
 
   onMouseEnter(event: any) {
+    const user = JSON.parse(localStorage.getItem('user')!);
     const fillAttribute = event.target.getAttribute('fill');
     if (fillAttribute && fillAttribute !== 'white') {
       const desk = this.officeDesks.find(
@@ -90,22 +90,26 @@ export class OfficePlanComponent implements OnInit {
       this.officePlanService
         .getCurrentDesk(desk?.id, this.admin.id)
         .subscribe((res: any) => {
-          if (res && desk) {
-            let message = '';
-            switch (res.status) {
-              case 'available':
-                message =
-                  'The desk is available. You can book it by clicking on it.';
-                break;
-              case 'booked':
-                message = `The desk is booked by ${res.bookedBy}.`;
-                break;
-              default:
-                message = 'Test message.';
-            }
-            if (message) {
-              this.tooltipFunc(event.target, message);
-            }
+          let message = '';
+          const hasBookedHistory =
+            res.bookedHistory && this.date.nativeElement.value;
+          const rectFill = event.target.getAttribute('fill');
+          if (hasBookedHistory) {
+            const bookedByUser = res.bookedHistory.find(
+              (d: any) =>
+                d.date === this.date.nativeElement.value && d.userId === user.id
+            );
+            message = `The desk is ${
+              bookedByUser.status === 'booked' ? 'booked' : 'checked'
+            } by ${bookedByUser.userName}.`;
+          } else if (!hasBookedHistory && rectFill === 'green') {
+            if (rectFill) message = 'This place is preferred for booking.';
+          } else {
+            message = 'This place is not available for booking';
+          }
+
+          if (message) {
+            this.tooltipFunc(event.target, message);
           }
         });
     }

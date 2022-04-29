@@ -16,18 +16,18 @@ export class BookDeskService {
     private router: Router
   ) {}
 
-  bookDesk(currentDesk: any, user: any) {
+  bookDesk(currentDesk: any, user: any, status : string) {
     const date = JSON.parse(localStorage.getItem('period')!);
     let updatedDesk;
     if (!currentDesk.bookedHistory) {
       updatedDesk = {
         ...currentDesk,
-        fill: 'orange',
-        status: 'booked',
         bookedHistory: [
           {
             userId: user.id,
+            userName : user.firstName,
             date: date,
+            status : status
           },
         ],
       };
@@ -36,11 +36,12 @@ export class BookDeskService {
       currentDesk.bookedHistory.push({
         userId: user.id,
         date: date,
+        userName : user.firstName,
+        status : status
+
       });
       updatedDesk = {
         ...currentDesk,
-        fill: 'orange',
-        status: 'booked',
         bookedHistory: currentDesk.bookedHistory,
       };
     }

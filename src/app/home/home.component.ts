@@ -66,12 +66,12 @@ export class HomeComponent implements OnInit {
           currentDesk: currentDesk,
         },
       })
-      .afterClosed()
-      .subscribe((res) => {
-        const deskIndex = this.userBookedDeskHistory.findIndex(
-          (d: any) => d.id === res.id
-        );
-        this.userBookedDeskHistory.splice(deskIndex, 1, res);
-      });
+      // .afterClosed()
+      // .subscribe((res) => {
+      //   const deskIndex = this.userBookedDeskHistory.findIndex(
+      //     (d: any) => d.id === res.id
+      //   );
+      //   this.userBookedDeskHistory.splice(deskIndex, 1, res);
+      // });
   }
 }

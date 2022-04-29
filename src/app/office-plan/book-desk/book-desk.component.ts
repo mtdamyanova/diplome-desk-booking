@@ -23,7 +23,7 @@ export class BookDeskComponent implements OnInit {
 
   onBookDesk() {
     const user = JSON.parse(localStorage.getItem('user')!);
-    this.bookDeskService.bookDesk(this.data.currentDesk, user);
+    this.bookDeskService.bookDesk(this.data.currentDesk, user,'booked');
     this.matDialogRef.close();
   }
 

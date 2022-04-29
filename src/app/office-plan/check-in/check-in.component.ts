@@ -19,22 +19,12 @@ export class CheckInComponent implements OnInit {
   ngOnInit() {}
 
   onCheckIn() {
-    this.bookService.updateDeskParams(this.data.currentDesk.currentDesk, {
-      ...this.data.currentDesk.currentDesk,
-      fill: 'red',
-      status: 'checked',
-    });
+    console.log(this.data.currentDesk);
+    
+    const user = JSON.parse(localStorage.getItem('user')!);
+    this.bookService.bookDesk(this.data.currentDesk.currentDesk, user,'checked');
 
-    this.data.currentDesk.currentDesk.fill = 'red';
-    this.data.currentDesk.currentDesk.status = 'checked';
+    this.dialogRef.close();
 
-    this.officePlanService
-      .updateUserDeskHistory(this.data.user, this.data.currentDesk.id, {
-        ...this.data.currentDesk,
-        status: 'checked',
-      })
-      .subscribe((res) => {
-        this.dialogRef.close(res);
-      });
   }
 }

@@ -110,10 +110,12 @@ export class OfficePlanService {
             fillColor = 'gray';
           } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
             desk.bookedHistory.forEach((hist: any) => {
+              console.log(hist);
+              
               const b = hist.date === date;
-              if (b && desk.status === 'booked') {
+              if (b && hist.status === 'booked') {
                 fillColor = 'orange';
-              } else if (b && desk.status === 'checked') {
+              } else if (b && hist.status === 'checked') {
                 fillColor = 'red';
               } else {
                 fillColor = 'green';
