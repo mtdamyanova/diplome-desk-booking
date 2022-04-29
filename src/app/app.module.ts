@@ -38,7 +38,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DatePipe } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { BookDeskService } from './office-plan/book-desk/book-desk-service/book-desk.service';
 
 @NgModule({
   declarations: [

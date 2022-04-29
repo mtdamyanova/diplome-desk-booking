@@ -40,8 +40,6 @@ export class MapService {
       .call(rects)
       .filter((rect) => rect.getAttribute('fill') !== 'white');
     const deskId = desks.length.toString();
-    console.log(deskId);
-
     const svgCont = document.getElementById('dropzone');
     const svgns = 'http://www.w3.org/2000/svg';
     const desk = document.createElementNS(svgns, 'rect');
@@ -124,6 +122,12 @@ export class MapService {
         const width = area.getAttribute('width');
         const height = area.getAttribute('height');
         const fill = area.getAttribute('fill');
+        let deskStatus = '';
+        if(fill==='green'){
+          deskStatus = 'available';
+        } else if (fill==='gray'){
+          deskStatus = 'blocked';
+        }
         const deskParams = {
           id: index.toString(),
           x: x,
@@ -131,7 +135,7 @@ export class MapService {
           width: width,
           height: height,
           fill: fill,
-          status: 'available'
+          status: deskStatus
         };
         desksParamsArray.push(deskParams);
       });

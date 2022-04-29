@@ -81,6 +81,7 @@ export class OfficePlanService {
             data: {
               currentDesk: desk,
               user: currentUser,
+              rect : rect
             },
           })
       }

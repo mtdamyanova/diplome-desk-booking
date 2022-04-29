@@ -3,6 +3,7 @@ import { MapService } from './map-service/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
+import { BookDeskComponent } from 'src/app/office-plan/book-desk/book-desk.component';
 
 @Component({
   selector: 'app-draw-office-map',
@@ -21,6 +22,7 @@ export class DrawOfficeMapComponent implements OnInit {
     public dialog: MatDialog,
     public signInService: SignInService
   ) {}
+
   ngOnInit(): void {
     this.onGetUserTemplate();
   }
@@ -64,7 +66,7 @@ export class DrawOfficeMapComponent implements OnInit {
     return value;
   }
 
-  onSetUserTemplate() {
+  onSetAdminTemplate() {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.userRole = user.role;
     const template = document.getElementById('dropzone')?.innerHTML;
@@ -89,5 +91,21 @@ export class DrawOfficeMapComponent implements OnInit {
   onSetTemplate() {
     const elements = document.getElementsByTagName('rect');
     this.mapService.setOfficeParameters(elements);
+    this.onSetAdminTemplate();
   }
+
+  onBlockDesk(event: any) {
+    const a = event.target;
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (event.target.classList.value !== 'area') {
+      this.dialog.open(BookDeskComponent, {
+        autoFocus: false,
+        data: {
+          user: user,
+          rect: event.target,
+        },
+      });
+    }
+  }
+
 }

@@ -20,6 +20,7 @@ export class OfficePlanComponent implements OnInit {
   @ViewChild('date') date!: ElementRef;
   private admin: any;
   private officeDesks: Desk[] = [];
+  public minDate = new Date();
 
   constructor(
     private officePlanService: OfficePlanService,
@@ -62,8 +63,6 @@ export class OfficePlanComponent implements OnInit {
 
   onShowMap() {
     const date = this.date.nativeElement.value;
-    console.log(date);
-    
     localStorage.setItem('period', JSON.stringify(date));
     if (date) {
       const svgCont = document.getElementById('officePlan');
