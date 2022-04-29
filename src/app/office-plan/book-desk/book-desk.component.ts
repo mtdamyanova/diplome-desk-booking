@@ -17,8 +17,6 @@ export class BookDeskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data.rect.getAttribute('fill'));
-    
     this.rectFill = this.data.rect.getAttribute('fill');
   }
 

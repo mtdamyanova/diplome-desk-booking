@@ -74,18 +74,17 @@ export class OfficePlanService {
   addEvenetsOnDesks(rect: any, desk: any) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
-      if (desk.fill === 'green') {
-        this.dialog
-          .open(BookDeskComponent, {
-            autoFocus: false,
-            data: {
-              currentDesk: desk,
-              user: currentUser,
-              rect : rect
-            },
-          })
+      if (currentUser.role === 'employee' && desk.fill === 'green') {
+        this.dialog.open(BookDeskComponent, {
+          autoFocus: false,
+          data: {
+            currentDesk: desk,
+            user: currentUser,
+            rect: rect,
+          },
+        });
       }
-      if (desk.userId !== currentUser.id && desk.status === 'booked') {
+      if (currentUser.role === 'employee' && desk.fill === 'orange') {
         onOpenSnackBar(
           this.snackBar,
           'You cannot book this desk. It`s already booked'
@@ -107,20 +106,27 @@ export class OfficePlanService {
       if (res.desks) {
         res.desks.forEach((desk: any) => {
           let fillColor;
-          if (desk.status === 'blocked') {
-            fillColor = 'gray';
-          } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
-            desk.bookedHistory.forEach((hist: any) => {
-              const b = hist.date === date;
-              if (b) {
-                fillColor = 'orange';
-              } else {
-                fillColor = 'green';
-              }
-            });
-          } else {
+          if (desk.status === 'available') {
             fillColor = 'green';
+          } else if (desk.status === 'booked') {
+            fillColor = 'orange';
+          } else {
+            fillColor = 'gray';
           }
+          // if (desk.status === 'blocked') {
+          //   fillColor = 'gray';
+          // } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
+          //   desk.bookedHistory.forEach((hist: any) => {
+          //     const b = hist.date === date;
+          //     if (b) {
+          //       fillColor = 'orange';
+          //     } else {
+          //       fillColor = 'green';
+          //     }
+          //   });
+          // } else {
+          //   fillColor = 'green';
+          // }
           this.onDrawDesks(svgCont, desk, fillColor);
         });
       }

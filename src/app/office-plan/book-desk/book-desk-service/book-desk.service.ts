@@ -22,6 +22,8 @@ export class BookDeskService {
     if (!currentDesk.bookedHistory) {
       updatedDesk = {
         ...currentDesk,
+        fill: 'orange',
+        status: 'booked',
         bookedHistory: [
           {
             userId: user.id,
@@ -37,10 +39,12 @@ export class BookDeskService {
       });
       updatedDesk = {
         ...currentDesk,
+        fill: 'orange',
+        status: 'booked',
         bookedHistory: currentDesk.bookedHistory,
       };
     }
-    this.updateDeskDates(currentDesk, updatedDesk);
+    this.updateDeskParams(currentDesk, updatedDesk);
     this.updateUserHistory(currentDesk, date, updatedDesk);
   }
 
@@ -81,7 +85,7 @@ export class BookDeskService {
     });
   }
 
-  updateDeskDates(desk: any, updatedDesk: any) {
+  updateDeskParams(desk: any, updatedDesk: any) {
     this.signInService.getUsers().subscribe((res) => {
       const currentUser = JSON.parse(localStorage.getItem('user')!);
       const admin = res.find(
@@ -100,9 +104,6 @@ export class BookDeskService {
   }
 
   updateUser(user: User, updatedUser: any) {
-    return this.http.put(
-      `${url}/users/${user.id}.json`,
-      updatedUser
-    );
+    return this.http.put(`${url}/users/${user.id}.json`, updatedUser);
   }
 }

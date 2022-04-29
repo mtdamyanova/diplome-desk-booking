@@ -32,8 +32,6 @@ export class HomeComponent implements OnInit {
   }
 
   onUnbookDesk(deskId: string) {
-    console.log(deskId, this.userBookedDeskHistory);
-    
     const currentDesk = this.userBookedDeskHistory.find(
       (desk: Desk) => desk.id === deskId
     );

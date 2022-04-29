@@ -117,6 +117,7 @@ export class MapService {
         areasParamsArray.push(areaParams);
       });
       desks?.forEach((area, index) => {
+
         const x = area.getAttribute('x');
         const y = area.getAttribute('y');
         const width = area.getAttribute('width');
@@ -127,6 +128,8 @@ export class MapService {
           deskStatus = 'available';
         } else if (fill==='gray'){
           deskStatus = 'blocked';
+        } else if (fill==='orange'){
+          deskStatus = 'booked'
         }
         const deskParams = {
           id: index.toString(),
