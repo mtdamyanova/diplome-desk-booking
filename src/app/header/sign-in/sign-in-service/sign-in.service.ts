@@ -37,15 +37,6 @@ export class SignInService {
       );
   }
 
-  getCurrentUser(userEmail: string) {
-    return this.getUsers().subscribe((res) => {
-      const currentUser = res.find((email) => email === userEmail);
-      if (currentUser) {
-        onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);
-      }
-    });
-  }
-
   signInUser(userData: any) {
     const auth = getAuth();
     return this.getUsers().subscribe((res) => {

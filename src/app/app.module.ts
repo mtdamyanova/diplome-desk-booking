@@ -39,6 +39,7 @@ import { DatePipe } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CheckInComponent } from './office-plan/check-in/check-in.component';
+import { DeleteEmployeeRightsComponent } from './admin-role/delete-employee-rights/delete-employee-rights.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CheckInComponent } from './office-plan/check-in/check-in.component';
     BookDeskComponent,
     UnbookDeskComponent,
     HomeComponent,
-    CheckInComponent
+    CheckInComponent,
+    DeleteEmployeeRightsComponent
   ],
   imports: [
     BrowserModule,

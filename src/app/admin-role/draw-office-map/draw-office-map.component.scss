@@ -4,7 +4,13 @@
     height: 600px;
     text-align: -webkit-center;
     background: beige;
-    // display: flex;
+    display: flex;
+    justify-content: space-between;
+    > .button-container{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
 }
 
 circle {

@@ -45,8 +45,14 @@ export class MapService {
     desk.setAttribute('height', '40');
     desk.setAttribute('fill', 'green');
     desk.setAttribute('draggable', 'true');
+    const text = document.createElementNS(svgns, 'text');
+    text.innerHTML='assas';
+    desk.setAttribute('x', '40');
+    desk.setAttribute('y', '40');
+    text.setAttribute('fill','red');
     if (svgCont && desk) {
       svgCont.append(desk);
+      desk.append(text);
     }
   }
 
@@ -64,17 +70,6 @@ export class MapService {
     if (svgCont && rect) {
       svgCont.append(rect);
     }
-  }
-
-  getDesks() {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    this.signInService.getUsers().subscribe((res) => {
-      const admin = res.find(
-        (admin) =>
-          admin.role === 'admin' && admin.companyName === user.companyName
-      );
-      return admin;
-    });
   }
 
   updateAdmin(admin: any, adminUpdated: any) {

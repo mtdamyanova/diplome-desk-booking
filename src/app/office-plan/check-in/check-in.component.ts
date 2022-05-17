@@ -11,7 +11,6 @@ import { OfficePlanService } from '../office-plan-service/office-plan.service';
 export class CheckInComponent implements OnInit {
   constructor(
     private bookService: BookDeskService,
-    private officePlanService: OfficePlanService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef : MatDialogRef<CheckInComponent>
   ) {}
@@ -19,12 +18,8 @@ export class CheckInComponent implements OnInit {
   ngOnInit() {}
 
   onCheckIn() {
-    console.log(this.data.currentDesk);
-    
     const user = JSON.parse(localStorage.getItem('user')!);
     this.bookService.bookDesk(this.data.currentDesk.currentDesk, user,'checked');
-
     this.dialogRef.close();
-
   }
 }

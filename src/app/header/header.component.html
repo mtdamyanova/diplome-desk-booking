@@ -8,7 +8,9 @@
   </button>
   <div *ngIf="user.firstName">
     <span>{{user.firstName[0]}}</span>
-    <span (click)="onSignOut()"> Sign out</span>
+    <span (click)="onSignOut()">
+      <mat-icon>exit_to_app</mat-icon>
+    </span>
   </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

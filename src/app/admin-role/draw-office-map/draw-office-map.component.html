@@ -1,18 +1,21 @@
 <div class="map-container">
   <div class="svg-container" appDraggable #mapTemplate>
-    <svg id="dropzone" height="100%" width="100%" (dragover)="onResizeArea($event)" (dblclick)="onBlockDesk($event)">
+    <svg id="dropzone" height="100%" width="100%" (click)="onResizeArea($event)" (dblclick)="onBlockDesk($event)">
     </svg>
   </div>
-  <div>
-    <button (click)="onRegisterEmployees()">Register employes</button>
+  <div class="button-container">
+    <button mat-fab color="primary" (click)="onRegisterEmployees()">
+      <mat-icon>person_add</mat-icon>
+    </button>
     <button (click)="onAddDesk()">add seat</button>
     <button (click)="onAddArea()">add area</button>
     <button (click)="onSetTemplate()">save template</button>
+    <button (click)="onDeleteEmployeeRights()">Delete employee's rigths</button>
 
-    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800" aria-label="units"
+    <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800" aria-label="units"
       [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider"></mat-slider>
 
-    <mat-slider [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0"
+    <mat-slider color="primary" [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0"
       max="400" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)"></mat-slider>
   </div>
 </div>

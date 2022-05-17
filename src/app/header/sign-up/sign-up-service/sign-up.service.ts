@@ -15,7 +15,6 @@ export class SignUpService {
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private router: Router,
-    private afAuth: AngularFireAuth
   ) {}
 
   signUpUser(userData: any, role: string) {
@@ -57,11 +56,4 @@ export class SignUpService {
     return this.http.put(`${url}/users/${user.id}.json`, user);
   }
 
-  sendVerificationMail() {
-    return this.afAuth.currentUser
-      .then((u: any) => u.sendEmailVerification())
-      .then((res) => {
-        // this.router.navigate(['verify-email-address']);
-      });
-  }
 }

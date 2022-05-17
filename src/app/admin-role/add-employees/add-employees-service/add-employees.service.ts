@@ -28,6 +28,7 @@ export class AddEmployeesService {
         // Signed in
         const user = {
           id: userCredential.user.uid,
+          accessRights : true,
           ...userInfo,
         };
         this.setUser(user).subscribe();

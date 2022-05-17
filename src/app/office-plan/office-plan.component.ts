@@ -99,11 +99,13 @@ export class OfficePlanComponent implements OnInit {
               (d: any) =>
                 d.date === this.date.nativeElement.value && d.userId === user.id
             );
-            message = `The desk is ${
-              bookedByUser.status === 'booked' ? 'booked' : 'checked'
-            } by ${bookedByUser.userName}.`;
+            bookedByUser
+              ? (message = `The desk is ${
+                  bookedByUser.status === 'booked' ? 'booked' : 'checked'
+                } by ${bookedByUser.userName}.`)
+              :  message = 'This place is preferred for booking.';
           } else if (!hasBookedHistory && rectFill === 'green') {
-            if (rectFill) message = 'This place is preferred for booking.';
+            message = 'This place is preferred for booking.';
           } else {
             message = 'This place is not available for booking';
           }

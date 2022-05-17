@@ -48,7 +48,7 @@ export class OfficePlanService {
     if (svgCont && rect) {
       svgCont.append(rect);
     }
-    this.addEvenetsOnDesks(rect, desk);
+    this.addEvenetsOnDesks(rect, desk, fillColor);
   }
 
   onDrawAreas(svgCont: any, area: any) {
@@ -71,10 +71,10 @@ export class OfficePlanService {
     }
   }
 
-  addEvenetsOnDesks(rect: any, desk: any) {
+  addEvenetsOnDesks(rect: any, desk: any, fillColor : string) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
-      if (currentUser.role === 'employee' && desk.fill === 'green') {
+      if (currentUser.role === 'employee' && fillColor === 'green') {
         this.dialog.open(BookDeskComponent, {
           autoFocus: false,
           data: {
@@ -110,8 +110,6 @@ export class OfficePlanService {
             fillColor = 'gray';
           } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
             desk.bookedHistory.forEach((hist: any) => {
-              console.log(hist);
-              
               const b = hist.date === date;
               if (b && hist.status === 'booked') {
                 fillColor = 'orange';
@@ -158,13 +156,6 @@ export class OfficePlanService {
   mouseLeave(renderer: any, tooltip: any) {
     renderer.setProperty(tooltip.nativeElement, 'innerHTML', '');
     renderer.setStyle(tooltip.nativeElement, 'display', 'none');
-  }
-
-  updateDesk(admin: User, desk: Desk, updatedDesk: Desk) {
-    return this.http.put(
-      `${url}/users/${admin.id}/desks/${desk.id}.json`,
-      updatedDesk
-    );
   }
 
   getUsersDeskHistory(user: any): Observable<any> {

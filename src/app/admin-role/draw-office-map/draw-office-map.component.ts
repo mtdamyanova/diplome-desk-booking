@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { BookDeskComponent } from 'src/app/office-plan/book-desk/book-desk.component';
+import { getAuth } from '@firebase/auth';
+import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-employee-rights.component';
 
 @Component({
   selector: 'app-draw-office-map',
@@ -36,7 +38,7 @@ export class DrawOfficeMapComponent implements OnInit {
   }
 
   onResizeArea(event: any) {
-    if (event.target.classList.value === 'area') {
+    if (event.target) {
       this.disabledSlider = false;
       const eventWidth = event.target.attributes.width.value;
       const eventHeight = event.target.attributes.height.value;
@@ -95,7 +97,6 @@ export class DrawOfficeMapComponent implements OnInit {
   }
 
   onBlockDesk(event: any) {
-    const a = event.target;
     const user = JSON.parse(localStorage.getItem('user')!);
     if (event.target.classList.value !== 'area') {
       this.dialog.open(BookDeskComponent, {
@@ -108,4 +109,9 @@ export class DrawOfficeMapComponent implements OnInit {
     }
   }
 
+  onDeleteEmployeeRights() {
+    this.dialog.open(DeleteEmployeeRightsComponent, {
+      autoFocus: false,
+    });
+  }
 }
