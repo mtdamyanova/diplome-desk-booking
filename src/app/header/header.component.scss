@@ -1,3 +1,32 @@
-.mat-toolbar-single-row{
+.mat-toolbar-single-row {
     justify-content: space-between;
+    position: fixed;
+    .h-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p{
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    }
+
+    .user-container{
+        display: flex;
+        align-items: flex-end;
+        button{
+            color : #c2185b;
+            font-size:medium;
+            margin-right: 15px;
+        }
+
+        span{
+            cursor: pointer;
+        }
+    }
+
+    img {
+        height: 64px;
+        cursor: pointer;
+    }
 }

@@ -1,13 +1,16 @@
 <mat-toolbar color="primary">
-  <span>My App</span>
-  <p *ngIf="user.firstName" routerLink="/office-plan">Office plan</p>
-  <p *ngIf="user.role==='admin'" routerLink="/draw-plan">Draw plan</p>
-  <button *ngIf="!user.firstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button class="example-icon"
-    aria-label="Example icon-button with share icon">
-    Sign in
+  <div class="h-container">
+    <img routerLink="" src="../../assets/app-logo.jpg" alt="">
+    <p color="basic" *ngIf="user.firstName" routerLink="/office-plan">Office plan</p>
+    <p *ngIf="user.role==='admin'" routerLink="/draw-plan">Draw plan</p>
+  </div>
+  <button *ngIf="!user.firstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button>
+    SIGN IN
   </button>
-  <div *ngIf="user.firstName">
-    <span>{{user.firstName[0]}}</span>
+  <div *ngIf="user.firstName" class="user-container">
+    <button mat-mini-fab color="accent" >
+      <span>{{user.firstName[0]}}</span>
+    </button>
     <span (click)="onSignOut()">
       <mat-icon>exit_to_app</mat-icon>
     </span>
