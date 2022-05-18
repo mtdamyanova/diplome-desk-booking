@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -71,7 +71,7 @@ export class OfficePlanService {
     }
   }
 
-  addEvenetsOnDesks(rect: any, desk: any, fillColor : string) {
+  addEvenetsOnDesks(rect: any, desk: any, fillColor: string) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
       if (currentUser.role === 'employee' && fillColor === '#d6ebb5') {

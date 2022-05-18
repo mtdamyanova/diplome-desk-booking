@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { url } from 'src/environments/environment';
 
@@ -12,7 +11,6 @@ export class MapService {
   constructor(
     private http: HttpClient,
     private signInService: SignInService,
-    private dialog: MatDialog
   ) {}
 
   getSVGPoint(event: any, element: any): SVGPoint {

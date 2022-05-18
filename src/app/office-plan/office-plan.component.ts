@@ -20,6 +20,8 @@ export class OfficePlanComponent implements OnInit {
   private admin: any;
   private officeDesks: Desk[] = [];
   public minDate = new Date();
+  public deskStatus!: string;
+  public deskId!: string;
 
   constructor(
     private officePlanService: OfficePlanService,
@@ -83,10 +85,15 @@ export class OfficePlanComponent implements OnInit {
   onMouseEnter(event: any) {
     const user = JSON.parse(localStorage.getItem('user')!);
     const fillAttribute = event.target.getAttribute('fill');
-    if (fillAttribute && fillAttribute !== 'white') {
+
+    if (fillAttribute && fillAttribute !== 'transparent') {
       const desk = this.officeDesks.find(
         (d) => d.id === event.target.getAttribute('id')
       );
+      if (desk) {
+        this.deskStatus = desk.fill;
+        this.deskId = desk.id;
+      }
       this.officePlanService
         .getCurrentDesk(desk?.id, this.admin.id)
         .subscribe((res: any) => {
@@ -94,22 +101,47 @@ export class OfficePlanComponent implements OnInit {
           const hasBookedHistory =
             res.bookedHistory && this.date.nativeElement.value;
           const rectFill = event.target.getAttribute('fill');
+          let deskColor = '';
+          let deskStatus = '';
           if (hasBookedHistory) {
             const bookedByUser = res.bookedHistory.find(
               (d: any) =>
                 d.date === this.date.nativeElement.value && d.userId === user.id
             );
+            const bookedState= 'booked'; deskStatus ='BOOKED' ; deskColor = '#ffe9b4';
+            const checkedState= 'checked';deskStatus ='CHECKED IN' ; deskColor = '#ffc3a1';
             bookedByUser
               ? (message = `The desk is ${
-                  bookedByUser.status === 'booked' ? 'booked' : 'checked'
+                  bookedByUser.status == 'booked'
+                    ? bookedState
+                    : checkedState
                 } by ${bookedByUser.userName}.`)
-              :  message = 'This place is preferred for booking.';
+              : (message = 'This place is preferred for booking.');
           } else if (!hasBookedHistory && rectFill === '#d6ebb5') {
             message = 'This place is preferred for booking.';
+            deskColor = '#d6ebb5';
+            deskStatus='AVAILABLE.'
           } else {
             message = 'This place is not available for booking';
+            deskColor = '#d9dae1';
+            deskStatus= 'BLOCKED.'
           }
+          console.log(deskStatus);
 
+          message = `
+          <div style="display:flex;
+          align-items:baseline;
+          padding:5px;">
+          <p style="margin-right:10px">D${desk?.id}</p>
+          <span id="span" style="height: 10px;
+          width: 10px;
+          background-color: ${deskColor};
+          border-radius: 50%;
+          display: inline-block;"></span>
+          <span>${deskStatus}</span>
+          </div>
+          <p style="padding:5px">${message}</p>
+          `;
           if (message) {
             this.tooltipFunc(event.target, message);
           }
