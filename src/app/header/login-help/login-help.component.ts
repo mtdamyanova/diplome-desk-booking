@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,12 +9,11 @@ import { onOpenSnackBar } from 'src/app/utils';
   templateUrl: './login-help.component.html',
   styleUrls: ['./login-help.component.scss'],
 })
-export class LoginHelpComponent implements OnInit {
+export class LoginHelpComponent{
   formData = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
   constructor(public afAuth: AngularFireAuth, private snackBar: MatSnackBar) {}
-  ngOnInit() {}
 
   onResetPassword() {
     const email = this.formData.controls['email'].value;

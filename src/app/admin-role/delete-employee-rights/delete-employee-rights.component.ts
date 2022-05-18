@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { BookDeskService } from 'src/app/office-plan/book-desk/book-desk-service/book-desk.service';
+import { ManipulateDeskService } from 'src/app/office-plan/manipulate-desk/manipulate-desk-service/manipulate-desk.service';
 
 @Component({
   selector: 'app-delete-employee-rights',
@@ -14,7 +14,7 @@ export class DeleteEmployeeRightsComponent implements OnInit {
   });
   constructor(
     private signInService: SignInService,
-    private bookService: BookDeskService
+    private manipulateDeskService: ManipulateDeskService
   ) {}
 
   ngOnInit() {}
@@ -27,7 +27,7 @@ export class DeleteEmployeeRightsComponent implements OnInit {
           ...empl,
           accessRights: false,
         };
-        this.bookService.updateUser(empl, updatedUser).subscribe();
+        this.manipulateDeskService.updateUser(empl, updatedUser).subscribe();
       }
     });
   }

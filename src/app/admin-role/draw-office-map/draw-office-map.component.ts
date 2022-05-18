@@ -3,9 +3,8 @@ import { MapService } from './map-service/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { BookDeskComponent } from 'src/app/office-plan/book-desk/book-desk.component';
-import { getAuth } from '@firebase/auth';
 import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-employee-rights.component';
+import { ManipulateDeskComponent } from 'src/app/office-plan/manipulate-desk/manipulate-desk.component';
 
 @Component({
   selector: 'app-draw-office-map',
@@ -38,7 +37,7 @@ export class DrawOfficeMapComponent implements OnInit {
   }
 
   onResizeArea(event: any) {
-    if (event.target) {
+    if (event.target && event.target.classList.value.includes('changeSize')) {
       this.disabledSlider = false;
       const eventWidth = event.target.attributes.width.value;
       const eventHeight = event.target.attributes.height.value;
@@ -98,12 +97,14 @@ export class DrawOfficeMapComponent implements OnInit {
 
   onBlockDesk(event: any) {
     const user = JSON.parse(localStorage.getItem('user')!);
-    if (event.target.classList.value !== 'area') {
-      this.dialog.open(BookDeskComponent, {
+    const svg = document.getElementById('dropzone');
+    if (event.target.classList.value.includes('desk')) {
+      this.dialog.open(ManipulateDeskComponent, {
         autoFocus: false,
         data: {
           user: user,
-          rect: event.target,
+          desk: event.target,
+          svgCont : svg
         },
       });
     }

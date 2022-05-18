@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { BookDeskService } from '../book-desk/book-desk-service/book-desk.service';
+import { ManipulateDeskService } from '../manipulate-desk/manipulate-desk-service/manipulate-desk.service';
 import { OfficePlanService } from '../office-plan-service/office-plan.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class UnbookDeskComponent implements OnInit {
     private officePlanService: OfficePlanService,
     private dialogRef: MatDialogRef<UnbookDeskComponent>,
     private signInService: SignInService,
-    private bookService: BookDeskService
+    private bookService: ManipulateDeskService
   ) {}
 
   ngOnInit() {}
@@ -47,7 +47,7 @@ export class UnbookDeskComponent implements OnInit {
         status: 'available',
       });
 
-      this.data.currentDesk.currentDesk.fill = 'green';
+      this.data.currentDesk.currentDesk.fill = '#d6ebb5';
       this.data.currentDesk.currentDesk.status = 'available';
 
       this.officePlanService

@@ -104,7 +104,7 @@ export class OfficePlanComponent implements OnInit {
                   bookedByUser.status === 'booked' ? 'booked' : 'checked'
                 } by ${bookedByUser.userName}.`)
               :  message = 'This place is preferred for booking.';
-          } else if (!hasBookedHistory && rectFill === 'green') {
+          } else if (!hasBookedHistory && rectFill === '#d6ebb5') {
             message = 'This place is preferred for booking.';
           } else {
             message = 'This place is not available for booking';

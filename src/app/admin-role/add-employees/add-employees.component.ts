@@ -1,11 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { updateEmail } from '@firebase/auth';
+import { MatDialogRef } from '@angular/material/dialog';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { SignUpService } from 'src/app/header/sign-up/sign-up-service/sign-up.service';
 import { AddEmployeesService } from './add-employees-service/add-employees.service';
-import { EmailService } from './email.service';
 
 @Component({
   selector: 'app-add-employees',
@@ -19,7 +16,8 @@ export class AddEmployeesComponent implements OnInit {
   });
   constructor(
     private addEmployeeService: AddEmployeesService,
-    private signInService: SignInService
+    private signInService: SignInService,
+    private matDialogRef : MatDialogRef<AddEmployeesComponent>
   ) {}
 
   ngOnInit() {}
@@ -35,5 +33,6 @@ export class AddEmployeesComponent implements OnInit {
       };
       this.addEmployeeService.addEmployee(userData, admin.template);
     });
+    this.matDialogRef.close();
   }
 }

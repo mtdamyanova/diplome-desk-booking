@@ -1,13 +1,11 @@
 <div class="container">
-  <h3>Please select period</h3>
-  <mat-form-field class="example-full-width" appearance="fill" color="primary">
-    <mat-label>Choose a date</mat-label>
+  <mat-form-field appearance="fill" color="primary">
+    <mat-label>Please select a date</mat-label>
     <input matInput [min]="minDate" [matDatepicker]="picker" #date>
-    <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker touchUi #picker></mat-datepicker>
   </mat-form-field>
-  <button mat-button color="primary" (click)="onShowMap()">CREATE</button>
+  <button mat-flat-button color="primary" (click)="onShowMap()">CREATE</button>
 </div>
 <div class="map-container ">
   <svg id="officePlan" height="100%" width="100%" (mouseover)="onMouseEnter($event)" (mouseout)="onMouseLeave()">

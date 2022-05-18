@@ -9,7 +9,7 @@ import { url } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class BookDeskService {
+export class ManipulateDeskService {
   constructor(
     private signInService: SignInService,
     private http: HttpClient,

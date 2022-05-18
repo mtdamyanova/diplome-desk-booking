@@ -2,14 +2,16 @@
     margin: 0 auto;
     width: 1200px;
     height: 600px;
+    padding: 80px 20px 20px 30px;
     text-align: -webkit-center;
-    background: beige;
     display: flex;
-    justify-content: space-between;
-    > .button-container{
+
+    >.button-container {
         display: flex;
         flex-direction: column;
         width: 300px;
+        height: 280px;
+        opacity: 0.9;
     }
 }
 
@@ -17,13 +19,17 @@ circle {
     cursor: move;
 }
 
-.circle-green{
+.circle-green {
     background-color: green;
 }
 
-.svg-container  {
+.svg-container {
     border: 3px dashed #000;
-    background-color: #CCC;
+    background-color: #B0BEC5;
     width: 70%;
     height: 70%;
+}
+
+mat-slider{
+    width: 20px;
 }

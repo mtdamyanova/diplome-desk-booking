@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <div class="h-container">
     <img routerLink="" src="../../assets/app-logo.jpg" alt="">
-    <p color="basic" *ngIf="user.firstName" routerLink="/office-plan">Office plan</p>
+    <p color="basic" *ngIf="user.firstName" routerLink="/office-plan">Map</p>
     <p *ngIf="user.role==='admin'" routerLink="/draw-plan">Draw plan</p>
   </div>
   <button *ngIf="!user.firstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button>

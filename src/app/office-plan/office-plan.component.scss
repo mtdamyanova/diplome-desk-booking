@@ -1,21 +1,20 @@
 .map-container {
     margin: 0 auto;
     width: 1200px;
-    height: 600px;
+    height: 400px;
     text-align: -webkit-center;
-    background: beige;
-    // display: flex;
+    background: #fff;
 }
 
 circle {
     cursor: move;
 }
 
-.circle-green{
+.circle-green {
     background-color: green;
 }
 
-.svg-container  {
+.svg-container {
     border: 3px dashed #000;
     background-color: #CCC;
     width: 70%;
@@ -31,15 +30,14 @@ circle {
     border-color: gray;
     border-width: 1px;
     border-radius: 2px;
-  }
-  
-.container{
-    background-color: rgb(177, 168, 168);
+}
+
+.container {
     display: flex;
-    justify-content: center;
-    padding: 80px 20px 20px;
+    justify-content: flex-start;
+    padding: 80px 20px 20px 40px;
     align-items: baseline;
-    h3{
-        margin-right: 20px;
+    button{
+        margin-left: 20px;
     }
 }

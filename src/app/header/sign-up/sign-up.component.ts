@@ -7,7 +7,7 @@ import { SignUpService } from './sign-up-service/sign-up.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
 
@@ -21,16 +21,6 @@ export class SignUpComponent implements OnInit {
   });
 
   constructor(private signUpService: SignUpService) {}
-
-  ngOnInit() {}
-
-  // getErrorMessage() {
-  //   if (this.email.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return this.email.hasError('email') ? 'Not a valid email' : '';
-  // }
 
   onSignUp() {
     const userData = {

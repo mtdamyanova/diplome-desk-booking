@@ -30,7 +30,6 @@ import { AddEmployeesComponent } from './admin-role/add-employees/add-employees.
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
-import { BookDeskComponent } from './office-plan/book-desk/book-desk.component';
 import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.component';
 import { HomeComponent } from './home/home.component';
 import { MatCardModule } from '@angular/material/card';
@@ -40,6 +39,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CheckInComponent } from './office-plan/check-in/check-in.component';
 import { DeleteEmployeeRightsComponent } from './admin-role/delete-employee-rights/delete-employee-rights.component';
+import { ManipulateDeskComponent } from './office-plan/manipulate-desk/manipulate-desk.component';
 
 @NgModule({
   declarations: [
@@ -52,11 +52,11 @@ import { DeleteEmployeeRightsComponent } from './admin-role/delete-employee-righ
     LoginHelpComponent,
     AddEmployeesComponent,
     OfficePlanComponent,
-    BookDeskComponent,
     UnbookDeskComponent,
     HomeComponent,
     CheckInComponent,
-    DeleteEmployeeRightsComponent
+    DeleteEmployeeRightsComponent,
+    ManipulateDeskComponent
   ],
   imports: [
     BrowserModule,

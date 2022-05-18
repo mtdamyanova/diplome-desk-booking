@@ -1,21 +1,21 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ManipulateDeskComponent } from './manipulate-desk.component';
 
-import { BookDeskComponent } from './book-desk.component';
 
-describe('BookDeskComponent', () => {
-  let component: BookDeskComponent;
-  let fixture: ComponentFixture<BookDeskComponent>;
+describe('ManipulateDeskComponent', () => {
+  let component: ManipulateDeskComponent;
+  let fixture: ComponentFixture<ManipulateDeskComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BookDeskComponent ]
+      declarations: [ ManipulateDeskComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BookDeskComponent);
+    fixture = TestBed.createComponent(ManipulateDeskComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

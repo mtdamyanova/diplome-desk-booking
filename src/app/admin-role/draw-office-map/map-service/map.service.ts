@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit, Renderer2 } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { Desk } from 'src/app/interfaces/map';
 import { url } from 'src/environments/environment';
 
 @Injectable({
@@ -9,7 +9,11 @@ import { url } from 'src/environments/environment';
 })
 export class MapService {
   public deskId: string = '0';
-  constructor(private http: HttpClient, private signInService: SignInService) {}
+  constructor(
+    private http: HttpClient,
+    private signInService: SignInService,
+    private dialog: MatDialog
+  ) {}
 
   getSVGPoint(event: any, element: any): SVGPoint {
     const point = element.viewportElement.createSVGPoint();
@@ -41,18 +45,13 @@ export class MapService {
     desk.setAttribute('id', deskId);
     desk.setAttribute('cx', '40');
     desk.setAttribute('cy', '40');
-    desk.setAttribute('width', '40');
+    desk.setAttribute('width', '20');
     desk.setAttribute('height', '40');
-    desk.setAttribute('fill', 'green');
+    desk.setAttribute('fill', '#d6ebb5');
     desk.setAttribute('draggable', 'true');
-    const text = document.createElementNS(svgns, 'text');
-    text.innerHTML='assas';
-    desk.setAttribute('x', '40');
-    desk.setAttribute('y', '40');
-    text.setAttribute('fill','red');
+    desk.setAttribute('class', 'changeSize desk');
     if (svgCont && desk) {
       svgCont.append(desk);
-      desk.append(text);
     }
   }
 
@@ -62,11 +61,12 @@ export class MapService {
     const rect = document.createElementNS(svgns, 'rect');
     rect.setAttribute('width', '70');
     rect.setAttribute('height', '70');
-    rect.setAttribute('fill', 'white');
+    rect.setAttribute('fill', 'transparent');
     rect.setAttribute('draggable', 'true');
-    rect.setAttribute('stroke', 'black');
-    rect.setAttribute('class', 'area');
-    rect.innerHTML = 'asf';
+    rect.setAttribute('stroke', '#cdd2e4');
+    rect.setAttribute('stroke-width', '6');
+    rect.setAttribute('class', 'changeSize area');
+
     if (svgCont && rect) {
       svgCont.append(rect);
     }
@@ -78,8 +78,8 @@ export class MapService {
 
   setOfficeParameters(elements: any) {
     const desksArray = Array.prototype.slice.call(elements);
-    const areas = desksArray.filter((desk) => desk.classList.value === 'area');
-    const desks = desksArray.filter((desk) => desk.classList.value !== 'area');
+    const areas = desksArray.filter((desk) => desk.classList.value.includes('area'));
+    const desks = desksArray.filter((desk) => desk.classList.value.includes('desk'));
     const currentAdmin = JSON.parse(localStorage.getItem('user')!);
     this.signInService.getUsers().subscribe((res) => {
       const admin = res.find((user) => user.id === currentAdmin.id);
@@ -110,11 +110,11 @@ export class MapService {
         const height = area.getAttribute('height');
         const fill = area.getAttribute('fill');
         let deskStatus = '';
-        if (fill === 'green') {
+        if (fill === '#d6ebb5') {
           deskStatus = 'available';
         } else if (fill === 'red') {
           deskStatus = 'checked';
-        } else if (fill === 'orange') {
+        } else if (fill === '#ffe94b') {
           deskStatus = 'booked';
         } else {
           deskStatus = 'blocked';

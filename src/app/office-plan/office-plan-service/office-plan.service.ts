@@ -7,7 +7,7 @@ import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 import { url } from 'src/environments/environment';
-import { BookDeskComponent } from '../book-desk/book-desk.component';
+import { ManipulateDeskComponent } from '../manipulate-desk/manipulate-desk.component';
 
 @Injectable({
   providedIn: 'root',
@@ -74,8 +74,8 @@ export class OfficePlanService {
   addEvenetsOnDesks(rect: any, desk: any, fillColor : string) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
-      if (currentUser.role === 'employee' && fillColor === 'green') {
-        this.dialog.open(BookDeskComponent, {
+      if (currentUser.role === 'employee' && fillColor === '#d6ebb5') {
+        this.dialog.open(ManipulateDeskComponent, {
           autoFocus: false,
           data: {
             currentDesk: desk,
@@ -107,20 +107,20 @@ export class OfficePlanService {
         res.desks.forEach((desk: any) => {
           let fillColor;
           if (desk.status === 'blocked') {
-            fillColor = 'gray';
+            fillColor = '#d9dae1';
           } else if (desk.bookedHistory && desk.bookedHistory.length > 0) {
             desk.bookedHistory.forEach((hist: any) => {
               const b = hist.date === date;
               if (b && hist.status === 'booked') {
-                fillColor = 'orange';
+                fillColor = '#ffe94b';
               } else if (b && hist.status === 'checked') {
                 fillColor = 'red';
               } else {
-                fillColor = 'green';
+                fillColor = '#d6ebb5';
               }
             });
           } else {
-            fillColor = 'green';
+            fillColor = '#d6ebb5';
           }
           this.onDrawDesks(svgCont, desk, fillColor);
         });
@@ -137,7 +137,7 @@ export class OfficePlanService {
       }
       if (res.desks) {
         res.desks.forEach((desk: any) => {
-          this.onDrawDesks(svgCont, desk, 'gray');
+          this.onDrawDesks(svgCont, desk, '#d9dae1');
         });
       }
     });
