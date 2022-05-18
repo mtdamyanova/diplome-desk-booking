@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ManipulateDeskService } from '../manipulate-desk/manipulate-desk-service/manipulate-desk.service';
+import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-desk.service';
 
 @Component({
   selector: 'app-check-in',

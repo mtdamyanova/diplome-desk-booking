@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { ManipulateDeskService } from '../manipulate-desk/manipulate-desk-service/manipulate-desk.service';
-import { OfficePlanService } from '../office-plan-service/office-plan.service';
+import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
+import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-desk.service';
 
 @Component({
   selector: 'app-unbook-desk',

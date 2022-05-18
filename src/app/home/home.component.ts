@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Desk } from '../interfaces/map';
-import { CheckInComponent } from '../office-plan/check-in/check-in.component';
+import { CheckInComponent } from '../manipulate-desk/check-in/check-in.component';
+import { UnbookDeskComponent } from '../manipulate-desk/unbook-desk/unbook-desk.component';
 import { OfficePlanService } from '../office-plan/office-plan-service/office-plan.service';
-import { UnbookDeskComponent } from '../office-plan/unbook-desk/unbook-desk.component';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
   public userBookedDeskHistory: any;
   public userRole: string = '';
   public user: any;
-  private currentDesk: any;
   constructor(
     private officePlanService: OfficePlanService,
     private dialog: MatDialog

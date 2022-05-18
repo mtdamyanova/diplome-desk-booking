@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-employee-rights.component';
-import { ManipulateDeskComponent } from 'src/app/office-plan/manipulate-desk/manipulate-desk.component';
+import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 
 @Component({
   selector: 'app-draw-office-map',

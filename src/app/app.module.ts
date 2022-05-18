@@ -30,16 +30,16 @@ import { AddEmployeesComponent } from './admin-role/add-employees/add-employees.
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
-import { UnbookDeskComponent } from './office-plan/unbook-desk/unbook-desk.component';
 import { HomeComponent } from './home/home.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { DatePipe } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CheckInComponent } from './office-plan/check-in/check-in.component';
 import { DeleteEmployeeRightsComponent } from './admin-role/delete-employee-rights/delete-employee-rights.component';
-import { ManipulateDeskComponent } from './office-plan/manipulate-desk/manipulate-desk.component';
+import { UnbookDeskComponent } from './manipulate-desk/unbook-desk/unbook-desk.component';
+import { CheckInComponent } from './manipulate-desk/check-in/check-in.component';
+import { ManipulateDeskComponent } from './manipulate-desk/manipulate-desk.component';
 
 @NgModule({
   declarations: [

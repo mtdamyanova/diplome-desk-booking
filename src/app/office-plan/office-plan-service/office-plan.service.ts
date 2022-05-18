@@ -5,9 +5,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
+import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { onOpenSnackBar } from 'src/app/utils';
 import { url } from 'src/environments/environment';
-import { ManipulateDeskComponent } from '../manipulate-desk/manipulate-desk.component';
 
 @Injectable({
   providedIn: 'root',
