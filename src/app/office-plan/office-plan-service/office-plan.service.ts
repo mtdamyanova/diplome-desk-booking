@@ -112,8 +112,10 @@ export class OfficePlanService {
               const b = hist.date === date;
               if (b && hist.status === 'booked') {
                 fillColor = '#ffe94b';
-              } else if (b && hist.status === 'checked') {
+              } else if (b && hist.status === 'checked in') {
                 fillColor = '#ffc3a1';
+              } else if (b && hist.status === 'unbooked') {
+                fillColor = '#d6ebb5';
               } else {
                 fillColor = '#d6ebb5';
               }
@@ -144,7 +146,12 @@ export class OfficePlanService {
     );
   }
 
-  mouseEnterTooltip(renderer: any, desk: HTMLElement, tooltip: any, message: string) {
+  mouseEnterTooltip(
+    renderer: any,
+    desk: HTMLElement,
+    tooltip: any,
+    message: string
+  ) {
     let coordinates = desk.getBoundingClientRect();
     let x = `${coordinates.left + 30}px`;
     let y = `${coordinates.top + 40}px`;
@@ -170,10 +177,48 @@ export class OfficePlanService {
     );
   }
 
-  deleteDeskBooked(admin: any, deskId: any, index: any) {
-    return this.http.put(
-      `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`,
-      {}
+  deleteOrCheckedInDeskBooked(
+    admin: any,
+    deskId: any,
+    index: any,
+    status: string
+  ) {
+    console.log(status);
+
+    if (status === 'unbooked') {
+      this.http.delete(
+        `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
+      ).subscribe();
+    }
+    if (status === 'checked in') {
+      this.updateBookedDeskStatus(admin, deskId, index, status).subscribe();
+    }
+  }
+
+  getBookedDesk(admin: Admin, deskId: string, index: number) {
+    return this.http.get(
+      `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
+    );
+  }
+
+  updateBookedDeskStatus(
+    admin: Admin,
+    deskId: string,
+    index: number,
+    status: string
+  ) {
+    return this.getBookedDesk(admin, deskId, index).pipe(
+      tap((res) => {
+        this.http
+          .put(
+            `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`,
+            {
+              ...res,
+              status: status,
+            }
+          )
+          .subscribe();
+      })
     );
   }
 

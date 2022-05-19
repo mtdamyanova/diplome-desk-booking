@@ -22,19 +22,19 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.onGetUserDeskHistory().subscribe();
+  }
+
+  onGetUserDeskHistory() {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.user = user;
-    this.userRole = user.role;
-    this.officePlanService
-      .getUsersDeskHistory(user)
-      .pipe(
-        filter((res) => !!res),
-        tap((res) => {
-          this.userBookedDeskHistory = res.slice().reverse();
-          this.userBookedDeskHistory.slice().reverse();
-        })
-      )
-      .subscribe();
+    return this.officePlanService.getUsersDeskHistory(user).pipe(
+      filter((res) => !!res),
+      tap((res) => {
+        this.userBookedDeskHistory = res.slice().reverse();
+        this.userBookedDeskHistory.slice().reverse();
+      })
+    );
   }
 
   onUnbookDesk(deskId: string) {
@@ -64,13 +64,21 @@ export class HomeComponent implements OnInit {
     const currentDesk = this.userBookedDeskHistory.find(
       (desk: Desk) => desk.id === deskId
     );
-    this.dialog.open(CheckInComponent, {
-      autoFocus: false,
-      data: {
-        user: this.user,
-        deskHistory: this.userBookedDeskHistory,
-        currentDesk: currentDesk,
-      },
-    });
+    this.dialog
+      .open(CheckInComponent, {
+        autoFocus: false,
+        data: {
+          user: this.user,
+          deskHistory: this.userBookedDeskHistory,
+          currentDesk: currentDesk,
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        const deskIndex = this.userBookedDeskHistory.findIndex(
+          (d: any) => d.id === res.id
+        );
+        this.userBookedDeskHistory.splice(deskIndex, 1, res);
+      });
   }
 }

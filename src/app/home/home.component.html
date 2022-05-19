@@ -9,8 +9,8 @@
       <div class="desk-status">
         {{ desk.status | titlecase}}
       </div>
-      <div>
-        <button *ngIf="desk.status==='upcoming'" mat-icon-button [matMenuTriggerFor]="menu"
+      <div *ngIf="desk.status==='upcoming'">
+        <button  mat-icon-button [matMenuTriggerFor]="menu"
           aria-label="Example icon-button with a menu">
           <mat-icon>more_vert</mat-icon>
         </button>

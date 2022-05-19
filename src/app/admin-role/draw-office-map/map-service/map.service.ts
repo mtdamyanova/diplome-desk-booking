@@ -111,7 +111,7 @@ export class MapService {
         if (fill === '#d6ebb5') {
           deskStatus = 'available';
         } else if (fill === 'red') {
-          deskStatus = 'checked';
+          deskStatus = 'checked in';
         } else if (fill === '#ffe94b') {
           deskStatus = 'booked';
         } else {

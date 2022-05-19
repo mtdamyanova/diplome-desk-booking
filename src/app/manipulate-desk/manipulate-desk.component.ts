@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManipulateDeskService } from './manipulate-desk-service/manipulate-desk.service';
 
@@ -18,7 +18,9 @@ export class ManipulateDeskComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.rectFill = this.data.desk.getAttribute('fill');
+    if (this.data.desk) {
+      this.rectFill = this.data.desk.getAttribute('fill');
+    }
   }
 
   onBookDesk() {

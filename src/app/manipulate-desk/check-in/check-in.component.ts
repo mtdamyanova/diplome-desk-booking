@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
+import { map, tap } from 'rxjs';
+import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-desk.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-des
 export class CheckInComponent implements OnInit {
   constructor(
     private manipulateDeskService: ManipulateDeskService,
-    private officePlanService: OfficePlanService,
+    private signInService : SignInService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CheckInComponent>
   ) {}
@@ -19,10 +20,23 @@ export class CheckInComponent implements OnInit {
   ngOnInit() {}
 
   onCheckIn() {
-    // this.manipulateDeskService.unbookOrCheckedInDesk(
-    //   this.data,
-    //   'checked in',
-    //   this.dialogRef
-    // );
+    this.signInService
+    .getUsers()
+    .pipe(
+      map((res) =>
+        res.find(
+          (us) =>
+            us.role === 'admin' &&
+            us.companyName === this.data.user.companyName
+        )
+      ),
+      tap((admin)=>this.manipulateDeskService.unbookOrCheckedInDesk(
+        admin,
+        this.data,
+        'checked in',
+        this.dialogRef
+      ))
+    )
+    .subscribe()
   }
 }

@@ -54,7 +54,7 @@ export class ManipulateDeskService {
     const us = JSON.parse(localStorage.getItem('user')!);
     let updatedUser: any;
     this.signInService.getUsers().subscribe((res) => {
-      const user = res.find((user) => (user.id = us.id));
+      const user = res.find((user) => user.id === us.id);
       if (user.bookedDesk && user.bookedDesk.length > 0) {
         user.bookedDesk.push({
           id: user.bookedDesk.length,
@@ -110,7 +110,6 @@ export class ManipulateDeskService {
   }
 
   unbookOrCheckedInDesk(admin: any, data: any, status: string, dialogRef: any) {
-    console.log(admin.desks, data.currentDesk.currentDesk);
     if (admin.desks) {
       const desk = admin.desks.find(
         (d: Desk) => d.id == data.currentDesk.currentDesk.id
@@ -119,23 +118,14 @@ export class ManipulateDeskService {
         (d: Desk) =>
           d.userId === data.user.id && d.date === data.currentDesk.date
       );
-      if (desk && index) {
-        console.log(desk,index);
-        
-        this.officePlanService
-          .deleteDeskBooked(admin, desk.id, index)
-          .subscribe(res=>console.log(res));
-      }
+
+      this.officePlanService.deleteOrCheckedInDeskBooked(
+        admin,
+        desk.id,
+        index,
+        status
+      );
     }
-
-    this.updateDeskParams(data.currentDesk.currentDesk, {
-      ...data.currentDesk.currentDesk,
-      status: 'available',
-    });
-
-    data.currentDesk.currentDesk.fill = '#d6ebb5';
-    data.currentDesk.currentDesk.status = 'available';
-
     this.officePlanService
       .updateUserDeskHistory(data.user, data.currentDesk.id, {
         ...data.currentDesk,

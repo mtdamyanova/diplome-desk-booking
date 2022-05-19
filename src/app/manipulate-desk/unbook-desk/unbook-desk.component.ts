@@ -2,8 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, tap } from 'rxjs';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { Desk } from 'src/app/interfaces/map';
-import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
 import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-desk.service';
 
 @Component({
