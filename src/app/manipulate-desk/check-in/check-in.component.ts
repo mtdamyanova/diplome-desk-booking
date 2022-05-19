@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
 import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-desk.service';
 
 @Component({
@@ -10,15 +11,18 @@ import { ManipulateDeskService } from '../manipulate-desk-service/manipulate-des
 export class CheckInComponent implements OnInit {
   constructor(
     private manipulateDeskService: ManipulateDeskService,
+    private officePlanService: OfficePlanService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef : MatDialogRef<CheckInComponent>
+    private dialogRef: MatDialogRef<CheckInComponent>
   ) {}
 
   ngOnInit() {}
 
   onCheckIn() {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    this.manipulateDeskService.bookDesk(this.data.currentDesk.currentDesk, user,'checked');
-    this.dialogRef.close();
+    // this.manipulateDeskService.unbookOrCheckedInDesk(
+    //   this.data,
+    //   'checked in',
+    //   this.dialogRef
+    // );
   }
 }

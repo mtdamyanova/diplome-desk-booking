@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '@firebase/auth';
+import { filter, tap } from 'rxjs';
 import { Desk } from '../interfaces/map';
 import { CheckInComponent } from '../manipulate-desk/check-in/check-in.component';
 import { UnbookDeskComponent } from '../manipulate-desk/unbook-desk/unbook-desk.component';
@@ -13,7 +15,7 @@ import { OfficePlanService } from '../office-plan/office-plan-service/office-pla
 export class HomeComponent implements OnInit {
   public userBookedDeskHistory: any;
   public userRole: string = '';
-  public user: any;
+  public user!: User;
   constructor(
     private officePlanService: OfficePlanService,
     private dialog: MatDialog
@@ -23,10 +25,16 @@ export class HomeComponent implements OnInit {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.user = user;
     this.userRole = user.role;
-    this.officePlanService.getUsersDeskHistory(user).subscribe((res) => {
-      this.userBookedDeskHistory = res.slice().reverse();
-      this.userBookedDeskHistory.slice().reverse();
-    });
+    this.officePlanService
+      .getUsersDeskHistory(user)
+      .pipe(
+        filter((res) => !!res),
+        tap((res) => {
+          this.userBookedDeskHistory = res.slice().reverse();
+          this.userBookedDeskHistory.slice().reverse();
+        })
+      )
+      .subscribe();
   }
 
   onUnbookDesk(deskId: string) {
@@ -56,21 +64,13 @@ export class HomeComponent implements OnInit {
     const currentDesk = this.userBookedDeskHistory.find(
       (desk: Desk) => desk.id === deskId
     );
-    this.dialog
-      .open(CheckInComponent, {
-        autoFocus: false,
-        data: {
-          user: this.user,
-          deskHistory: this.userBookedDeskHistory,
-          currentDesk: currentDesk,
-        },
-      })
-      // .afterClosed()
-      // .subscribe((res) => {
-      //   const deskIndex = this.userBookedDeskHistory.findIndex(
-      //     (d: any) => d.id === res.id
-      //   );
-      //   this.userBookedDeskHistory.splice(deskIndex, 1, res);
-      // });
+    this.dialog.open(CheckInComponent, {
+      autoFocus: false,
+      data: {
+        user: this.user,
+        deskHistory: this.userBookedDeskHistory,
+        currentDesk: currentDesk,
+      },
+    });
   }
 }

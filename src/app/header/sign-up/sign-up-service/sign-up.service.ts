@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 import { url } from 'src/environments/environment';
 
@@ -51,7 +52,7 @@ export class SignUpService {
     }
   }
 
-  setUser(user: any) {
+  setUser(user: User) {
     return this.http.put(`${url}/users/${user.id}.json`, user);
   }
 

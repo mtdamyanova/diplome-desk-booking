@@ -5,7 +5,7 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker touchUi #picker></mat-datepicker>
   </mat-form-field>
-  <button mat-flat-button color="primary" (click)="onShowMap()">CREATE</button>
+  <button mat-flat-button color="primary" (click)="onShowMapForPeriod()">CREATE</button>
 </div>
 <div class="map-container ">
   <svg id="officePlan" height="100%" width="100%" (mouseover)="onMouseEnter($event)" (mouseout)="onMouseLeave()">

@@ -12,3 +12,15 @@ export interface User {
   companyName: string;
   bookedDesk?: any[];
 }
+
+export interface Admin {
+  areas?: Area[];
+  companyName: string;
+  desks?: Desk[];
+  email: string;
+  firstName: string;
+  lastName: string;
+  id: string;
+  role: string;
+  template: string;
+}

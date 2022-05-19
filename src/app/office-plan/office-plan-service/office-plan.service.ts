@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Desk } from 'src/app/interfaces/map';
-import { User } from 'src/app/interfaces/user';
+import { filter, Observable, tap } from 'rxjs';
+import { Area, Desk } from 'src/app/interfaces/map';
+import { Admin, User } from 'src/app/interfaces/user';
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { onOpenSnackBar } from 'src/app/utils';
 import { url } from 'src/environments/environment';
@@ -13,24 +13,21 @@ import { url } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class OfficePlanService {
-  private messageTooltip = new BehaviorSubject<string>('');
-  castMessageTooltip = this.messageTooltip.asObservable();
-
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
 
-  getUserTemplate(user: any) {
+  getUserTemplate(user: User) {
     return this.http.get(`${url}/users/${user.id}.json`);
   }
 
-  getCurrentDesk(deskId: any, adminId: User) {
+  getCurrentDesk(deskId: any, adminId: string) {
     return this.http.get(`${url}/users/${adminId}/desks/${deskId}.json`);
   }
 
-  onDrawDesks(svgCont: any, desk: Desk, fillColor: any) {
+  onDrawDesks(svgCont: SVGElement, desk: Desk, fillColor: any) {
     const svgns = 'http://www.w3.org/2000/svg';
     const rect = document.createElementNS(svgns, 'rect');
     if (desk.x && desk.y) {
@@ -51,7 +48,7 @@ export class OfficePlanService {
     this.addEvenetsOnDesks(rect, desk, fillColor);
   }
 
-  onDrawAreas(svgCont: any, area: any) {
+  onDrawAreas(svgCont: SVGElement, area: Area) {
     const svgns = 'http://www.w3.org/2000/svg';
     const rect = document.createElementNS(svgns, 'rect');
     if (area.x && area.y) {
@@ -71,7 +68,7 @@ export class OfficePlanService {
     }
   }
 
-  addEvenetsOnDesks(rect: any, desk: any, fillColor: string) {
+  addEvenetsOnDesks(rect: SVGElement, desk: Desk, fillColor: string) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
       if (currentUser.role === 'employee' && fillColor === '#d6ebb5') {
@@ -84,7 +81,7 @@ export class OfficePlanService {
           },
         });
       }
-      if (currentUser.role === 'employee' && desk.fill === 'orange') {
+      if (currentUser.role === 'employee' && desk.fill === '#ffe94b') {
         onOpenSnackBar(
           this.snackBar,
           'You cannot book this desk. It`s already booked'
@@ -96,15 +93,17 @@ export class OfficePlanService {
     });
   }
 
-  onLoadMapForPeriod(admin: any, svgCont: any, date: any) {
-    this.getUserTemplate(admin).subscribe((res: any) => {
-      if (res.areas) {
-        res.areas.forEach((area: any) => {
+  onLoadMapForPeriod(admin: Admin, svgCont: any, date: any) {
+    return this.getUserTemplate(admin).pipe(
+      filter((res: any) => !!res.areas),
+      tap((res) => {
+        res.areas.forEach((area: Area) => {
           this.onDrawAreas(svgCont, area);
         });
-      }
-      if (res.desks) {
-        res.desks.forEach((desk: any) => {
+      }),
+      filter((res) => !!res.desks),
+      tap((res) => {
+        res.desks.forEach((desk: Desk) => {
           let fillColor;
           if (desk.status === 'blocked') {
             fillColor = '#d9dae1';
@@ -114,7 +113,7 @@ export class OfficePlanService {
               if (b && hist.status === 'booked') {
                 fillColor = '#ffe94b';
               } else if (b && hist.status === 'checked') {
-                fillColor = 'red';
+                fillColor = '#ffc3a1';
               } else {
                 fillColor = '#d6ebb5';
               }
@@ -124,28 +123,30 @@ export class OfficePlanService {
           }
           this.onDrawDesks(svgCont, desk, fillColor);
         });
-      }
-    });
+      })
+    );
   }
 
-  firsMapLoad(admin: any, svgCont: any) {
-    this.getUserTemplate(admin).subscribe((res: any) => {
-      if (res.areas) {
-        res.areas.forEach((area: any) => {
+  firsMapLoad(admin: Admin, svgCont: any) {
+    return this.getUserTemplate(admin).pipe(
+      filter((res: any) => !!res.areas),
+      tap((res) => {
+        res.areas.forEach((area: Area) => {
           this.onDrawAreas(svgCont, area);
         });
-      }
-      if (res.desks) {
-        res.desks.forEach((desk: any) => {
+      }),
+      filter((res: any) => !!res.desks),
+      tap((res) => {
+        res.desks.forEach((desk: Desk) => {
           this.onDrawDesks(svgCont, desk, '#d9dae1');
         });
-      }
-    });
+      })
+    );
   }
 
-  mouseEnterTooltip(renderer: any, desk: any, tooltip: any, message: string) {
+  mouseEnterTooltip(renderer: any, desk: HTMLElement, tooltip: any, message: string) {
     let coordinates = desk.getBoundingClientRect();
-    let x = `${coordinates.left + 40}px`;
+    let x = `${coordinates.left + 30}px`;
     let y = `${coordinates.top + 40}px`;
     renderer.setStyle(tooltip.nativeElement, 'left', x);
     renderer.setStyle(tooltip.nativeElement, 'top', y);
@@ -158,11 +159,11 @@ export class OfficePlanService {
     renderer.setStyle(tooltip.nativeElement, 'display', 'none');
   }
 
-  getUsersDeskHistory(user: any): Observable<any> {
+  getUsersDeskHistory(user: User): Observable<any> {
     return this.http.get(`${url}/users/${user.id}/bookedDesk.json`);
   }
 
-  updateUserDeskHistory(user: any, deskId: any, deskHistoryUpdated: any) {
+  updateUserDeskHistory(user: User, deskId: string, deskHistoryUpdated: any[]) {
     return this.http.put(
       `${url}/users/${user.id}/bookedDesk/${deskId}.json`,
       deskHistoryUpdated
@@ -170,8 +171,80 @@ export class OfficePlanService {
   }
 
   deleteDeskBooked(admin: any, deskId: any, index: any) {
-    return this.http.delete(
-      `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
+    return this.http.put(
+      `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`,
+      {}
     );
+  }
+
+  setTooltipMessage(
+    desk: Desk | undefined,
+    event: any,
+    user: User,
+    admin: any,
+    date: any,
+    renderer: any,
+    tooltip: ElementRef
+  ) {
+    return this.getCurrentDesk(desk?.id, admin.id).pipe(
+      tap((res: any) => {
+        const rectFill = event.target.getAttribute('fill');
+        let deskColor = '';
+        let deskStatus = '';
+        let message = '';
+        let emplName = '';
+        if (res && res.bookedHistory) {
+          const empl = res.bookedHistory.find(
+            (d: any) =>
+              d.date === date.nativeElement.value && d.userId === user.id
+          );
+          emplName = empl?.userName;
+        }
+
+        switch (rectFill) {
+          case '#ffe94b':
+            message = `This place is booked by ${emplName}.`;
+            deskColor = '#ffe9b4';
+            deskStatus = 'BOOKED.';
+            break;
+          case '#ffc3a1':
+            message = `This place is checked in by ${emplName}.`;
+            deskColor = '#ffc3a1';
+            deskStatus = 'CHECKED IN.';
+            break;
+          case '#d6ebb5':
+            message = 'This place is preferred for booking.';
+            deskColor = '#d6ebb5';
+            deskStatus = 'AVAILABLE.';
+            break;
+          default:
+            message = 'This place is not available for booking';
+            deskColor = '#d9dae1';
+            deskStatus = 'BLOCKED.';
+            break;
+        }
+        message = `
+            <div style="display:flex;
+            align-items:baseline;
+            padding:5px;">
+            <p style="margin-right:10px">D${desk?.id}</p>
+            <span id="span" style="height: 10px;
+            width: 10px;
+            background-color: ${deskColor};
+            border-radius: 50%;
+            display: inline-block;"></span>
+            <span>${deskStatus}</span>
+            </div>
+            <p style="padding:5px">${message}</p>
+            `;
+        this.tooltipFunc(event.target, message, renderer, tooltip);
+      })
+    );
+  }
+
+  tooltipFunc(target: any, message: string, renderer: any, tooltip: any) {
+    target.addEventListener('mouseover', () => {
+      this.mouseEnterTooltip(renderer, target, tooltip, message);
+    });
   }
 }

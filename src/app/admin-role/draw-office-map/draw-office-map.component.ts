@@ -5,6 +5,7 @@ import { AddEmployeesComponent } from '../add-employees/add-employees.component'
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-employee-rights.component';
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-draw-office-map',
@@ -25,7 +26,7 @@ export class DrawOfficeMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.onGetUserTemplate();
+    this.onGetAdminMap().subscribe();
   }
 
   onAddDesk() {
@@ -71,18 +72,18 @@ export class DrawOfficeMapComponent implements OnInit {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.userRole = user.role;
     const template = document.getElementById('dropzone')?.innerHTML;
-    this.mapService.setUserTemplate(user, template).subscribe();
+    return this.mapService.setUserTemplate(user, template);
   }
 
-  onGetUserTemplate() {
+  onGetAdminMap() {
     const user = JSON.parse(localStorage.getItem('user')!);
-    this.mapService.getUserTemplate(user).subscribe((res: any) => {
-      this.userRole = res.role;
-      const svgContainer = document.getElementById('dropzone');
-      if (svgContainer) {
-        svgContainer.innerHTML = res.template;
-      }
-    });
+    return this.mapService.getUserTemplate(user).pipe(
+      tap((res: any) => (this.userRole = res.role)),
+      tap((res: any) => {
+        const svg = document.getElementById('dropzone');
+        svg ? (svg.innerHTML = res.template) : '';
+      })
+    );
   }
 
   onRegisterEmployees() {
@@ -92,7 +93,7 @@ export class DrawOfficeMapComponent implements OnInit {
   onSetTemplate() {
     const elements = document.getElementsByTagName('rect');
     this.mapService.setOfficeParameters(elements);
-    this.onSetAdminTemplate();
+    this.onSetAdminTemplate().subscribe();
   }
 
   onBlockDesk(event: any) {
@@ -104,7 +105,7 @@ export class DrawOfficeMapComponent implements OnInit {
         data: {
           user: user,
           desk: event.target,
-          svgCont : svg
+          svgCont: svg,
         },
       });
     }

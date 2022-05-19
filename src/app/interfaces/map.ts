@@ -1,7 +1,7 @@
 export interface Area {
   fill: string;
   height: string;
-  id: number;
+  id: string;
   stroke: string;
   width: string;
   x: string;
@@ -18,4 +18,6 @@ export interface Desk {
   status: string;
   bookedBy?: string;
   userId?: string;
+  bookedHistory ?: [],
+  date?:string
 }

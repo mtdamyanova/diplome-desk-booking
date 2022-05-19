@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
+import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
 import { url } from 'src/environments/environment';
 
 @Injectable({
@@ -13,10 +14,11 @@ export class ManipulateDeskService {
   constructor(
     private signInService: SignInService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private officePlanService: OfficePlanService
   ) {}
 
-  bookDesk(currentDesk: any, user: any, status : string) {
+  bookDesk(currentDesk: any, user: any, status: string) {
     const date = JSON.parse(localStorage.getItem('period')!);
     let updatedDesk;
     if (!currentDesk.bookedHistory) {
@@ -25,9 +27,9 @@ export class ManipulateDeskService {
         bookedHistory: [
           {
             userId: user.id,
-            userName : user.firstName,
+            userName: user.firstName,
             date: date,
-            status : status
+            status: status,
           },
         ],
       };
@@ -36,9 +38,8 @@ export class ManipulateDeskService {
       currentDesk.bookedHistory.push({
         userId: user.id,
         date: date,
-        userName : user.firstName,
-        status : status
-
+        userName: user.firstName,
+        status: status,
       });
       updatedDesk = {
         ...currentDesk,
@@ -106,5 +107,42 @@ export class ManipulateDeskService {
 
   updateUser(user: User, updatedUser: any) {
     return this.http.put(`${url}/users/${user.id}.json`, updatedUser);
+  }
+
+  unbookOrCheckedInDesk(admin: any, data: any, status: string, dialogRef: any) {
+    console.log(admin.desks, data.currentDesk.currentDesk);
+    if (admin.desks) {
+      const desk = admin.desks.find(
+        (d: Desk) => d.id == data.currentDesk.currentDesk.id
+      );
+      const index = desk.bookedHistory.findIndex(
+        (d: Desk) =>
+          d.userId === data.user.id && d.date === data.currentDesk.date
+      );
+      if (desk && index) {
+        console.log(desk,index);
+        
+        this.officePlanService
+          .deleteDeskBooked(admin, desk.id, index)
+          .subscribe(res=>console.log(res));
+      }
+    }
+
+    this.updateDeskParams(data.currentDesk.currentDesk, {
+      ...data.currentDesk.currentDesk,
+      status: 'available',
+    });
+
+    data.currentDesk.currentDesk.fill = '#d6ebb5';
+    data.currentDesk.currentDesk.status = 'available';
+
+    this.officePlanService
+      .updateUserDeskHistory(data.user, data.currentDesk.id, {
+        ...data.currentDesk,
+        status: status,
+      })
+      .subscribe((res) => {
+        dialogRef.close(res);
+      });
   }
 }
