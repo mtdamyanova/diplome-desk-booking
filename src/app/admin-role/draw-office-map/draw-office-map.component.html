@@ -20,7 +20,8 @@
     <button mat-fab color="primary" (click)="onSetTemplate()" matTooltip="Save the template." matTooltipPosition="right">
       <mat-icon>save</mat-icon>
     </button>
-    <!-- <button (click)="onDeleteEmployeeRights()">Delete employee's rigths</button> -->
+    <button (click)="onDeleteEmployeeRights()">Delete employee's rigths</button>
+    <button (click)="onRestoreEmployeeRights()">Restore employee's rigths</button>
 
     <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800"
       aria-label="units" [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider">

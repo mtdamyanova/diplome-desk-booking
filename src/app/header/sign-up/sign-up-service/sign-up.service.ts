@@ -14,11 +14,12 @@ export class SignUpService {
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private router: Router,
+    private router: Router
   ) {}
 
   signUpUser(userData: any, role: string) {
     const userInfo = {
+      accessRights: true,
       firstName: userData.firstName,
       lastName: userData.lastName,
       companyName: userData.companyName,
@@ -55,5 +56,4 @@ export class SignUpService {
   setUser(user: User) {
     return this.http.put(`${url}/users/${user.id}.json`, user);
   }
-
 }

@@ -38,6 +38,7 @@ import { DeleteEmployeeRightsComponent } from './admin-role/delete-employee-righ
 import { UnbookDeskComponent } from './manipulate-desk/unbook-desk/unbook-desk.component';
 import { CheckInComponent } from './manipulate-desk/check-in/check-in.component';
 import { ManipulateDeskComponent } from './manipulate-desk/manipulate-desk.component';
+import { RestoreEmployeeRightsComponent } from './admin-role/restore-employee-rights/restore-employee-rights.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ManipulateDeskComponent } from './manipulate-desk/manipulate-desk.compo
     HomeComponent,
     CheckInComponent,
     DeleteEmployeeRightsComponent,
-    ManipulateDeskComponent
+    ManipulateDeskComponent,
+    RestoreEmployeeRightsComponent
   ],
   imports: [
     BrowserModule,

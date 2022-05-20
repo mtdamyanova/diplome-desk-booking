@@ -6,6 +6,7 @@ import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.se
 import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-employee-rights.component';
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { tap } from 'rxjs';
+import { RestoreEmployeeRightsComponent } from '../restore-employee-rights/restore-employee-rights.component';
 
 @Component({
   selector: 'app-draw-office-map',
@@ -113,6 +114,12 @@ export class DrawOfficeMapComponent implements OnInit {
 
   onDeleteEmployeeRights() {
     this.dialog.open(DeleteEmployeeRightsComponent, {
+      autoFocus: false,
+    });
+  }
+
+  onRestoreEmployeeRights() {
+    this.dialog.open(RestoreEmployeeRightsComponent, {
       autoFocus: false,
     });
   }

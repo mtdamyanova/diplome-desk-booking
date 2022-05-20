@@ -1,9 +1,9 @@
 <div class="sign-in-container">
   <div class="form-container">
     <form [formGroup]="formData" method="post">
-      <h2>Delete employee's rigths</h2>
+      <h2>Restore employee's rigths</h2>
       <div class="info-container">
-        <p>You can delete an employee's rights by deactivating their account.</p>
+        <p>You can restore an employee's rights.</p>
       </div>
       <div>
         <mat-form-field appearance="fill">
@@ -12,7 +12,7 @@
           <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
         </mat-form-field>
       </div>
-      <button mat-raised-button color="primary" (click)="onDeleteEmployeRigths()">DELETE EMPLOYEE'S RIGTHS</button>
+      <button mat-raised-button color="primary" (click)="onRestoreEmployeeRigths()">RESTORE EMPLOYEE'S RIGTHS</button>
       <button mat-raised-button color="primary" [mat-dialog-close]="true">CANCEL</button>
     </form>
   </div>

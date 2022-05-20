@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
+import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 import { url } from 'src/environments/environment';
 
@@ -20,29 +21,31 @@ export class SignInService {
   ) {}
 
   getUsers() {
-    return this.http
-      .get<{ [key: string]: any }>(
-        `${url}/users.json`
-      )
-      .pipe(
-        map((res) => {
-          const users: any[] = [];
-          for (let key in res) {
-            if (res.hasOwnProperty(key)) {
-              users.push(res[key]);
-            }
+    return this.http.get<{ [key: string]: any }>(`${url}/users.json`).pipe(
+      map((res) => {
+        const users: any[] = [];
+        for (let key in res) {
+          if (res.hasOwnProperty(key)) {
+            users.push(res[key]);
           }
-          return users;
-        })
-      );
+        }
+        return users;
+      })
+    );
   }
 
   signInUser(userData: any) {
+    return this.getUsers()
+      .pipe(tap((res) => this.signInFirebase(userData, res)))
+      .subscribe();
+  }
+
+  signInFirebase(userData: any, res: any) {
     const auth = getAuth();
-    return this.getUsers().subscribe((res) => {
-      const currentUser = res.find((user) => user.email === userData.email);
-      signInWithEmailAndPassword(auth, userData.email, userData.password)
-        .then((res) => {
+    const currentUser = res.find((user: User) => user.email === userData.email);
+    signInWithEmailAndPassword(auth, userData.email, userData.password)
+      .then((res) => {
+        if (currentUser.accessRights) {
           const setUser = {
             email: currentUser.email,
             firstName: currentUser.firstName,
@@ -55,13 +58,18 @@ export class SignInService {
           onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);
           this.user.next(setUser);
           this.router.navigate(['/office-plan']);
-        })
-        .catch((error) => {
-          localStorage.setItem('user', 'null');
-          JSON.parse(localStorage.getItem('user')!);
-          onOpenSnackBar(this.snackBar, error.message);
-        });
-    });
+        } else {
+          onOpenSnackBar(
+            this.snackBar,
+            `${currentUser.firstName}, your access rights are removed.Please contact your admin!`
+          );
+        }
+      })
+      .catch((error) => {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+        onOpenSnackBar(this.snackBar, error.message);
+      });
   }
 
   signOut() {
