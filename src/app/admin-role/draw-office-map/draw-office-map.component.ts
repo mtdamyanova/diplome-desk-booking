@@ -7,7 +7,7 @@ import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { tap } from 'rxjs';
 import { RestoreEmployeeRightsComponent } from '../restore-employee-rights/restore-employee-rights.component';
-
+import { faUserMinus, faUserCheck } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-draw-office-map',
   templateUrl: './draw-office-map.component.html',
@@ -19,6 +19,9 @@ export class DrawOfficeMapComponent implements OnInit {
   public heightSliderValue?: number;
   public selectedArea: any;
   public disabledSlider: boolean = true;
+  public removeUser = faUserMinus;
+  public restoreUser = faUserCheck;
+
 
   constructor(
     private mapService: MapService,

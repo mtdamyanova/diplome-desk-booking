@@ -68,7 +68,6 @@ export class SignInService {
       .catch((error) => {
         localStorage.setItem('user', 'null');
         JSON.parse(localStorage.getItem('user')!);
-        onOpenSnackBar(this.snackBar, error.message);
       });
   }
 

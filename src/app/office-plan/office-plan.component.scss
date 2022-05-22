@@ -1,51 +1,105 @@
-.map-container {
+.main-container {
+    // display: fel;
     margin: 0 auto;
     width: 1200px;
-    height: 400px;
+    height: 600px;
+    padding: 80px 20px 20px 30px;
     text-align: -webkit-center;
-    background: #fff;
-}
-
-circle {
-    cursor: move;
-}
-
-.circle-green {
-    background-color: green;
-}
-
-.svg-container {
-    border: 3px dashed #000;
-    background-color: #CCC;
-    width: 70%;
-    height: 70%;
-}
-
-.tooltip {
-    display: none;
-    position: absolute;
-    font-size: 0.75em;
-    background-color: white;
-    border-style: solid;
-    border-color: gray;
-    border-width: 1px;
-    border-radius: 2px;
-}
-
-.container {
     display: flex;
-    justify-content: flex-start;
-    padding: 80px 20px 20px 40px;
-    align-items: baseline;
-    button{
-        margin-left: 20px;
+    border-radius: 10px;
+
+    .map-container {
+        margin: 0 auto;
+        width: 1200px;
+        height: 400px;
+        text-align: -webkit-center;
+        background: #b0bec5;
+        border-radius: 20px;
     }
+
+    circle {
+        cursor: move;
+    }
+
+    .circle-green {
+        background-color: green;
+    }
+
+    .svg-container {
+        border: 3px dashed #000;
+        background-color: #CCC;
+        width: 70%;
+        height: 420px;
+    }
+
+    .tooltip {
+        display: none;
+        position: absolute;
+        font-size: 0.75em;
+        background-color: white;
+        border-style: solid;
+        border-color: gray;
+        border-width: 1px;
+        border-radius: 2px;
+    }
+
+    .container {
+        >.date-container {
+            display: flex;
+
+            >mat-form-field>input {
+                color: white;
+            }
+        }
+
+        button {
+            margin: 10px 5px;
+        }
+
+        >.agenda {
+            color: white;
+            text-align: initial;
+
+            >ul {
+                list-style: none;
+
+                >li>.dot {
+                    height: 15px;
+                    width: 15px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    margin-right: 3px;
+
+                    &.available {
+                        background-color: #d6ebb5;
+                    }
+
+                    &.booked {
+                        background-color: #ffe9b4;
+                    }
+
+                    &.blocked {
+                        background-color: #d9dae1;
+                    }
+
+                    &.checked {
+                        background-color: #ffc3a1;
+                    }
+                }
+            }
+        }
+    }
+
+    .dot {
+        height: 25px;
+        width: 25px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
 }
 
-.dot {
-    height: 25px;
-    width: 25px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-  }
+.mat-input-element {
+    color: white
+}

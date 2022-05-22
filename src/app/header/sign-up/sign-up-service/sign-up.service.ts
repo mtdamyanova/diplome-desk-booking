@@ -45,7 +45,6 @@ export class SignUpService {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          onOpenSnackBar(this.snackBar, errorMessage);
         });
     } else {
       onOpenSnackBar(this.snackBar, "The passwords don't match.");

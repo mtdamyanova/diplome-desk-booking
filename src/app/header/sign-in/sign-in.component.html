@@ -1,12 +1,14 @@
 <div class="sign-in-container">
   <div class="form-container">
-    <form [formGroup]="dataForm">
+    <form (submit)="onSignIn()" [formGroup]="dataForm">
       <h4>Sign in</h4>
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Enter your email</mat-label>
           <input matInput placeholder="pat@example.com" formControlName="email" #email>
-          <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+          <mat-error class="mat-error" *ngIf="this.dataForm.controls['email'].invalid">
+            Please enter valid email.
+          </mat-error>
         </mat-form-field>
       </div>
       <div>
@@ -17,6 +19,9 @@
             [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
+          <mat-error class="mat-error" *ngIf="this.dataForm.controls['password'].invalid">
+            Please enter valid email.
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="options-container">

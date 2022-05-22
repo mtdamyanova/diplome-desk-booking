@@ -9,14 +9,18 @@
         <mat-form-field appearance="fill">
           <mat-label>Employee's name</mat-label>
           <input matInput formControlName="firstName" #firstName>
-          <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+          <mat-error class="mat-error" *ngIf="this.dataForm.controls['firstName'].invalid">
+            Please enter valid first name.
+          </mat-error>
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Enter your email</mat-label>
           <input matInput placeholder="pat@example.com" formControlName="email" #email>
-          <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+          <mat-error class="mat-error" *ngIf="this.dataForm.controls['email'].invalid">
+            Please enter valid email.
+          </mat-error>
         </mat-form-field>
       </div>
       <button mat-raised-button color="primary" (click)="onRegisterEmployees()">REGISTER EMPLOYEES</button>

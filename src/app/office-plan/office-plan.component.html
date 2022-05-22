@@ -1,16 +1,43 @@
-<div class="container">
-  <mat-form-field appearance="fill" color="primary">
-    <mat-label>Please select a date</mat-label>
-    <input matInput [min]="minDate" [matDatepicker]="picker" #date>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker touchUi #picker></mat-datepicker>
-  </mat-form-field>
-  <button mat-flat-button color="primary" (click)="onShowMapForPeriod()">CREATE</button>
-</div>
-<div class="map-container ">
-  <svg id="officePlan" height="100%" width="100%" (mouseover)="onMouseEnter($event)" (mouseout)="onMouseLeave()">
+<div class="main-container">
+  <div class="container">
+    <div class="date-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Please select a date</mat-label>
+        <input matInput [min]="minDate" [matDatepicker]="picker" #date>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+      </mat-form-field>
+      <button mat-mini-fab color="primary" (click)="onShowMapForPeriod()">
+        <mat-icon>check</mat-icon>
+      </button>
+    </div>
+    <div class="agenda">
+      <h4>Desks' agenda:</h4>
+        <ul>
+          <li>
+            <span class="dot available"></span>
+            <span>Available</span>
+          </li>
+          <li>
+            <span class="dot booked"></span>
+            <span>Booked</span>
+          </li>
+          <li>
+            <span class="dot blocked"></span>
+            <span>Blocked</span>
+          </li>
+          <li>
+            <span class="dot checked"></span>
+            <span>Checked in</span>
+          </li>
+        </ul>
+    </div>
+  </div>
+  <div class="map-container ">
+    <svg id="officePlan" height="100%" width="100%" (mouseover)="onMouseEnter($event)" (mouseout)="onMouseLeave()">
 
-  </svg>
-</div>
-<div #tooltip class="tooltip">
+    </svg>
+  </div>
+  <div #tooltip class="tooltip">
+  </div>
 </div>

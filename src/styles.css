@@ -3,5 +3,7 @@
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: #f5f6fa;
+  background-image: url("../src/assets/background.jpg");
+  background-size: cover;
+  z-index: -1;
 }

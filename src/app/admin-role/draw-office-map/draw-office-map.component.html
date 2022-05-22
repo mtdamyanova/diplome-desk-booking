@@ -4,7 +4,8 @@
     </svg>
   </div>
   <div class="button-container">
-    <button mat-fab color="primary" (click)="onRegisterEmployees()" matTooltip="Add employee." matTooltipPosition="right">
+    <button mat-fab color="primary" (click)="onRegisterEmployees()" matTooltip="Add employee."
+      matTooltipPosition="right">
       <mat-icon>person_add</mat-icon>
     </button>
     <button mat-fab color="primary" (click)="onAddDesk()" matTooltip="Add desk." matTooltipPosition="right">
@@ -12,23 +13,40 @@
         + DESK
       </span>
     </button>
+    <i class="fas fa-user-times"></i>
     <button mat-fab color="primary" (click)="onAddArea()" matTooltip="Add area." matTooltipPosition="right">
       <span>
         + AREA
       </span>
     </button>
-    <button mat-fab color="primary" (click)="onSetTemplate()" matTooltip="Save the template." matTooltipPosition="right">
+    <button mat-fab color="primary" (click)="onSetTemplate()" matTooltip="Save the template."
+      matTooltipPosition="right">
       <mat-icon>save</mat-icon>
     </button>
-    <button (click)="onDeleteEmployeeRights()">Delete employee's rigths</button>
-    <button (click)="onRestoreEmployeeRights()">Restore employee's rigths</button>
+    <button mat-fab color="primary" (click)="onDeleteEmployeeRights()" matTooltip="Remove employee's rights."
+      matTooltipPosition="right">
+      <fa-icon [icon]="removeUser"></fa-icon>
+    </button>
+    <button mat-fab color="primary" (click)="onRestoreEmployeeRights()" matTooltip="Restore employee's rights."
+      matTooltipPosition="right">
+      <fa-icon [icon]="restoreUser"></fa-icon>
+    </button>
+  </div>
+  <div class="sliders">
+    <div class="slider-container"
+      [matTooltip]="disabledSlider ? 'The width of the desk / area can be changed after selecting it. ': ''">
+      <p>Change area/desk width </p>
+      <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800"
+        aria-label="units" [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider">
+      </mat-slider>
+    </div>
 
-    <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800"
-      aria-label="units" [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider">
-    </mat-slider>
-
-    <mat-slider color="primary" [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100"
-      step="1" min="0" max="400" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)">
-    </mat-slider>
+    <div class="slider-container"
+      [matTooltip]="disabledSlider ? 'The height of the desk / area can be changed after selecting it. ': ''">
+      <p>Change area/desk heigth </p>
+      <mat-slider color="primary" [disabled]="disabledSlider" thumbLabel [displayWith]="formatLabel" tickInterval="100"
+        step="1" min="0" max="400" aria-label="units" [(ngModel)]="heightSliderValue" (input)="onHeightChange($event)">
+      </mat-slider>
+    </div>
   </div>
 </div>

@@ -39,6 +39,8 @@ import { UnbookDeskComponent } from './manipulate-desk/unbook-desk/unbook-desk.c
 import { CheckInComponent } from './manipulate-desk/check-in/check-in.component';
 import { ManipulateDeskComponent } from './manipulate-desk/manipulate-desk.component';
 import { RestoreEmployeeRightsComponent } from './admin-role/restore-employee-rights/restore-employee-rights.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,13 @@ import { RestoreEmployeeRightsComponent } from './admin-role/restore-employee-ri
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      // enabled: environment,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    FontAwesomeModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
