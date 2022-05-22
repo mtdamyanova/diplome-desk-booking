@@ -57,7 +57,7 @@ export class SignInService {
           JSON.parse(localStorage.getItem('user')!);
           onOpenSnackBar(this.snackBar, `Welcome, ${currentUser.firstName}!`);
           this.user.next(setUser);
-          this.router.navigate(['/office-plan']);
+          this.router.navigate(['/']);
         } else {
           onOpenSnackBar(
             this.snackBar,

@@ -10,15 +10,21 @@ export const environment = {
   // storageBucket: "diplome-7189f.appspot.com",
   // messagingSenderId: "672116719037",
   // appId: "1:672116719037:web:f9667f4ebe880bf85926d4"
-  apiKey: "AIzaSyDETPO9DVQ9VfVJa7iNKnPicIKTSBrwE7w",
-  authDomain: "test-diplome.firebaseapp.com",
-  projectId: "test-diplome",
-  storageBucket: "test-diplome.appspot.com",
-  messagingSenderId: "32779226074",
-  appId: "1:32779226074:web:1b6d137399e085a4678ee3"
+  // apiKey: "AIzaSyDETPO9DVQ9VfVJa7iNKnPicIKTSBrwE7w",
+  // authDomain: "test-diplome.firebaseapp.com",
+  // projectId: "test-diplome",
+  // storageBucket: "test-diplome.appspot.com",
+  // messagingSenderId: "32779226074",
+  // appId: "1:32779226074:web:1b6d137399e085a4678ee3"
+  apiKey: "AIzaSyBBycuYA--8H-Q85tWzck6dudRMpZOtYGU",
+  authDomain: "diplome-30d33.firebaseapp.com",
+  projectId: "diplome-30d33",
+  storageBucket: "diplome-30d33.appspot.com",
+  messagingSenderId: "323039961046",
+  appId: "1:323039961046:web:6a272abba9caa284bace77"
 };
 
-export const url = 'https://test-diplome-default-rtdb.europe-west1.firebasedatabase.app/';
+export const url = 'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
 
 const app = initializeApp(environment);
 const auth = getAuth(app);

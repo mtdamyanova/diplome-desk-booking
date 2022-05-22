@@ -9,7 +9,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Enter employee's email</mat-label>
           <input matInput placeholder="pat@example.com" formControlName="email" #email>
-          <mat-error class="mat-error" *ngIf="this.dataForm.controls['email'].invalid">
+          <mat-error class="mat-error" *ngIf="this.formData.controls['email'].invalid">
             Please enter valid email.
           </mat-error>
         </mat-form-field>

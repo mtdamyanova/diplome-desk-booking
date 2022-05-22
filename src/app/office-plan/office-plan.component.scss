@@ -1,8 +1,6 @@
 .main-container {
     // display: fel;
     margin: 0 auto;
-    width: 1200px;
-    height: 600px;
     padding: 80px 20px 20px 30px;
     text-align: -webkit-center;
     display: flex;
@@ -36,7 +34,7 @@
         display: none;
         position: absolute;
         font-size: 0.75em;
-        background-color: white;
+        background-color: aliceblue;
         border-style: solid;
         border-color: gray;
         border-width: 1px;
@@ -48,7 +46,7 @@
             display: flex;
 
             >mat-form-field>input {
-                color: white;
+                color: aliceblue;
             }
         }
 
@@ -57,7 +55,7 @@
         }
 
         >.agenda {
-            color: white;
+            color: aliceblue;
             text-align: initial;
 
             >ul {
@@ -101,5 +99,5 @@
 }
 
 .mat-input-element {
-    color: white
+    color: aliceblue
 }

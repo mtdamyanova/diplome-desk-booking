@@ -3,7 +3,7 @@
     <div class="date-container">
       <mat-form-field appearance="outline">
         <mat-label>Please select a date</mat-label>
-        <input matInput [min]="minDate" [matDatepicker]="picker" #date>
+        <input matInput [min]="minDate" [matDatepicker]="picker" #date required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker>
       </mat-form-field>

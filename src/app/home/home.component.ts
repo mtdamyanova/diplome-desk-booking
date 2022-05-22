@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from '@firebase/auth';
 import { filter, tap } from 'rxjs';
 import { Desk } from '../interfaces/map';
+import { User } from '../interfaces/user';
 import { CheckInComponent } from '../manipulate-desk/check-in/check-in.component';
 import { UnbookDeskComponent } from '../manipulate-desk/unbook-desk/unbook-desk.component';
 import { OfficePlanService } from '../office-plan/office-plan-service/office-plan.service';
+import { faHomeUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -15,14 +16,15 @@ import { OfficePlanService } from '../office-plan/office-plan-service/office-pla
 export class HomeComponent implements OnInit {
   public userBookedDeskHistory: any;
   public userRole: string = '';
-  public user!: User;
+  public user: any;
+  public faChair = faHomeUser;
   constructor(
     private officePlanService: OfficePlanService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.onGetUserDeskHistory().subscribe();
+      this.onGetUserDeskHistory().subscribe();
   }
 
   onGetUserDeskHistory() {

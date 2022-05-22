@@ -12,13 +12,13 @@
         padding-top: 20px;
 
         >form {
-            padding: 60px 68px 40px;
+            padding: 80px 68px 40px;
             margin-bottom: 90px;
             margin: 0 auto;
-            background: black;
+            background: #303030;
             opacity: 0.9;
             text-align: center;
-            color: white;
+            color: aliceblue;
 
             .options-container {
                 display: flex;
@@ -27,7 +27,6 @@
                 margin: 0 auto;
                 align-items: baseline;
                 position: relative;
-                // margin-top: -20px;
 
                 .sign-up-container {
                     display: flex;

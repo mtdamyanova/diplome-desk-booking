@@ -82,12 +82,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      // enabled: environment,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
     FontAwesomeModule
   ],
   providers: [DatePipe],
