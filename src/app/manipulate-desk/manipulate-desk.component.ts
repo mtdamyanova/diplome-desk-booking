@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManipulateDeskService } from './manipulate-desk-service/manipulate-desk.service';
 
@@ -7,7 +7,7 @@ import { ManipulateDeskService } from './manipulate-desk-service/manipulate-desk
   templateUrl: './manipulate-desk.component.html',
   styleUrls: ['./manipulate-desk.component.scss'],
 })
-export class ManipulateDeskComponent implements AfterViewInit {
+export class ManipulateDeskComponent {
   public desk: string = '';
 
   public rectFill: string = '';
@@ -16,9 +16,6 @@ export class ManipulateDeskComponent implements AfterViewInit {
     private matDialogRef: MatDialogRef<ManipulateDeskComponent>,
     private manipulateDeskService: ManipulateDeskService
   ) {}
-
-  ngAfterViewInit(): void {
-  }
 
   onBookDesk() {
     const user = JSON.parse(localStorage.getItem('user')!);

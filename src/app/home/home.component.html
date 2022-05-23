@@ -1,6 +1,6 @@
-<div *ngIf="user && user.role==='employee'" class="img-container">
+<div class="img-container">
 </div>
-<div *ngIf="user && user.role==='employee'" class="history-container">
+<div *ngIf="user && user.id" class="history-container">
   <div *ngIf="userBookedDeskHistory" class="booked-history">
     <h1 *ngIf="user.firstName">{{user.firstName}}'s history.</h1>
     <mat-card *ngFor="let desk of userBookedDeskHistory" class="desk-history">
@@ -28,9 +28,14 @@
       </div>
     </mat-card>
   </div>
+  <div class="info-container">
+    <h1>Your space.</h1>
+    <h1>Your time</h1>
+    <h4>Make flexible working work for you. Find workspaces that suit your plans and reserve them in moments.</h4>
+  </div>
 </div>
 
-<div *ngIf="!user || user.role==='admin'" class="home-container">
+<div class="home-container">
   <div class="text-container">
     <p>DESK MANAGEMENT AND RESERVATION SOFTWARE</p>
     <h1>Desk booking software for a flexible workspace </h1>

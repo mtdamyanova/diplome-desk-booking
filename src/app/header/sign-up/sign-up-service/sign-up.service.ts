@@ -21,7 +21,6 @@ export class SignUpService {
     const userInfo = {
       accessRights: true,
       firstName: userData.firstName,
-      lastName: userData.lastName,
       companyName: userData.companyName,
       email: userData.email,
       role: role,

@@ -24,14 +24,14 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-      // this.onGetUserDeskHistory().subscribe();
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (user) {
+      this.onGetUserDeskHistory(user).subscribe();
+    }
   }
 
-  onGetUserDeskHistory() {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    if (user.id) {
-      this.user = user;
-    }
+  onGetUserDeskHistory(user: User) {
+    this.user = user;
     return this.officePlanService.getUsersDeskHistory(user).pipe(
       filter((res) => !!res),
       tap((res) => {

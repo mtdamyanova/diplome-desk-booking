@@ -8,7 +8,6 @@ export interface User {
   role: string;
   email: string;
   firstName: string;
-  lastName?: string;
   companyName: string;
   bookedDesk?: any[];
 }
@@ -19,7 +18,6 @@ export interface Admin {
   desks?: Desk[];
   email: string;
   firstName: string;
-  lastName: string;
   id: string;
   role: string;
   template: string;

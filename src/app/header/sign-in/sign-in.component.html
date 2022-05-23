@@ -1,39 +1,37 @@
-<div class="sign-in-container">
-  <div class="form-container">
-    <form (submit)="onSignIn()" [formGroup]="dataForm">
-      <h4>Sign in</h4>
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Enter your email</mat-label>
-          <input matInput placeholder="pat@example.com" formControlName="email" #email>
-          <mat-error class="mat-error" *ngIf="this.dataForm.controls['email'].invalid">
-            Please enter valid email.
-          </mat-error>
-        </mat-form-field>
+<div class="form-container">
+  <form (submit)="onSignIn()" [formGroup]="dataForm">
+    <h4>Sign in</h4>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="pat@example.com" formControlName="email" #email>
+        <mat-error class="mat-error" *ngIf="this.dataForm.controls['email'].invalid">
+          Please enter valid email.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" #password>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error class="mat-error" *ngIf="this.dataForm.controls['password'].invalid">
+          Please enter valid email.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="options-container">
+      <div class="sign-up-container">
+        <p>New to ... ? </p>
+        <button mat-button color="primary" routerLink="/sign-up">Sign up now</button>
       </div>
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Enter your password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" #password>
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error class="mat-error" *ngIf="this.dataForm.controls['password'].invalid">
-            Please enter valid email.
-          </mat-error>
-        </mat-form-field>
+      <div class="help-login" routerLink="/login-help">
+        <p>Need help?</p>
       </div>
-      <div class="options-container">
-        <div class="sign-up-container">
-          <p>New to ... ? </p>
-          <button mat-button color="primary" routerLink="/sign-up">Sign up now</button>
-        </div>
-        <div class="help-login" routerLink="/login-help">
-          <p>Need help?</p>
-        </div>
-      </div>
-      <button mat-raised-button color="primary" (click)="onSignIn()">SIGN IN</button>
-    </form>
-  </div>
+    </div>
+    <button mat-raised-button color="primary" (click)="onSignIn()">SIGN IN</button>
+  </form>
 </div>
