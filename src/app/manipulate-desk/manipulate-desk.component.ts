@@ -28,19 +28,4 @@ export class ManipulateDeskComponent implements AfterViewInit {
     this.manipulateDeskService.bookDesk(this.data.currentDesk, user, 'booked');
     this.matDialogRef.close();
   }
-
-  onBlockDesk() {
-    this.data.desk.setAttribute('fill', '#d9dae1');
-    this.matDialogRef.close();
-  }
-
-  onUblockDesk() {
-    this.data.desk.setAttribute('fill', '#d6ebb5');
-    this.matDialogRef.close();
-  }
-
-  onRemoveDesk() {
-    this.data.svgCont.removeChild(this.data.desk);
-    this.matDialogRef.close();
-  }
 }

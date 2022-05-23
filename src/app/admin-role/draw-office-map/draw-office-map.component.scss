@@ -1,17 +1,14 @@
-body {
-    opacity: 0.2;
-}
-
 .map-container {
     margin: 0 auto;
     padding: 80px 20px 20px 30px;
     display: flex;
+    justify-content: center;
 
     >.button-container {
         display: flex;
         flex-direction: column;
         opacity: 1;
-        margin-left: 5px;
+        margin-right: 5px;
 
         >button {
             margin-bottom: 2px;
@@ -19,27 +16,28 @@ body {
     }
 
     >.sliders {
-        margin-left: 60px;
+        margin-left: 6px;
+
         >.slider-container {
             color: #c2185b;
+
+            mat-slider {
+                width: 20px;
+            }
+
             >p {
-                background-color: aliceblue;
                 opacity: 0.8;
                 padding: 0;
                 margin: 0;
                 border-radius: 3px;
             }
         }
+
+        >.manipulate-desk {
+            display: flex;
+            flex-direction: column;
+        }
     }
-
-}
-
-circle {
-    cursor: move;
-}
-
-.circle-green {
-    background-color: green;
 }
 
 .svg-container {
@@ -47,8 +45,4 @@ circle {
     background-color: #B0BEC5;
     width: 70%;
     height: 420px;
-}
-
-mat-slider {
-    width: 20px;
 }

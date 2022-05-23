@@ -1,6 +1,6 @@
+<div *ngIf="user && user.role==='employee'" class="img-container">
+</div>
 <div *ngIf="user && user.role==='employee'" class="history-container">
-  <div class="img-container">
-  </div>
   <div *ngIf="userBookedDeskHistory" class="booked-history">
     <h1 *ngIf="user.firstName">{{user.firstName}}'s history.</h1>
     <mat-card *ngFor="let desk of userBookedDeskHistory" class="desk-history">
@@ -28,9 +28,6 @@
       </div>
     </mat-card>
   </div>
-  <div *ngIf="userRole==='admin'" class="blocked-history">
-    blocked history
-  </div>
 </div>
 
 <div *ngIf="!user || user.role==='admin'" class="home-container">
@@ -39,23 +36,23 @@
     <h1>Desk booking software for a flexible workspace </h1>
     <p>Designed to help you manage workstations and make the office more accessible for everyone, making for a simple
       return to work.</p>
-      <div class="benefit-container">
-        <div>
-          <img src="../../assets/efortless.svg" alt="">
-          <h5>EFORTLESS</h5>
-          <p>Ditch the spreadsheets and hours of manual work</p>
-        </div>
-        <div>
-          <img src="../../assets/intuative.svg" alt="">
-          <h5>INTUITIVE</h5>
-          <p>Make it easy to find and book desks, even as your workplace changes</p>
-        </div>
-        <div>
-          <img src="../../assets/adaptive.svg" alt="">
-          <h5>ITERATIVE</h5>
-          <p>Adapt your office space using desk utilization data</p>
-        </div>
+    <div class="benefit-container">
+      <div>
+        <img src="../../assets/efortless.svg" alt="">
+        <h5>EFORTLESS</h5>
+        <p>Ditch the spreadsheets and hours of manual work</p>
+      </div>
+      <div>
+        <img src="../../assets/intuative.svg" alt="">
+        <h5>INTUITIVE</h5>
+        <p>Make it easy to find and book desks, even as your workplace changes</p>
+      </div>
+      <div>
+        <img src="../../assets/adaptive.svg" alt="">
+        <h5>ITERATIVE</h5>
+        <p>Adapt your office space using desk utilization data</p>
       </div>
     </div>
-      <img src="../../assets/home-img.png" alt="">
+  </div>
+  <img src="../../assets/home-img.png" alt="">
 </div>

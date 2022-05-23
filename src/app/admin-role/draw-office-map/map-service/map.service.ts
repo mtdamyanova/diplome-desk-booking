@@ -8,10 +8,7 @@ import { url } from 'src/environments/environment';
 })
 export class MapService {
   public deskId: string = '0';
-  constructor(
-    private http: HttpClient,
-    private signInService: SignInService,
-  ) {}
+  constructor(private http: HttpClient, private signInService: SignInService) {}
 
   getSVGPoint(event: any, element: any): SVGPoint {
     const point = element.viewportElement.createSVGPoint();
@@ -48,6 +45,7 @@ export class MapService {
     desk.setAttribute('fill', '#d6ebb5');
     desk.setAttribute('draggable', 'true');
     desk.setAttribute('class', 'changeSize desk');
+    desk.setAttribute('cursor', 'pointer');
     if (svgCont && desk) {
       svgCont.append(desk);
     }
@@ -76,8 +74,12 @@ export class MapService {
 
   setOfficeParameters(elements: any) {
     const desksArray = Array.prototype.slice.call(elements);
-    const areas = desksArray.filter((desk) => desk.classList.value.includes('area'));
-    const desks = desksArray.filter((desk) => desk.classList.value.includes('desk'));
+    const areas = desksArray.filter((desk) =>
+      desk.classList.value.includes('area')
+    );
+    const desks = desksArray.filter((desk) =>
+      desk.classList.value.includes('desk')
+    );
     const currentAdmin = JSON.parse(localStorage.getItem('user')!);
     this.signInService.getUsers().subscribe((res) => {
       const admin = res.find((user) => user.id === currentAdmin.id);

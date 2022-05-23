@@ -4,10 +4,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeesComponent } from '../add-employees/add-employees.component';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { DeleteEmployeeRightsComponent } from '../delete-employee-rights/delete-employee-rights.component';
-import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { tap } from 'rxjs';
 import { RestoreEmployeeRightsComponent } from '../restore-employee-rights/restore-employee-rights.component';
-import { faUserMinus, faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUserMinus,
+  faUserCheck,
+  faLocationPinLock,
+  faLocation,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-draw-office-map',
   templateUrl: './draw-office-map.component.html',
@@ -21,7 +26,10 @@ export class DrawOfficeMapComponent implements OnInit {
   public disabledSlider: boolean = true;
   public removeUser = faUserMinus;
   public restoreUser = faUserCheck;
-
+  public faLocationLock = faLocationPinLock;
+  public faLocation = faLocation;
+  public faTrash = faTrash;
+  public disableBlockOrUnblockDesk = true;
 
   constructor(
     private mapService: MapService,
@@ -41,19 +49,34 @@ export class DrawOfficeMapComponent implements OnInit {
     this.mapService.addArea();
   }
 
-  onResizeArea(event: any) {
+  onResizeAreaOrDesk(event: any) {
+    if (
+      this.selectedArea &&
+      this.selectedArea.target.classList.value.includes('desk')
+    ) {
+      this.selectedArea?.target.setAttribute('stroke', '');
+    } else {
+      this.selectedArea?.target.setAttribute('stroke', '#cdd2e4');
+    }
     if (event.target && event.target.classList.value.includes('changeSize')) {
+      this.selectedArea = event;
       this.disabledSlider = false;
       const eventWidth = event.target.attributes.width.value;
       const eventHeight = event.target.attributes.height.value;
       this.widthSliderValue = parseInt(eventWidth);
       this.heightSliderValue = parseInt(eventHeight);
-      this.selectedArea = event;
+      this.selectedArea.target.setAttribute('stroke', '#718a49');
     } else {
+      this.disabledSlider = true;
       this.widthSliderValue = 0;
       this.heightSliderValue = 0;
       this.selectedArea = undefined;
-      this.disabledSlider = true;
+    }
+
+    if (event.target.classList.value.includes('desk')) {
+      this.disableBlockOrUnblockDesk = false;
+    } else {
+      this.disableBlockOrUnblockDesk = true;
     }
   }
 
@@ -100,21 +123,6 @@ export class DrawOfficeMapComponent implements OnInit {
     this.onSetAdminTemplate().subscribe();
   }
 
-  onBlockDesk(event: any) {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    const svg = document.getElementById('dropzone');
-    if (event.target.classList.value.includes('desk')) {
-      this.dialog.open(ManipulateDeskComponent, {
-        autoFocus: false,
-        data: {
-          user: user,
-          desk: event.target,
-          svgCont: svg,
-        },
-      });
-    }
-  }
-
   onDeleteEmployeeRights() {
     this.dialog.open(DeleteEmployeeRightsComponent, {
       autoFocus: false,
@@ -125,5 +133,42 @@ export class DrawOfficeMapComponent implements OnInit {
     this.dialog.open(RestoreEmployeeRightsComponent, {
       autoFocus: false,
     });
+  }
+
+  onBlockDesk() {
+    this.selectedArea.target.setAttribute('fill', '#d9dae1');
+    this.disableBlockOrUnblockDesk = true;
+  }
+
+  onUblockDesk() {
+    this.selectedArea.target.setAttribute('fill', '#d6ebb5');
+    this.disableBlockOrUnblockDesk = true;
+  }
+
+  onChangeSelectedStatus(event: any) {
+    if (
+      event.target &&
+      !event.target.classList.value.includes('changeSize') &&
+      this.selectedArea.target.classList.value.includes('desk')
+    ) {
+      this.selectedArea.target.setAttribute('stroke', '');
+      this.disabledSlider = true;
+    }
+    if (
+      event.target &&
+      !event.target.classList.value.includes('changeSize') &&
+      this.selectedArea.target.classList.value.includes('area')
+    ) {
+      this.selectedArea.target.setAttribute('stroke', '#cdd2e4');
+      this.disabledSlider = true;
+    }
+  }
+
+  onRemoveDeskOrArea() {
+    const svgContainer = document.getElementById('dropzone');
+    if (svgContainer && this.selectedArea) {
+      svgContainer.removeChild(this.selectedArea.target);
+      this.disableBlockOrUnblockDesk = true;
+    }
   }
 }

@@ -1,32 +1,12 @@
 <h1 mat-dialog-title *ngIf="data.user.role==='employee'">Book desk</h1>
-<h1 mat-dialog-title *ngIf="data.user.role==='admin' && rectFill ==='#d6ebb5'">Block desk</h1>
-<h1 mat-dialog-title *ngIf="data.user.role==='admin' && rectFill ==='gray'">Unblock desk</h1>
 <div class="content-container">
   <h4 *ngIf="data.user.role==='employee'">
     Do you want to book desk E{{this.data.currentDesk.id}}?
-  </h4>
-  <h4 *ngIf="data.user.role==='admin' && rectFill ==='#d6ebb5'">
-    Do you want to block/ remove desk E{{this.data.desk.id}}?
-  </h4>
-  <h4 *ngIf="data.user.role==='admin' && rectFill === '#d9dae1'">
-    Do you want to unblock/ remove desk E{{this.data.desk.id}}?
   </h4>
 </div>
 <div class="button-container">
   <button mat-raised-button color="primary" *ngIf="data.user.role==='employee'" (click)="onBookDesk()">
     BOOK
-  </button>
-  <button mat-raised-button color="primary" *ngIf="data.user.role==='admin' && rectFill === '#d6ebb5'"
-    (click)="onBlockDesk()">
-    BLOCK
-  </button>
-  <button mat-raised-button color="primary" *ngIf="data.user.role==='admin' && rectFill === '#d9dae1' "
-    (click)="onUblockDesk()">
-    UNBLOCK
-  </button>
-  <button mat-raised-button color="primary" *ngIf="data.user.role==='admin'"
-    (click)="onRemoveDesk()">
-    REMOVE
   </button>
   <button mat-raised-button color="primary" [mat-dialog-close]="true">
     CANCEL
