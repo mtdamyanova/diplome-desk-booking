@@ -71,7 +71,7 @@ export class OfficePlanService {
   addEvenetsOnDesks(rect: SVGElement, desk: Desk, fillColor: string) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
-      if (currentUser.role === 'employee' && fillColor === '#d6ebb5') {
+      if (fillColor === '#d6ebb5') {
         this.dialog.open(ManipulateDeskComponent, {
           autoFocus: false,
           data: {
@@ -81,13 +81,13 @@ export class OfficePlanService {
           },
         });
       }
-      if (currentUser.role === 'employee' && desk.fill === '#ffe94b') {
+      if (fillColor === '#ffe94b') {
         onOpenSnackBar(
           this.snackBar,
           'You cannot book this desk. It`s already booked'
         );
       }
-      if (currentUser.role !== 'admin' && desk.status === 'blocked') {
+      if (desk.status === 'blocked') {
         onOpenSnackBar(this.snackBar, 'This desk is blocked by your admin.');
       }
     });
@@ -186,9 +186,11 @@ export class OfficePlanService {
     console.log(status);
 
     if (status === 'unbooked') {
-      this.http.delete(
-        `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
-      ).subscribe();
+      this.http
+        .delete(
+          `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
+        )
+        .subscribe();
     }
     if (status === 'checked in') {
       this.updateBookedDeskStatus(admin, deskId, index, status).subscribe();
@@ -241,7 +243,7 @@ export class OfficePlanService {
         if (res && res.bookedHistory) {
           const empl = res.bookedHistory.find(
             (d: any) =>
-              d.date === date.nativeElement.value && d.userId === user.id
+              d.date === date.nativeElement.value
           );
           emplName = empl?.userName;
         }

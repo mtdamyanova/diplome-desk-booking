@@ -18,9 +18,6 @@ export class ManipulateDeskComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    if (this.data.desk) {
-      this.rectFill = this.data.desk.getAttribute('fill');
-    }
   }
 
   onBookDesk() {

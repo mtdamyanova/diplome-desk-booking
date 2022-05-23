@@ -1,11 +1,11 @@
-<h1 mat-dialog-title *ngIf="data.user.role==='employee'">Book desk</h1>
+<h1 mat-dialog-title>Book desk</h1>
 <div class="content-container">
-  <h4 *ngIf="data.user.role==='employee'">
+  <h4>
     Do you want to book desk E{{this.data.currentDesk.id}}?
   </h4>
 </div>
 <div class="button-container">
-  <button mat-raised-button color="primary" *ngIf="data.user.role==='employee'" (click)="onBookDesk()">
+  <button mat-raised-button color="primary" (click)="onBookDesk()">
     BOOK
   </button>
   <button mat-raised-button color="primary" [mat-dialog-close]="true">
