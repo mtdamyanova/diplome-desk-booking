@@ -5,12 +5,13 @@ import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
-import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignUpService {
+  private url = 'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
+  
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -52,6 +53,6 @@ export class SignUpService {
   }
 
   setUser(user: User) {
-    return this.http.put(`${url}/users/${user.id}.json`, user);
+    return this.http.put(`${this.url}/users/${user.id}.json`, user);
   }
 }

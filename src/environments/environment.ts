@@ -24,7 +24,6 @@ export const environment = {
   appId: "1:323039961046:web:6a272abba9caa284bace77"
 };
 
-export const url = 'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
 
 const app = initializeApp(environment);
 const auth = getAuth(app);

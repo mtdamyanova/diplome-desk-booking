@@ -5,12 +5,13 @@ import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.se
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
-import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ManipulateDeskService {
+  private url = 'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
+
   constructor(
     private signInService: SignInService,
     private http: HttpClient,
@@ -53,8 +54,8 @@ export class ManipulateDeskService {
   updateUserHistory(currentDesk: any, date: any, updatedDesk: any) {
     const us = JSON.parse(localStorage.getItem('user')!);
     let updatedUser: any;
-    this.signInService.getUsers().subscribe((res) => {
-      const user = res.find((user) => user.id === us.id);
+    this.signInService.getUsers().subscribe((res:any) => {
+      const user = res.find((user:any) => user.id === us.id);
       if (user.bookedDesk && user.bookedDesk.length > 0) {
         user.bookedDesk.push({
           id: user.bookedDesk.length,
@@ -88,10 +89,10 @@ export class ManipulateDeskService {
   }
 
   updateDeskParams(desk: any, updatedDesk: any) {
-    this.signInService.getUsers().subscribe((res) => {
+    this.signInService.getUsers().subscribe((res:any) => {
       const currentUser = JSON.parse(localStorage.getItem('user')!);
       const admin = res.find(
-        (user) =>
+        (user:any) =>
           user.role === 'admin' && user.companyName === currentUser.companyName
       );
       this.updateDesk(admin, desk, updatedDesk).subscribe();
@@ -100,13 +101,13 @@ export class ManipulateDeskService {
 
   updateDesk(admin: User, desk: Desk, updatedDesk: Desk) {
     return this.http.put(
-      `${url}/users/${admin.id}/desks/${desk.id}.json`,
+      `${this.url}/users/${admin.id}/desks/${desk.id}.json`,
       updatedDesk
     );
   }
 
   updateUser(user: User, updatedUser: any) {
-    return this.http.put(`${url}/users/${user.id}.json`, updatedUser);
+    return this.http.put(`${this.url}/users/${user.id}.json`, updatedUser);
   }
 
   unbookOrCheckedInDesk(admin: any, data: any, status: string, dialogRef: any) {

@@ -7,12 +7,14 @@ import { Area, Desk } from 'src/app/interfaces/map';
 import { Admin, User } from 'src/app/interfaces/user';
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { onOpenSnackBar } from 'src/app/utils';
-import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OfficePlanService {
+  private url =
+    'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
+
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -20,11 +22,11 @@ export class OfficePlanService {
   ) {}
 
   getUserTemplate(user: User) {
-    return this.http.get(`${url}/users/${user.id}.json`);
+    return this.http.get(`${this.url}/users/${user.id}.json`);
   }
 
   getCurrentDesk(deskId: any, adminId: string) {
-    return this.http.get(`${url}/users/${adminId}/desks/${deskId}.json`);
+    return this.http.get(`${this.url}/users/${adminId}/desks/${deskId}.json`);
   }
 
   onDrawDesks(svgCont: SVGElement, desk: Desk, fillColor: any) {
@@ -96,13 +98,13 @@ export class OfficePlanService {
   onLoadMapForPeriod(admin: Admin, svgCont: any, date: any) {
     return this.getUserTemplate(admin).pipe(
       filter((res: any) => !!res.areas),
-      tap((res) => {
+      tap((res: any) => {
         res.areas.forEach((area: Area) => {
           this.onDrawAreas(svgCont, area);
         });
       }),
-      filter((res) => !!res.desks),
-      tap((res) => {
+      filter((res: any) => !!res.desks),
+      tap((res: any) => {
         res.desks.forEach((desk: Desk) => {
           let fillColor;
           if (desk.status === 'blocked') {
@@ -132,13 +134,13 @@ export class OfficePlanService {
   firsMapLoad(admin: Admin, svgCont: any) {
     return this.getUserTemplate(admin).pipe(
       filter((res: any) => !!res.areas),
-      tap((res) => {
+      tap((res: any) => {
         res.areas.forEach((area: Area) => {
           this.onDrawAreas(svgCont, area);
         });
       }),
       filter((res: any) => !!res.desks),
-      tap((res) => {
+      tap((res: any) => {
         res.desks.forEach((desk: Desk) => {
           this.onDrawDesks(svgCont, desk, '#d9dae1');
         });
@@ -167,12 +169,12 @@ export class OfficePlanService {
   }
 
   getUsersDeskHistory(user: User): Observable<any> {
-    return this.http.get(`${url}/users/${user.id}/bookedDesk.json`);
+    return this.http.get(`${this.url}/users/${user.id}/bookedDesk.json`);
   }
 
   updateUserDeskHistory(user: User, deskId: string, deskHistoryUpdated: any[]) {
     return this.http.put(
-      `${url}/users/${user.id}/bookedDesk/${deskId}.json`,
+      `${this.url}/users/${user.id}/bookedDesk/${deskId}.json`,
       deskHistoryUpdated
     );
   }
@@ -188,7 +190,7 @@ export class OfficePlanService {
     if (status === 'unbooked') {
       this.http
         .delete(
-          `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
+          `${this.url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
         )
         .subscribe();
     }
@@ -199,7 +201,7 @@ export class OfficePlanService {
 
   getBookedDesk(admin: Admin, deskId: string, index: number) {
     return this.http.get(
-      `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
+      `${this.url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`
     );
   }
 
@@ -213,7 +215,7 @@ export class OfficePlanService {
       tap((res) => {
         this.http
           .put(
-            `${url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`,
+            `${this.url}/users/${admin.id}/desks/${deskId}/bookedHistory/${index}.json`,
             {
               ...res,
               status: status,
@@ -242,8 +244,7 @@ export class OfficePlanService {
         let emplName = '';
         if (res && res.bookedHistory) {
           const empl = res.bookedHistory.find(
-            (d: any) =>
-              d.date === date.nativeElement.value
+            (d: any) => d.date === date.nativeElement.value
           );
           emplName = empl?.userName;
         }
