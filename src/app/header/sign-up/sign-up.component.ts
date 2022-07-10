@@ -11,7 +11,7 @@ export class SignUpComponent {
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
 
-  public dataForm = new FormGroup({
+  public signUpForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     companyName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -23,11 +23,11 @@ export class SignUpComponent {
 
   onSignUp() {
     const userData = {
-      firstName: this.dataForm.controls['firstName'].value,
-      companyName: this.dataForm.controls['companyName'].value,
-      email: this.dataForm.controls['email'].value,
-      password: this.dataForm.controls['password'].value,
-      confirmPassword: this.dataForm.controls['confirmPassword'].value,
+      firstName: this.signUpForm.controls['firstName'].value,
+      companyName: this.signUpForm.controls['companyName'].value,
+      email: this.signUpForm.controls['email'].value,
+      password: this.signUpForm.controls['password'].value,
+      confirmPassword: this.signUpForm.controls['confirmPassword'].value,
     };
     this.signUpService.signUpUser(userData, 'admin');
   }

@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "diplome-30d33"
-  }
+    "default": "diplome-b9d0c",
+    "staging": "diplome-b9d0c"
+  },
+  "targets": {}
 }

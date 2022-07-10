@@ -1,4 +1,4 @@
-import { NgModule, Renderer2 } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -39,8 +39,16 @@ import { UnbookDeskComponent } from './manipulate-desk/unbook-desk/unbook-desk.c
 import { CheckInComponent } from './manipulate-desk/check-in/check-in.component';
 import { ManipulateDeskComponent } from './manipulate-desk/manipulate-desk.component';
 import { RestoreEmployeeRightsComponent } from './admin-role/restore-employee-rights/restore-employee-rights.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import * as firebase from 'firebase/app';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+firebase.initializeApp({
+  apiKey: "AIzaSyA_5kG8KaRkX8NHRfeVDCasB5Xufz2fGmg",
+  authDomain: "diplome-b9d0c.firebaseapp.com",
+  projectId: "diplome-b9d0c",
+  storageBucket: "diplome-b9d0c.appspot.com",
+  messagingSenderId: "127018839508",
+  appId: "1:127018839508:web:22a9dab864d68bb15dfa41"
+})
 
 @NgModule({
   declarations: [
@@ -83,12 +91,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatInputModule,
     MatNativeDateModule,
     FontAwesomeModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', {
-    //   enabled: environment.production,
-    //   // Register the ServiceWorker as soon as the application is stable
-    //   // or after 30 seconds (whichever comes first).
-    //   registrationStrategy: 'registerWhenStable:30000'
-    // })
+  
+
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

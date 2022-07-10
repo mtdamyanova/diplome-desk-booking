@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
   public deskId: string = '0';
-  private url = 'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
   constructor(private http: HttpClient, private signInService: SignInService) {}
 
   getSVGPoint(event: any, element: any): SVGPoint {
@@ -21,11 +21,11 @@ export class MapService {
 
   setUserTemplate(user: any, template: any) {
     const userUpdated = { ...user, template: template };
-    return this.http.put(`${this.url}/users/${user.id}.json`, { ...userUpdated });
+    return this.http.put(`${url}/users/${user.id}.json`, { ...userUpdated });
   }
 
   getUserTemplate(user: any) {
-    return this.http.get(`${this.url}/users/${user.id}.json`);
+    return this.http.get(`${url}/users/${user.id}.json`);
   }
 
   addDesk() {
@@ -69,7 +69,7 @@ export class MapService {
   }
 
   updateAdmin(admin: any, adminUpdated: any) {
-    return this.http.put(`${this.url}/users/${admin.id}.json`, adminUpdated);
+    return this.http.put(`${url}/users/${admin.id}.json`, adminUpdated);
   }
 
   setOfficeParameters(elements: any) {

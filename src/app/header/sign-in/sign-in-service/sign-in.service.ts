@@ -6,13 +6,12 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignInService {
-  private url =
-  'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
   private user = new BehaviorSubject<any>({});
   castUser = this.user.asObservable();
   constructor(
@@ -22,7 +21,7 @@ export class SignInService {
   ) {}
 
   getUsers() {
-    return this.http.get<{ [key: string]: any }>(`${this.url}/users.json`).pipe(
+    return this.http.get<{ [key: string]: any }>(`${url}/users.json`).pipe(
       map((res : any) => {
         const users: any[] = [];
         for (let key in res) {

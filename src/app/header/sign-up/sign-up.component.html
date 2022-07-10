@@ -1,10 +1,10 @@
 <div class="form-container">
-  <form (submit)="onSignUp()" [formGroup]="dataForm">
+  <form (submit)="onSignUp()" [formGroup]="signUpForm">
     <div>
       <mat-form-field appearance="fill">
         <mat-label>First name</mat-label>
         <input matInput placeholder="First name" required formControlName="firstName" #firstName>
-        <mat-error class="mat-error" *ngIf="this.dataForm.controls['firstName'].invalid">
+        <mat-error class="mat-error" *ngIf="this.signUpForm.controls['firstName'].invalid">
           Please enter valid first name.
         </mat-error>
       </mat-form-field>
@@ -13,7 +13,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Company name</mat-label>
         <input matInput placeholder="Company name" required formControlName="companyName" #companyName>
-        <mat-error class="mat-error" *ngIf="this.dataForm.controls['companyName'].invalid">
+        <mat-error class="mat-error" *ngIf="this.signUpForm.controls['companyName'].invalid">
           Please enter valid company name.
         </mat-error>
       </mat-form-field>
@@ -22,7 +22,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Enter your email</mat-label>
         <input matInput placeholder="pat@example.com" required formControlName="email" #email>
-        <mat-error class="mat-error" *ngIf="this.dataForm.controls['email'].invalid">
+        <mat-error class="mat-error" *ngIf="this.signUpForm.controls['email'].invalid">
           Please enter valid first name.
         </mat-error>
       </mat-form-field>
@@ -35,7 +35,7 @@
           [attr.aria-pressed]="hidePassword">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error class="mat-error" *ngIf="this.dataForm.controls['password'].invalid">
+        <mat-error class="mat-error" *ngIf="this.signUpForm.controls['password'].invalid">
           Please enter valid password.
         </mat-error>
       </mat-form-field>

@@ -22,3 +22,11 @@ export interface Admin {
   role: string;
   template: string;
 }
+
+export interface UserDataOnSingUp {
+  firstName: string;
+  companyName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

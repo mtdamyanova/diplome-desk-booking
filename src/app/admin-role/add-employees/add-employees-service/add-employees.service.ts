@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
+import { url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddEmployeesService {
-  private url = 'https://diplome-30d33-default-rtdb.europe-west1.firebasedatabase.app/';
+  // private url = 'https://diplome-base-default-rtdb.europe-west1.firebasedatabase.app/';
   constructor(private http: HttpClient) {
   }
 
@@ -41,7 +42,7 @@ export class AddEmployeesService {
 
   setUser(user: any) {
     return this.http.put(
-      `${this.url}/users/${user.id}.json`,
+      `${url}/users/${user.id}.json`,
       user
     );
   }
