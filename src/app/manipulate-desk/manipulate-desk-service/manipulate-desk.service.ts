@@ -5,7 +5,7 @@ import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.se
 import { Desk } from 'src/app/interfaces/map';
 import { User } from 'src/app/interfaces/user';
 import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
-import { url } from 'src/environments/environment';
+import { url } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root',

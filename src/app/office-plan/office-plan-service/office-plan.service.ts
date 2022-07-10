@@ -6,8 +6,7 @@ import { filter, Observable, tap } from 'rxjs';
 import { Area, Desk } from 'src/app/interfaces/map';
 import { Admin, User } from 'src/app/interfaces/user';
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
-import { onOpenSnackBar } from 'src/app/utils';
-import { url } from 'src/environments/environment';
+import { onOpenSnackBar, url } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root',

@@ -29,4 +29,3 @@ export const actionCodeSettings = {
   dynamicLinkDomain: 'example.page.link',
 };
 
-export const url = `https://diplome-b9d0c-default-rtdb.europe-west1.firebasedatabase.app/`;

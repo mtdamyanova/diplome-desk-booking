@@ -4,8 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { User, UserDataOnSingUp } from 'src/app/interfaces/user';
-import { onOpenSnackBar } from 'src/app/utils';
-import { url } from 'src/environments/environment';
+import { onOpenSnackBar, url } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root',
