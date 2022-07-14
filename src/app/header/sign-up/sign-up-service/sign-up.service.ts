@@ -4,7 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { User, UserDataOnSingUp } from 'src/app/interfaces/user';
-import { onOpenSnackBar, url } from 'src/app/utils';
+import { onOpenSnackBar } from 'src/app/utils';
+const url =
+  'https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/';
 
 @Injectable({
   providedIn: 'root',

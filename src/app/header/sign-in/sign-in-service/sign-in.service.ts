@@ -5,7 +5,11 @@ import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
-import { onOpenSnackBar, url } from 'src/app/utils';
+import { onOpenSnackBar } from 'src/app/utils';
+
+const url =
+  'https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/';
+
 
 @Injectable({
   providedIn: 'root',

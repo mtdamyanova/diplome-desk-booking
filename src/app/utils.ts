@@ -13,6 +13,3 @@ export const onOpenSnackBar = (snackBar: MatSnackBar, message: string) => {
     duration: 3000,
   });
 };
-
-export const url =
-  'https://diplome-b9d0c-default-rtdb.europe-west1.firebasedatabase.app/';

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
-import { url } from 'src/app/utils';
+const url =
+  'https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/';
 
 @Injectable({
   providedIn: 'root',

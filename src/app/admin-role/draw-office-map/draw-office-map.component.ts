@@ -147,7 +147,7 @@ export class DrawOfficeMapComponent implements OnInit {
 
   onChangeSelectedStatus(event: any) {
     if (
-      event.target &&
+      event && event?.target &&
       !event.target.classList.value.includes('changeSize') &&
       this.selectedArea.target.classList.value.includes('desk')
     ) {
