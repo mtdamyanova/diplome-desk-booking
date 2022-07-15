@@ -39,4 +39,8 @@ export class UnbookDeskComponent implements OnInit {
       )
       .subscribe()
   }
+
+  onHandClose(){
+    this.dialogRef.close()
+  }
 }

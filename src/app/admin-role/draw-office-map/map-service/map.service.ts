@@ -31,7 +31,7 @@ export class MapService {
 
   addDesk() {
     const rects = document.getElementsByTagName('rect');
-    const desks: any[] = Array.prototype.slice
+    const desks = Array.prototype.slice
       .call(rects)
       .filter((rect) => rect.getAttribute('fill') !== 'white');
     const deskId = desks.length.toString();
@@ -49,7 +49,7 @@ export class MapService {
     desk.setAttribute('cursor', 'pointer');
     if (svgCont && desk) {
       svgCont.append(desk);
-    }
+    } 
   }
 
   addArea() {

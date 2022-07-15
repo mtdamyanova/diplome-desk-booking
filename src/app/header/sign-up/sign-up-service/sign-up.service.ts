@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { User, UserDataOnSingUp } from 'src/app/interfaces/user';
+import { Employee, UserDataOnSingUp } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 const url =
   'https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/';
@@ -53,7 +53,7 @@ export class SignUpService {
     }
   }
 
-  setUser(user: User) {
-    return this.http.put(`${url}/users/${user.id}.json`, user);
+  setUser(user: Employee) {
+    return this.http.put(`https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json`, user);
   }
 }

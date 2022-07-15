@@ -1,10 +1,11 @@
+<h1>PLEASE ADD THE AREAS FIRST AND THEN THE DESKS!!!</h1>
 <div class="map-container" (click)="onChangeSelectedStatus($event)">
   <div class="button-container">
     <button mat-fab color="primary" (click)="onRegisterEmployees()" matTooltip="Add employee."
-      matTooltipPosition="left">
-      <mat-icon>person_add</mat-icon>
-    </button>
-    <button mat-fab color="primary" (click)="onAddDesk()" matTooltip="Add desk." matTooltipPosition="left">
+    matTooltipPosition="left">
+    <mat-icon>person_add</mat-icon>
+  </button>
+  <button mat-fab color="primary" (click)="onAddDesk()" matTooltip="Add desk." matTooltipPosition="left">
       <span>
         + DESK
       </span>
@@ -28,15 +29,15 @@
       <fa-icon [icon]="restoreUser"></fa-icon>
     </button>
   </div>
-  <div class="svg-container" appDraggable #mapTemplate>
-    <svg id="dropzone" height="100%" width="100%" (click)="onResizeAreaOrDesk($event)">
-    </svg>
+    <div class="svg-container" svgDraggable #mapTemplate>
+      <svg id="dropzone" height="100%" width="100%" (click)="onResizeAreaOrDesk($event)">
+      </svg>
   </div>
   <div class="sliders">
     <div class="slider-container"
       [matTooltip]="disabledSlider ? 'The width of the desk / area can be changed after selecting it. ': ''">
       <p>Change area/desk width </p>
-      <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="800"
+      <mat-slider color="primary" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="1" min="0" max="600"
         aria-label="units" [(ngModel)]="widthSliderValue" (input)="onWidthChange($event)" [disabled]="disabledSlider">
       </mat-slider>
     </div>
@@ -53,7 +54,7 @@
         <fa-icon [icon]="faLocationLock"></fa-icon>
       </button>
       <button mat-fab color="primary" [disabled]="disableBlockOrUnblockDesk" (click)="onUblockDesk()"
-        matTooltip="Restore employee's rights." matTooltipPosition="right">
+        matTooltip="You can unblock the selected desk." matTooltipPosition="right">
         <fa-icon [icon]="faLocation"></fa-icon>
       </button>
       <button mat-fab color="primary" [disabled]="disabledSlider" (click)="onRemoveDeskOrArea()"

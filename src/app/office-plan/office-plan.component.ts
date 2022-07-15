@@ -64,7 +64,7 @@ export class OfficePlanComponent implements OnInit {
       filter((res) => !!res),
       tap((res) => {
         this.admin = res;
-        this.officePlanService.firsMapLoad(res, svgCont).subscribe();
+        this.officePlanService.firstMapLoad(res, svgCont).subscribe();
       })
     );
   }
@@ -87,28 +87,28 @@ export class OfficePlanComponent implements OnInit {
         filter((res) => !!res && !!date),
         tap((res) => {
           this.admin = res;
-          this.officePlanService.onLoadMapForPeriod(res, svgCont, date).subscribe();
+          this.officePlanService
+            .onLoadMapForPeriod(res, svgCont, date)
+            .subscribe();
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   onMouseEnter(event: any) {
     const user = JSON.parse(localStorage.getItem('user')!);
     const fillAttribute = event.target.getAttribute('fill');
+    const desk = this.officeDesks.find(
+      (d) => d.id === event.target.getAttribute('id')
+    );
 
-    if (fillAttribute && fillAttribute !== 'transparent') {
-      const desk = this.officeDesks.find(
-        (d) => d.id === event.target.getAttribute('id')
-      );
-      if (desk) {
-        this.deskStatus = desk.fill;
-        this.deskId = desk.id;
-      }
+    if (desk && fillAttribute && fillAttribute !== 'transparent') {
+      this.deskStatus = desk.fill;
+      this.deskId = desk.id;
       this.officePlanService
         .setTooltipMessage(
           desk,
           event,
-          user,
           this.admin,
           this.date,
           this.renderer,

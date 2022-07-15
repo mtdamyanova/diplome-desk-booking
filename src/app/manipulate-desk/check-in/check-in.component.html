@@ -4,5 +4,5 @@
 </div>
 <div class="button-container">
   <button mat-raised-button color="primary" *ngIf="data.user.role==='employee'" (click)="onCheckIn()">CHECK IN</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="true">CANCEL</button>
+  <button mat-raised-button color="primary" (click)="onHandClose()">CANCEL</button>
 </div>

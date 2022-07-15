@@ -39,4 +39,8 @@ export class CheckInComponent implements OnInit {
     )
     .subscribe()
   }
+
+  onHandClose(){
+    this.dialogRef.close()
+  }
 }

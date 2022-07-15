@@ -1,7 +1,7 @@
 <div class="img-container">
 </div>
 <div *ngIf="user && user.id" class="history-container">
-  <div *ngIf="userBookedDeskHistory" class="booked-history">
+  <div *ngIf="userBookedDeskHistory && userBookedDeskHistory.length" class="booked-history">
     <h1 *ngIf="user.firstName">{{user.firstName}}'s history.</h1>
     <mat-card *ngFor="let desk of userBookedDeskHistory" class="desk-history">
       <fa-icon [icon]="faChair" class="icon"></fa-icon>

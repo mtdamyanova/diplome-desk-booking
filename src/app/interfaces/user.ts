@@ -1,6 +1,6 @@
 import { Area, Desk } from './map';
 
-export interface User {
+export interface Employee {
   id: string;
   areas?: Area[];
   desks?: Desk[];

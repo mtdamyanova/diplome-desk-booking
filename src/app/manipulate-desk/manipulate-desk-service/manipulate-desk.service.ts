@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignInService } from 'src/app/header/sign-in/sign-in-service/sign-in.service';
 import { Desk } from 'src/app/interfaces/map';
-import { User } from 'src/app/interfaces/user';
+import { Employee } from 'src/app/interfaces/user';
 import { OfficePlanService } from 'src/app/office-plan/office-plan-service/office-plan.service';
 const url =
   'https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/';
@@ -100,14 +100,14 @@ export class ManipulateDeskService {
     });
   }
 
-  updateDesk(admin: User, desk: Desk, updatedDesk: Desk) {
+  updateDesk(admin: Employee, desk: Desk, updatedDesk: Desk) {
     return this.http.put(
       `${url}/users/${admin.id}/desks/${desk.id}.json`,
       updatedDesk
     );
   }
 
-  updateUser(user: User, updatedUser: any) {
+  updateUser(user: Employee, updatedUser: any) {
     return this.http.put(`${url}/users/${user.id}.json`, updatedUser);
   }
 

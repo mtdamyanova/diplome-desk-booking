@@ -2,26 +2,12 @@ import { Directive, HostListener } from '@angular/core';
 import { MapService } from '../map-service/map.service';
 
 @Directive({
-  selector: '[appDraggable]',
+  selector: '[svgDraggable]',
 })
 export class DraggableDirective {
   private draggingElement: any;
 
   constructor(private mapService: MapService) {}
-
-  @HostListener('drop', ['$event'])
-  onDrop(event: any) {
-    const dropzone = event.target;
-    const droppedElementId = event.dataTransfer.getData('text');
-    const droppedElement = document.getElementById(droppedElementId) as any;
-
-    dropzone.appendChild(droppedElement);
-
-    droppedElement.setAttribute('draggable', true);
-
-    const svgPoint = this.mapService.getSVGPoint(event, droppedElement);
-    this.setPosition(droppedElement, { x: svgPoint.x, y: svgPoint.y });
-  }
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {

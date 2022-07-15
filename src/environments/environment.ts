@@ -2,12 +2,12 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 export const environment = {
-  apiKey: "AIzaSyA_5kG8KaRkX8NHRfeVDCasB5Xufz2fGmg",
-  authDomain: "diplome-b9d0c.firebaseapp.com",
-  projectId: "diplome-b9d0c",
-  storageBucket: "diplome-b9d0c.appspot.com",
-  messagingSenderId: "127018839508",
-  appId: "1:127018839508:web:22a9dab864d68bb15dfa41"
+  apiKey: "AIzaSyDkwvUoG8OI5cNurMvUEQjAKuvkDxYtw54",
+  authDomain: "diplome-bc509.firebaseapp.com",
+  projectId: "diplome-bc509",
+  storageBucket: "diplome-bc509.appspot.com",
+  messagingSenderId: "921074269476",
+  appId: "1:921074269476:web:8255d5059be99d6def87b1"
 };
 
 const app = initializeApp(environment);

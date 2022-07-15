@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, tap } from 'rxjs';
 import { Desk } from '../interfaces/map';
-import { User } from '../interfaces/user';
+import { Employee } from '../interfaces/user';
 import { CheckInComponent } from '../manipulate-desk/check-in/check-in.component';
 import { UnbookDeskComponent } from '../manipulate-desk/unbook-desk/unbook-desk.component';
 import { OfficePlanService } from '../office-plan/office-plan-service/office-plan.service';
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onGetUserDeskHistory(user: User) {
+  onGetUserDeskHistory(user: Employee) {
     this.user = user;
     return this.officePlanService.getUsersDeskHistory(user).pipe(
       filter((res) => !!res),
@@ -56,12 +56,16 @@ export class HomeComponent implements OnInit {
         },
       })
       .afterClosed()
-      .subscribe((res) => {
-        const deskIndex = this.userBookedDeskHistory.findIndex(
-          (d: any) => d.id === res.id
-        );
-        this.userBookedDeskHistory.splice(deskIndex, 1, res);
-      });
+      .pipe(
+        filter((res) => !!res),
+        tap((res) => {
+          const deskIndex = this.userBookedDeskHistory.findIndex(
+            (d: any) => d.id === res.id
+          );
+          this.userBookedDeskHistory.splice(deskIndex, 1, res);
+        })
+      )
+      .subscribe();
   }
 
   onCheckIn(deskId: string) {
@@ -78,11 +82,16 @@ export class HomeComponent implements OnInit {
         },
       })
       .afterClosed()
-      .subscribe((res) => {
-        const deskIndex = this.userBookedDeskHistory.findIndex(
-          (d: any) => d.id === res.id
-        );
-        this.userBookedDeskHistory.splice(deskIndex, 1, res);
-      });
+      .pipe(
+        tap(res=>console.log(res)),
+        filter((res) => !!res),
+        tap((res) => {
+          const deskIndex = this.userBookedDeskHistory.findIndex(
+            (d: any) => d.id === res.id
+          );
+          this.userBookedDeskHistory.splice(deskIndex, 1, res);
+        })
+      )
+      .subscribe();
   }
 }

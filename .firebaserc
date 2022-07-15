@@ -1,7 +1,8 @@
 {
   "projects": {
-    "default": "diplome-b9d0c",
-    "staging": "diplome-b9d0c"
+    "default": "diplome-bc509",
+    "staging": "diplome-bc509"
   },
-  "targets": {}
+  "targets": {},
+  "etags": {}
 }

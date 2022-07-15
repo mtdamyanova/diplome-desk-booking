@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { BehaviorSubject, map, tap } from 'rxjs';
-import { User } from 'src/app/interfaces/user';
+import { Employee } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 
 const url =
@@ -24,7 +24,7 @@ export class SignInService {
   ) {}
 
   getUsers() {
-    return this.http.get<{ [key: string]: any }>(`${url}/users.json`).pipe(
+    return this.http.get<{ [key: string]: any }>(`https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/users.json`).pipe(
       map((res : any) => {
         const users: any[] = [];
         for (let key in res) {
@@ -45,7 +45,7 @@ export class SignInService {
 
   signInFirebase(userData: any, res: any) {
     const auth = getAuth();
-    const currentUser = res.find((user: User) => user.email === userData.email);
+    const currentUser = res.find((user: Employee) => user.email === userData.email);
     signInWithEmailAndPassword(auth, userData.email, userData.password)
       .then((res) => {
         if (currentUser.accessRights) {

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, Observable, tap } from 'rxjs';
 import { Area, Desk } from 'src/app/interfaces/map';
-import { Admin, User } from 'src/app/interfaces/user';
+import { Admin, Employee } from 'src/app/interfaces/user';
 import { ManipulateDeskComponent } from 'src/app/manipulate-desk/manipulate-desk.component';
 import { onOpenSnackBar } from 'src/app/utils';
 const url =
@@ -19,7 +19,7 @@ export class OfficePlanService {
     private dialog: MatDialog
   ) {}
 
-  getUserTemplate(user: User) {
+  getUserTemplate(user: Employee) {
     return this.http.get(`${url}/users/${user.id}.json`);
   }
 
@@ -45,7 +45,7 @@ export class OfficePlanService {
     if (svgCont && rect) {
       svgCont.append(rect);
     }
-    this.addEvenetsOnDesks(rect, desk, fillColor);
+    this.addEventsOnDesks(rect, desk, fillColor);
   }
 
   onDrawAreas(svgCont: SVGElement, area: Area) {
@@ -68,7 +68,7 @@ export class OfficePlanService {
     }
   }
 
-  addEvenetsOnDesks(rect: SVGElement, desk: Desk, fillColor: string) {
+  addEventsOnDesks(rect: SVGElement, desk: Desk, fillColor: string) {
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     rect.addEventListener('click', () => {
       if (fillColor === '#d6ebb5') {
@@ -129,7 +129,7 @@ export class OfficePlanService {
     );
   }
 
-  firsMapLoad(admin: Admin, svgCont: any) {
+  firstMapLoad(admin: Admin, svgCont: any) {
     return this.getUserTemplate(admin).pipe(
       filter((res: any) => !!res.areas),
       tap((res: any) => {
@@ -166,11 +166,11 @@ export class OfficePlanService {
     renderer.setStyle(tooltip.nativeElement, 'display', 'none');
   }
 
-  getUsersDeskHistory(user: User): Observable<any> {
+  getUsersDeskHistory(user: Employee): Observable<any> {
     return this.http.get(`${url}/users/${user.id}/bookedDesk.json`);
   }
 
-  updateUserDeskHistory(user: User, deskId: string, deskHistoryUpdated: any[]) {
+  updateUserDeskHistory(user: Employee, deskId: string, deskHistoryUpdated: any[]) {
     return this.http.put(
       `${url}/users/${user.id}/bookedDesk/${deskId}.json`,
       deskHistoryUpdated
@@ -227,7 +227,6 @@ export class OfficePlanService {
   setTooltipMessage(
     desk: Desk | undefined,
     event: any,
-    user: User,
     admin: any,
     date: any,
     renderer: any,
