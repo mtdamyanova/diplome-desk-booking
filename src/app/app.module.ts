@@ -93,8 +93,6 @@ firebase.initializeApp({
     MatInputModule,
     MatNativeDateModule,
     FontAwesomeModule,
-  
-
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
