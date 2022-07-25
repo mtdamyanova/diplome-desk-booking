@@ -29,11 +29,14 @@ export class UserProfileComponent implements OnInit {
   onChangePassword() {
     const auth = getAuth();
     const user = auth.currentUser;
+    console.log(user);
+    
     if (
+      user &&
       this.changePassword.controls['password'].value ===
       this.changePassword.controls['confirmPassword'].value
     ) {
-      updatePassword(user!, this.changePassword.controls['password'].value)
+      updatePassword(user, this.changePassword.controls['password'].value)
         .then(() => {
           onOpenSnackBar(this.snackBar, 'Change password successful.');
           this.router.navigate(['/home']);
