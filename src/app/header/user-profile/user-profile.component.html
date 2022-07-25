@@ -1,0 +1,33 @@
+<div class="form-container">
+  <form [formGroup]="changePassword">
+    <div class="user-info">
+      <p><b>Name</b> : {{user.firstName}}</p>
+      <p><b>Email</b> : {{user.email}}</p>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter new password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" #password>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error class="mat-error" *ngIf="this.changePassword.controls['password'].invalid">
+          Please enter valid password.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Confirm new password</mat-label>
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword"
+          #confirmPassword>
+        <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword"
+          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+          <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="onChangePassword()">CHANGE PASSWORD</button>
+  </form>
+</div>

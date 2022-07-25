@@ -5,6 +5,7 @@ import { DrawOfficeMapComponent } from './admin-role/draw-office-map/draw-office
 import { LoginHelpComponent } from './header/login-help/login-help.component';
 import { SignInComponent } from './header/sign-in/sign-in.component';
 import { SignUpComponent } from './header/sign-up/sign-up.component';
+import { UserProfileComponent } from './header/user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { OfficePlanComponent } from './office-plan/office-plan.component';
 
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'draw-plan', component: DrawOfficeMapComponent },
   { path: 'login-help', component: LoginHelpComponent },
   { path: 'register-employee', component: AddEmployeesComponent },
+  { path: 'profile', component: UserProfileComponent },
   { path: 'office-plan', component: OfficePlanComponent, pathMatch: 'full' },
 ];
 

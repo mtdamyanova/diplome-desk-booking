@@ -1,0 +1,17 @@
+.form-container {
+
+    max-width: 500px;
+    min-height: 660px;
+    margin: 0 auto;
+    padding-top: 20px;
+
+    >form {
+        padding: 80px 68px 40px;
+        margin-bottom: 90px;
+        margin: 0 auto;
+        background: aliceblue;
+        opacity: 0.9;
+        text-align: center;
+        color: #303030;
+    }
+}

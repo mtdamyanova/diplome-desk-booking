@@ -41,6 +41,7 @@ import { ManipulateDeskComponent } from './manipulate-desk/manipulate-desk.compo
 import { RestoreEmployeeRightsComponent } from './admin-role/restore-employee-rights/restore-employee-rights.component';
 import * as firebase from 'firebase/app';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UserProfileComponent } from './header/user-profile/user-profile.component';
 firebase.initializeApp({
   apiKey: "AIzaSyDkwvUoG8OI5cNurMvUEQjAKuvkDxYtw54",
   authDomain: "diplome-bc509.firebaseapp.com",
@@ -66,7 +67,8 @@ firebase.initializeApp({
     CheckInComponent,
     DeleteEmployeeRightsComponent,
     ManipulateDeskComponent,
-    RestoreEmployeeRightsComponent
+    RestoreEmployeeRightsComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

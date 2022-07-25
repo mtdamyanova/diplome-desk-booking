@@ -7,7 +7,7 @@
   <button *ngIf="!user.firstName" routerLink="/sign-in" routerLinkActive="active" mat-icon-button>
     SIGN IN
   </button>
-  <div *ngIf="user.firstName" class="user-container">
+  <div *ngIf="user.firstName" class="user-container" routerLink="/profile" routerLinkActive="active">
     <button mat-mini-fab color="accent" >
       <span>{{user.firstName[0]}}</span>
     </button>
