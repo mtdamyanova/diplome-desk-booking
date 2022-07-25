@@ -7,10 +7,6 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 import { Employee } from 'src/app/interfaces/user';
 import { onOpenSnackBar } from 'src/app/utils';
 
-const url =
-  'https://diplome-b205d-default-rtdb.europe-west1.firebasedatabase.app/';
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -24,7 +20,7 @@ export class SignInService {
   ) {}
 
   getUsers() {
-    return this.http.get<{ [key: string]: any }>(`https://diplome-bc509-default-rtdb.europe-west1.firebasedatabase.app/users.json`).pipe(
+    return this.http.get<{ [key: string]: any }>(`https://diplome-base-72387-default-rtdb.europe-west1.firebasedatabase.app/users.json`).pipe(
       map((res : any) => {
         const users: any[] = [];
         for (let key in res) {

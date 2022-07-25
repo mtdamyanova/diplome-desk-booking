@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "diplome-b205d",
-    "staging": "diplome-b205d"
+    "default": "diplome-base-72387",
+    "staging": "diplome-base-72387"
   },
   "targets": {},
   "etags": {}

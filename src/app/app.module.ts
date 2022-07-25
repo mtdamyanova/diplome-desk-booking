@@ -43,12 +43,12 @@ import * as firebase from 'firebase/app';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserProfileComponent } from './header/user-profile/user-profile.component';
 firebase.initializeApp({
-  apiKey: "AIzaSyB0M4vp9f29anVFX0T2dAf2bZ99MODNm5k",
-  authDomain: "diplome-b205d.firebaseapp.com",
-  projectId: "diplome-b205d",
-  storageBucket: "diplome-b205d.appspot.com",
-  messagingSenderId: "792594270344",
-  appId: "1:792594270344:web:56bc0bf456c7e94b6d373d"
+  apiKey: "AIzaSyD7i13H9OBfaOmuMszsoEsn8QvGLzcSHTI",
+  authDomain: "diplome-base-72387.firebaseapp.com",
+  projectId: "diplome-base-72387",
+  storageBucket: "diplome-base-72387.appspot.com",
+  messagingSenderId: "562807877872",
+  appId: "1:562807877872:web:a42efd4df21e89e0d49235"
 })
 
 @NgModule({
