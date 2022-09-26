@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
-const url ='https://diplome-base-72387-default-rtdb.europe-west1.firebasedatabase.app/';
+const url ='https://desk-booking-59893-default-rtdb.europe-west1.firebasedatabase.app/';
 
 @Injectable({
   providedIn: 'root'

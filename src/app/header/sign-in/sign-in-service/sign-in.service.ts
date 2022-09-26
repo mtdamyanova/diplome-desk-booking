@@ -20,7 +20,7 @@ export class SignInService {
   ) {}
 
   getUsers() {
-    return this.http.get<{ [key: string]: any }>(`https://diplome-base-72387-default-rtdb.europe-west1.firebasedatabase.app/users.json`).pipe(
+    return this.http.get<{ [key: string]: any }>(`https://desk-booking-59893-default-rtdb.europe-west1.firebasedatabase.app/users.json`).pipe(
       map((res : any) => {
         const users: any[] = [];
         for (let key in res) {

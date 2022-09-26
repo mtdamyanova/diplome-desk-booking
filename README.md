@@ -1,6 +1,6 @@
 # DeskBooking
 
-Link to hosted project : [here](https://diplome-base-72387.web.app/)
+Link to hosted project : [here](https://desk-booking-59893.web.app/)
 
 # Technologies
     Angular

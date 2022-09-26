@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "diplome-base-72387",
-    "staging": "diplome-base-72387"
+    "default": "desk-booking-59893",
+    "staging": "desk-booking-59893"
   },
   "targets": {},
   "etags": {}

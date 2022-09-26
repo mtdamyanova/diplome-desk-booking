@@ -45,6 +45,5 @@ export class AddEmployeesComponent implements OnInit {
         })
       )
       .subscribe();
-    this.matDialogRef.close();
   }
 }

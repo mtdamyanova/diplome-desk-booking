@@ -79,7 +79,7 @@ export class SignUpService {
 
   setUser(user: Employee) {
     return this.http.put(
-      `https://diplome-base-72387-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json`,
+      `https://desk-booking-59893-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json`,
       user
     );
   }
